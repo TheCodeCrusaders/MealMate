@@ -1,0 +1,24 @@
+{
+  "name": "mealmate",
+  "version": "0.6.9",
+  "description": "",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheCodeCrusaders/MealMate.git"
+  },
+  "author": "CodeCrusaders",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TheCodeCrusaders/MealMate/issues"
+  },
+  "homepage": "https://github.com/TheCodeCrusaders/MealMate#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
