@@ -15,6 +15,26 @@ app.post("/login",(req,res)=>{
     console.log(req);
     res.redirect("/");
 })
+
+//New Page for forgot password
+app.get("/forgot",(req,res)=>{
+    res.sendFile(path.resolve() + "/public/html/forgotpassword.html");
+})
+app.post("/forgot",(req,res)=>{
+    console.log(req);
+    res.redirect("/");
+})
+
+//New page for sign up
+app.get("/login",(req,res)=>{
+    res.sendFile(path.resolve() + "/public/html/login.html");
+})
+app.post("/login",(req,res)=>{
+    console.log(req);
+    res.redirect("/");
+})
+
+
 app.listen(app.get('port'), function () {
     console.log('app listening at: ' + "http://localhost:" + app.get('port') + "/");
 });
