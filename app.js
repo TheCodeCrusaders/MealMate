@@ -1,6 +1,9 @@
 import express from 'express';
 const app = express();
+
 import path from "path";
+
+import *as ass from './loginfeature.js';
 
 app.use(express.static("public"));
 app.set("port", process.env.PORT || 3000);
