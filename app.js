@@ -13,6 +13,7 @@ app.get("/",(req,res)=>{
 app.get("/login",(req,res)=>{
     res.sendFile(path.resolve() + "/public/html/login.html");
 })
+
 app.post("/login",(req,res)=>{
     console.log(req);
     res.redirect("/");
