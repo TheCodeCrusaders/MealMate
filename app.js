@@ -47,9 +47,6 @@ const users44=[];
 users(users44);
 
 //console.log(users44)
-
-
-//
 app.post("/login",(req,res)=>{                                  // This is the post function, this will be activated when ever things that has been include in the form action in the htlm file.
                                                                  // if then its activated this function will launch 
 let usernametest =req.body.username;
@@ -60,16 +57,15 @@ console.log(passwordtest)
 let user = users44.find(function(user) {
     return user.username === usernametest && user.password === passwordtest;
   });
-
  //   console.log(req);
     if(user){
         res.redirect("/");
     }
     else{
+        //res.send('Invalid username or password');
+      //  alert("Wrong username or password");
        res.redirect("/login");  
     }
-       
-    
 })
 
 
