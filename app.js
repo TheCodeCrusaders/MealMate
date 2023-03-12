@@ -37,6 +37,10 @@ app.post("/login",(req,res)=>{
     res.redirect("/");
 })
 
+app.get("/Dashboard",(req,res)=>{
+    res.sendFile(path.resolve() + "/public/Dashboard/Dashboard.html");
+})
+
 //Login section ended
 app.listen(app.get('port'), function () {
     console.log('app listening at: ' + "http://localhost:" + app.get('port') + "/");

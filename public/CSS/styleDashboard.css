@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+
+* {                                            /*Asteriks = Universal select. Everything whiten {} applies to all*/
+  box-sizing: border-box; 
+  margin: 0;                               
+  padding: 0; 
+  background-color: #24252A 
+} 
+ 
+li, a, button{ 
+    font-family: "Montserrat", sans-serif;     /*Sets the font*/
+    font-weight: 500;                          /*Font thickness*/
+    font-size: 10px;
+    color: #edf0f1
+}
+
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 10%;
+}
