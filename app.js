@@ -8,6 +8,11 @@ app.set("port", process.env.PORT || 3000);
 app.get("/",(req,res)=>{
     res.sendFile(path.resolve() + "/public/html/index.html");
 })
+
+app.get("/dashboard",(req,res)=>{
+    res.sendFile(path.resolve() + "/public/html/dashboard.html");
+})
+
 app.get("/login",(req,res)=>{
     res.sendFile(path.resolve() + "/public/html/login.html");
 })
