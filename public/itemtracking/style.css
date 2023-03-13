@@ -1,0 +1,58 @@
+* {
+    box-sizing: border-box;
+}
+
+#container {
+    width: 33%;
+}
+
+#container>div {
+    display: grid;
+    grid-template-columns: 40% 80px 85px 100px 100px ;
+    grid-template-rows: auto;
+}
+
+#container>div>div {
+    overflow-wrap: break-word;
+    border: 1px solid black;
+    padding: 2px
+}
+
+/* CSS */
+#itemForm {
+    position: absolute;
+    top: -100%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 300px;
+    height: 200px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.5s ease-out;
+}
+#itemForm.visible {
+    top: 50%;
+    opacity: 1;
+    visibility: visible;
+}
+#backdrop{
+    position: absolute;
+    top:0;
+    left:0;
+    display:none;
+    width: 100vw;
+    height: 100vh;
+    filter: blur(1px);
+    background: rgba(255,255,255,.8);
+    transition: all 0.5s ease-out;
+
+}
+
+@media (max-width: 600px) {
+    #container>div {
+        display: grid;
+        grid-template-columns: 150px 80px 85px 50px;
+        grid-template-rows: auto;
+    }
+}
