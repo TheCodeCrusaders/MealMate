@@ -1,24 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
-<header>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" type="text/css" href="../CSS/styleDashboard.css"> <!--Links to css-->
-<body>
-    <img class="logo" src="../IMG/Waste-Fast-Logo.jpg" alt="logo">
-    <h1>Dashboard</h1>
+<html>
 
-    <nav>                                                                   <!--Navigation bar-->
-		<ul>                                                                <!--ul = Unordered list-->
-			<li><a class="active" href="/">Home</a></li>
-			<li><a href="#">About</a></li>
-			<li><a href="#">Services</a></li>
-			<li><a href="#">Contact</a></li>
-		</ul>
-	</nav>
-    <a class="cta" href="#"><button>Contact</button></a>
-</header>
+<head>
+    <title>Dashboard</title>
+</head>
+
+<body>
+    <!-- FILE PICKER-->
+    <input type="file" accept=".csv" id="FilePicker">
+
+    <!-- DISPLAY CSV HERE-->
+    <table id="Table">
+
+    </table>
+
+
+    <script>
+        //Executes anon, 0-parameter function, upon browser window being loaded
+        window.onload = () => {
+            var reader = new FileReader()
+                picker = document.getElementById("Filepicker")
+                picker = document.getElementById("Table")
+        }
+        
+    </script>
 </body>
+
 </html>
