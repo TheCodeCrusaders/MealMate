@@ -12,9 +12,9 @@ app.set("port", process.env.PORT || 3000);
 app.get("/",(req,res)=>{
     res.sendFile(path.resolve() + "/public/html/index.html");
 })
-
-
-
+app.get("/login",(req,res)=>{
+    res.sendFile(path.resolve() + "/public/html/login.html");
+})
 //New Page for forgot password
 app.get("/forgot",(req,res)=>{
     res.sendFile(path.resolve() + "/public/html/forgotpassword.html");
@@ -24,23 +24,10 @@ app.post("/forgot",(req,res)=>{
     res.redirect("/");
 })
 
-
-
-
-
-
-
-
-
-
-
-
 //This is Carl && Shadi´s Dont touch
 app.get("/login",(req,res)=>{                                   // this function defines what will be send when "/login" url is accesed  
     res.sendFile(path.resolve() + "/public/html/login.html");
 })
-
-
 
 import users from './loginfeature.js';// Here we import our read && csv function
 const users44=[];
