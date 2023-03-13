@@ -2,6 +2,8 @@ import express from 'express';
 const app = express();
 
 import path from "path";
+import router from './routes.js';
+
 
 //import *as ass from './loginfeature.js';
 app.use(express.urlencoded({ extended: true }));
@@ -9,29 +11,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.set("port", process.env.PORT || 3000);
 
-app.get("/",(req,res)=>{
-    res.sendFile(path.resolve() + "/public/html/index.html");
-})
-
-
-
-//New Page for forgot password
-app.get("/forgot",(req,res)=>{
-    res.sendFile(path.resolve() + "/public/html/forgotpassword.html");
-})
-app.post("/forgot",(req,res)=>{
-    console.log(req);
-    res.redirect("/");
-})
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
 
 
 
 
-
-
-
-
-
+// from here
 
 
 
@@ -73,11 +59,14 @@ app.listen(app.get('port'), function () {
     console.log('app listening at: ' + "http://localhost:" + app.get('port') + "/");
 });
 
+// to here
+
+app.use('/', router);
 
 
 
 
 
-
-
-
+app.listen(app.get('port'), function () {
+    console.log('app listening at: ' + "http://localhost:" + app.get('port') + "/");
+});
