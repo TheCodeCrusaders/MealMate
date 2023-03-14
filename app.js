@@ -49,17 +49,22 @@ users(users44);
 //console.log(users44)
 app.post("/login",(req,res)=>{                                  // This is the post function, this will be activated when ever things that has been include in the form action in the htlm file.
                                                                  // if then its activated this function will launch 
-let usernametest =req.body.username;
-let passwordtest=req.body.password;
-console.log(usernametest)
-console.log(passwordtest)
+let usernametest =req.body.username; // This gets our username from the front end
+let passwordtest=req.body.password; // this gets our passworld from the front end
+console.log(usernametest)           // this console what the user tried to use as username
+console.log(passwordtest)           // the console what the user tried to use as username
 
-let user = users44.find(function(user) {
-    return user.username === usernametest && user.password === passwordtest;
+let user = users44.find(function(user) {    // This function will test if the username or 
+    return user.username === usernametest && user.password === passwordtest; 
   });
  //   console.log(req);
     if(user){
+        
+        // here would the authenticaltion token be. 
+
+        
         res.redirect("/");
+
     }
     else{
         //res.send('Invalid username or password');
