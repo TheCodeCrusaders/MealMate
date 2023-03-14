@@ -19,6 +19,21 @@ main {
     flex-wrap: wrap;
 }
 
+#p_sameline {
+    display: inline-block;
+}
+
+#p_green {
+    color: green;
+    font-weight: bold;
+    display: inline-block;
+}
+
+#p_red {
+    color: red;
+    font-weight: bold;
+    display: inline-block;
+}
 
 
 section {
@@ -96,19 +111,9 @@ a {
 }
 
 #myBar {
-    width: 1%;
+    width: 0%;
     height: 30px;
     background-color: green;
-    border-radius: 10px 0 0 10px;
+    border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
-
-
-
-border-radius: 10px;
-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-background-color: #333;
-color: white;
-padding: 20px;
-margin: 20px;
-padding: 10px;
