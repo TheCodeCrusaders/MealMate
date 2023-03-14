@@ -43,6 +43,25 @@ section {
     padding: 20px;
     margin: 20px;
     width: calc(33.33% - 80px);
+    position: relative;
+    top: -100px;
+    opacity: 0;
+    animation-name: fall;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-delay: 0.5s;
+
+}
+
+@keyframes fall {
+    from {
+        top: -50px;
+        opacity: 0;
+    }
+    to {
+        top: 0;
+        opacity: 1;
+    }
 }
 
 @media (max-width: 600px) {
