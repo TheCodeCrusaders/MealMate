@@ -2,9 +2,11 @@ import express from 'express';
 const app = express();
 import path from "path";
 
+
 app.use(express.static("public"));
 app.set("port", process.env.PORT || 3000);
-
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.get("/",(req,res)=>{
     res.sendFile(path.resolve() + "/public/html/index.html");
 })
@@ -29,17 +31,30 @@ app.post("/forgot",(req,res)=>{
 app.get("/login",(req,res)=>{
     res.sendFile(path.resolve() + "/public/html/login.html");
 })
+
+app.get("/search",(req,res)=>{
+    res.sendFile(path.resolve() + "/public/html/search.html");
+})
+
 app.post("/login",(req,res)=>{
     console.log(req);
     res.redirect("/");
 })
 
+import recipies from './recipe.js'
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+
+app.post('/search', (req, res) => {
+    const name = req.body.navn;
+    res.json(recipies(name));
+});
 
 app.listen(app.get('port'), function () {
     console.log('app listening at: ' + "http://localhost:" + app.get('port') + "/");
 });
-
-
 
 
 
