@@ -15,33 +15,74 @@ app.get("/",(req,res)=>{
 
 
 
+
+
+
+
+
+
+
+
+
+/*
+import cookieParser from 'cookie-parser';
+app.use(cookieParser());
+
+
+function authenticate(req, res, next) {
+    const token = req.cookies.auth_token; // get the token from the cookies
+    console.log(token)
+    if (!token) {
+        console.log('token not found')
+      return res.redirect('/login'); // if token is not found, redirect to login page
+    }
+    try {
+      const decoded = jwt.verify(token, 'secret_key'); // verify the token using the secret key
+      const userToken = usertokens.find((userToken) => userToken.code === token); // find the user token in the usertokens array
+      console.log(userToken)
+      if (!userToken) {
+        console.log('user token not found')
+        return res.redirect('/login'); // if user token is not found, redirect to login page
+      }
+      if (userToken.expirationTime < new Date()) {
+        console.log('user token is expered so get redirected to login page')
+        return res.redirect('/login'); // if user token is expired, redirect to login page
+      }
+      req.user = decoded; // add the user object to the request object
+      console.log(decoded);
+      next(); // call the next middleware function
+    } catch (err) {
+        console.log('token verification failed, Redirected to login page')
+      return res.redirect('/login'); // if token verification fails, redirect to login page
+    }
+  }
+
 //New Page for forgot password
-app.get("/forgot",(req,res)=>{
+app.get("/forgot", authenticate, (req,res)=>{
+    //console.log(req.cookies.auth_token);
     res.sendFile(path.resolve() + "/public/html/forgotpassword.html");
 })
+
+
 app.post("/forgot",(req,res)=>{
-    console.log(req);
-    res.redirect("/");
+    console.log(req.cookies.auth_token);
+    res.redirect("/forgot");
 })
-
-
-
-
-
-
-
-
-
 
 
 
 //This is Carl && Shadi´s Dont touch
+
+
+  
+
+
 app.get("/login",(req,res)=>{                                   // this function defines what will be send when "/login" url is accesed  
     res.sendFile(path.resolve() + "/public/html/login.html");
 })
 
 
-
+import jwt from 'jsonwebtoken';
 import users from './loginfeature.js';// Here we import our read && csv function
 const users44=[];
 users(users44);
@@ -53,7 +94,7 @@ let usernametest =req.body.username; // This gets our username from the front en
 let passwordtest=req.body.password; // this gets our passworld from the front end
 console.log(usernametest)           // this console what the user tried to use as username
 console.log(passwordtest)           // the console what the user tried to use as username
-
+const usertokens=[];
 let user = users44.find(function(user) {    // This function will test if the username or 
     return user.username === usernametest && user.password === passwordtest; 
   });
@@ -61,9 +102,15 @@ let user = users44.find(function(user) {    // This function will test if the us
     if(user){
         
         // here would the authenticaltion token be. 
-
+        const token = jwt.sign({ username: user.username }, 'secret_key', { expiresIn: '1h' });
+// This 
+        res.cookie('auth_token', token);
         
-        res.redirect("/");
+
+        usertokens.push({name: user.username, code: token, expirationTime: new Date(Date.now() + 60 * 60 * 1000) });
+        
+        console.log(usertokens)
+        res.redirect("/forgot");
 
     }
     else{
@@ -72,6 +119,13 @@ let user = users44.find(function(user) {    // This function will test if the us
        res.redirect("/login");  
     }
 })
+
+
+
+
+*/
+
+
 
 
 app.listen(app.get('port'), function () {
