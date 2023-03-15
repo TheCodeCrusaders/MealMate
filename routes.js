@@ -3,39 +3,58 @@ const router = express.Router();
 import path from "path";
 import fs from "fs"
 
-router.get("/itemtracking", (req, res) => {
-    res.sendFile(path.resolve() + "/public/itemtracking/index.html");
-})
+
 
 router.get("/", (req, res) => {
     res.sendFile(path.resolve() + "/public/html/index.html");
 })
-router.get("/login", (req, res) => {
-    res.sendFile(path.resolve() + "/public/html/login.html");
-})
-router.post("/login", (req, res) => {
-    console.log(req);
-    res.redirect("/");
-})
+
 
 //New Page for forgot password
 router.get("/forgot", (req, res) => {
     res.sendFile(path.resolve() + "/public/html/forgotpassword.html");
 })
-router.post("/forgot", (req, res) => {
-    console.log(req);
-    res.redirect("/");
-})
+
 
 //New page for sign up
 router.get("/login", (req, res) => {
     res.sendFile(path.resolve() + "/public/html/login.html");
 })
-router.post("/login", (req, res) => {
-    console.log(req);
-    res.redirect("/");
+
+import users from './loginfeature.js';// Here we import our read && csv function
+const users44 = [];
+users(users44);
+
+router.post("/login", (req, res) => {                                  // This is the post function, this will be activated when ever things that has been include in the form action in the htlm file.
+    // if then its activated this function will launch 
+    let usernametest = req.body.username;
+    let passwordtest = req.body.password;
+    console.log(usernametest)
+    console.log(passwordtest)
+
+    let user = users44.find(function (user) {
+        return user.username === usernametest && user.password === passwordtest;
+    });
+    //   console.log(req);
+    if (user) {
+        res.redirect("/");
+    }
+    else {
+        //res.send('Invalid username or password');
+        //  alert("Wrong username or password");
+        res.redirect("/login");
+    }
 })
 
+
+
+
+// item tracking route
+router.get("/itemtracking", (req, res) => {
+    res.sendFile(path.resolve() + "/public/itemtracking/index.html");
+})
+
+// getting a list route (still neds to be modified for real login system)
 router.get("/getList", (req, res) => {
     const filePath = path.resolve() + "/USERS/Diego/items.json";
 
@@ -51,7 +70,7 @@ router.get("/getList", (req, res) => {
 });
 
 
-
+// write list to file (still neds to be modified for real login system)
 router.post("/postlist", (req, res) => {
     console.log(req.body);
 
