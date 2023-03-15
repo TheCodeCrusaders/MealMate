@@ -2,10 +2,14 @@ body {
     font-family: Calibri,Candara,Segoe,Segoe UI,Optima,Arial,sans-serif;
 }
 header {
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     background-color: #333;
-    color: #fff;
-    text-align: center;
+    color: white;
+    padding: 20px;
+    margin: 20px;
     padding: 10px;
+    text-align: center;
 }
 h1 {
     margin: 0;
@@ -15,14 +19,49 @@ main {
     flex-wrap: wrap;
 }
 
+#p_sameline {
+    display: inline-block;
+}
+
+#p_green {
+    color: green;
+    font-weight: bold;
+    display: inline-block;
+}
+
+#p_red {
+    color: red;
+    font-weight: bold;
+    display: inline-block;
+}
 
 
 section {
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-    margin: 10px;
-    padding: 10px;
-    width: calc(33.33% - 20px);
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    background-color: #f1f1f1;
+    padding: 20px;
+    margin: 20px;
+    width: calc(33.33% - 80px);
+    position: relative;
+    top: -100px;
+    opacity: 0;
+    animation-name: fall;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-delay: 0.5s;
+
+}
+
+@keyframes fall {
+    from {
+        top: -50px;
+        opacity: 0;
+    }
+    to {
+        top: 0;
+        opacity: 1;
+    }
 }
 
 @media (max-width: 600px) {
@@ -41,9 +80,12 @@ section {
     background-color: #ffffcc;
 }
 footer {
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     background-color: #333;
-    color: #fff;
-    padding: 10px;
+    color: white;
+    padding: 20px;
+    margin: 20px;
     text-align: center;
 }
 
@@ -82,10 +124,15 @@ a {
 #myProgress {
     width: 100%;
     background-color: grey;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    margin: 10px 0;
 }
 
 #myBar {
-    width: 1%;
+    width: 0%;
     height: 30px;
     background-color: green;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }

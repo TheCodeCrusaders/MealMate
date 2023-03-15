@@ -6,7 +6,8 @@
     <link href="../CSS/style-dashboard.css" rel="stylesheet">
     <script src="../js/dashboard.js"></script>
 </head>
-<body>
+<body onload="move(40)"> <!-- Running move() function to set process bar) -->
+<script src="../js/dashboard.js"></script>
     <header>
         <a href="../html/dashboard.html"><img src="../IMG/logo.svg" alt="Mealmate" width="300" height="50"></a> <!-- Clickable logo -->
         <nav class="nav-menu"> <!-- Navigation bar -->
@@ -28,7 +29,7 @@
             <div id="myBar"></div>
         </div>
         <p>You have wasted {amount} kg of food this week!</p>
-        <p>This amount is higher/lower than the average consumer wastes in Denmark</p>
+        <p id="p_sameline">This amount is {average - amount}<p id="p_red">&nbsp;higher</p>/<p id="p_green">lower&nbsp;</p>than the average consumer wastes in Denmark</p>
     </section>
     <section id="module2">
         <h2>Item Tracker:</h2>
@@ -42,7 +43,7 @@
     </section>
 </main>
 <footer>
-    <p>Open Source Project</p>
+    <a href="https://github.com/TheCodeCrusaders/MealMate">Open Source Project</a>
 </footer>
 <script>
     

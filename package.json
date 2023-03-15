@@ -20,6 +20,7 @@
   "homepage": "https://github.com/TheCodeCrusaders/MealMate#readme",
   "dependencies": {
     "express": "^4.18.2",
-    "papaparse": "^5.4.0"
+    "papaparse": "^5.4.0",
+    "nodemon": "^2.0.21"
   }
 }
