@@ -19,6 +19,8 @@
   },
   "homepage": "https://github.com/TheCodeCrusaders/MealMate#readme",
   "dependencies": {
-    "express": "^4.18.2"
+    "csv-parser": "^3.0.0",
+    "express": "^4.18.2",
+    "nodemon": "^2.0.21"
   }
 }
