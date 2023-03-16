@@ -10,15 +10,10 @@ import csv from 'csv-parser';
 
 
 const loginfunction=function(users44){
-fs.createReadStream('./Passwords/users.txt')
-  .pipe(csv())
-  .on('data', (data) => {
-    users44.push(data);
-  })
-  .on('end', () => {
-    console.log(users44);
-  });
+  const users = JSON.parse(fs.readFileSync('./Passwords/users.json'));
 
+  users44.push(users)
+console.log(users44)
 }
 
 
