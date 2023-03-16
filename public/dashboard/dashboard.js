@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", (e) => {
-  fetch("/getList")
+  fetch("/API/getList?name=diego")
       .then(response => {
           if (response.ok) {
               return response.json();

@@ -5,21 +5,18 @@ import fs from "fs"
 
 
 
-router.get("/", (req, res) => {
-    res.sendFile(path.resolve() + "/public/html/index.html");
+
+
+import recipies from './recipe.js'
+router.post('/API/search', (req, res) => {
+    const name = req.body.navn;
+    res.json(recipies(name));
 })
 
 
-//New Page for forgot password
-router.get("/forgot", (req, res) => {
-    res.sendFile(path.resolve() + "/public/html/forgotpassword.html");
-})
 
 
-//New page for sign up
-router.get("/login", (req, res) => {
-    res.sendFile(path.resolve() + "/public/html/login.html");
-})
+
 
 import users from './loginfeature.js';// Here we import our read && csv function
 const users44 = [];
@@ -49,14 +46,12 @@ router.post("/login", (req, res) => {                                  // This i
 
 
 
-// item tracking route
-router.get("/itemtracking", (req, res) => {
-    res.sendFile(path.resolve() + "/public/itemtracking/index.html");
-})
+
 
 // getting a list route (still neds to be modified for real login system)
-router.get("/getList", (req, res) => {
-    const filePath = path.resolve() + "/USERS/Diego/items.json";
+router.get("/API/getList", (req, res) => {
+    console.log(req.query.name);
+    const filePath = path.resolve() + `/USERS/${req.query.name}/items.json`;
 
     fs.readFile(filePath, (err, data) => {
         if (err) {

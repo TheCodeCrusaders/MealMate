@@ -1,0 +1,17 @@
+[
+  {
+    "location": "Fridge",
+    "name": "misdsdasdassssssssssasdsadasdsadasdasdssdsadasdsadlk",
+    "expirationDate": "2023-05-04"
+  },
+  {
+    "location": "Pantry",
+    "name": "Canned Soup",
+    "expirationDate": "2023-05-04"
+  },
+  {
+    "location": "Freezer",
+    "name": "Frozen Pizza",
+    "expirationDate": "2023-05-04"
+  }
+]

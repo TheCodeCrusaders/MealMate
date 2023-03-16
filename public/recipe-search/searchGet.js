@@ -5,7 +5,7 @@ form.addEventListener("submit", (e) => {
         "navn": document.querySelector("#search").value
     };
     console.log(data)
-    fetch("/search", {
+    fetch("/API/search", {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
         mode: "cors", // no-cors, *cors, same-origin
         cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
