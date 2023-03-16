@@ -1,24 +1,19 @@
+import fs from 'fs';
 import express from 'express';
 const app = express();
-
 import path from "path";
 
-//import *as ass from './loginfeature.js';
 app.use(express.urlencoded({ extended: true }));
-
+app.use(express.json());
 app.use(express.static("public"));
 app.set("port", process.env.PORT || 3000);
 
-app.get("/",(req,res)=>{
-    res.sendFile(path.resolve() + "/public/html/index.html");
-})
 
 
 
 
 
-
-
+import recipies from './recipe.js'
 
 
 
@@ -79,8 +74,29 @@ app.post("/forgot",(req,res)=>{
 
 app.get("/login",(req,res)=>{                                   // this function defines what will be send when "/login" url is accesed  
     res.sendFile(path.resolve() + "/public/html/login.html");
+app.post('/search', (req, res) => {
+    const name = req.body.navn;
+    res.json(recipies(name));
+    
+    
+app.get("/dashboard",(req,res)=>{
+    res.sendFile(path.resolve() + "/public/html/dashboard.html");
+
 })
 
+app.get("/getList", (req, res) => {
+    const filePath = path.resolve() + "/Files to read/Items.json";
+    fs.readFile(filePath, (err, data) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send("Internal Server Error");
+        } else {
+            const jsonData = data.toString("utf8");
+            res.json(JSON.parse(jsonData));
+        }
+    });
+
+});
 
 import jwt from 'jsonwebtoken';
 import users from './loginfeature.js';// Here we import our read && csv function
@@ -123,20 +139,30 @@ let user = users44.find(function(user) {    // This function will test if the us
 
 
 
+
+
 */
 
 
+
+import router from './routes.js';
+
+
+//import *as ass from './loginfeature.js';
+app.use(express.urlencoded({ extended: true }));
+
+app.use(express.static("public"));
+app.set("port", process.env.PORT || 3000);
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+
+
+app.use('/', router);
 
 
 app.listen(app.get('port'), function () {
     console.log('app listening at: ' + "http://localhost:" + app.get('port') + "/");
 });
-
-
-
-
-
-
-
-
 
