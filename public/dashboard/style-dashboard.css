@@ -136,3 +136,20 @@ a {
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
+
+.table-container {
+    margin: 20px;
+  }
+  
+  table {
+    width: calc(100% - 40px);
+    border-collapse: collapse;
+    margin: auto;
+  }
+  
+  table th,
+  table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
