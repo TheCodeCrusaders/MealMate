@@ -12,7 +12,7 @@ const loginfunction=function(users44){
  
   
 // Read the JSON from file is letery just numbers
-const rawData = fs.readFileSync('./Passwords/users.json');
+const rawData = fs.readFileSync('./data/Passwords/users.json');
 
 const jsonData = JSON.parse(rawData);// prints in json format, but as an array, so users:[username: carl, password: pas] not ussable yet
 console.log(jsonData)

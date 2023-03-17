@@ -39,10 +39,7 @@ router.post("/forgot",(req,res)=>{
 
 
 
-//This is Carl && Shadi´s Dont touch
-router.get("/login/",(req,res)=>{                                   // this function defines what will be send when "/login" url is accesed  
-    res.sendFile(path.resolve() + "/public/login/login.html");
-})
+
 
 
 
@@ -97,7 +94,7 @@ router.post("/login",(req,res)=>{  // post action declared, will wait for post f
         res.cookie('token', token, { httpOnly: true });// Set the token as a cookie on the client's browser
         //the { httpOnly: true }  option means that the cookie can only be accessed via HTTP/S and not via JavaScript, which helps to prevent cross-site scripting (XSS) attacks.
         
-        res.redirect("/forgot");
+        res.redirect("/dashboard");
     }
     else{
         res.redirect("/login");  
