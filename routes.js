@@ -2,8 +2,6 @@ import express from 'express';
 const router = express.Router();
 import path from "path";
 import fs from "fs"
-
-
 import jwt from 'jsonwebtoken';
 import cookieParser from 'cookie-parser';
 router.use(cookieParser());
@@ -23,50 +21,16 @@ router.post('/API/search', (req, res) => {
 
 
 
-/*
-import users from './loginfeature.js';// Here we import our read && csv function
-const users44 = [];
-users(users44);
-
-router.post("/login", (req, res) => {                                  // This is the post function, this will be activated when ever things that has been include in the form action in the htlm file.
-    // if then its activated this function will launch 
-    let usernametest = req.body.username;
-    let passwordtest = req.body.password;
-    console.log(usernametest)
-    console.log(passwordtest)
-
-    let user = users44.find(function (user) {
-        return user.username === usernametest && user.password === passwordtest;
-    });
-    //   console.log(req);
-    if (user) {
-        res.redirect("/");
-    }
-    else {
-        //res.send('Invalid username or password');
-        //  alert("Wrong username or password");
-        res.redirect("/login");
-    }
-})
-*/
-//Here new things start
 
 
 
 
 
 
-
-//import *as ass from './loginfeature.js';
-
-
-
-
-
-//New Page for forgot password
+//New Page for forgot password This is the Current tasting page For Tokens login System. Dont touch it is hurting nobody.
 router.get("/forgot",verifyToken,(req,res)=>{
 
-    res.sendFile(path.resolve() + "/public/html/forgotpassword.html");
+    res.sendFile(path.resolve() + "/public/login/forgot.html");
 })
 router.post("/forgot",(req,res)=>{
     console.log(req);
@@ -75,54 +39,63 @@ router.post("/forgot",(req,res)=>{
 
 
 
-
-
-
 //This is Carl && Shadi´s Dont touch
-router.get("/login",(req,res)=>{                                   // this function defines what will be send when "/login" url is accesed  
-    res.sendFile(path.resolve() + "/public/html/login.html");
+router.get("/login/",(req,res)=>{                                   // this function defines what will be send when "/login" url is accesed  
+    res.sendFile(path.resolve() + "/public/login/login.html");
 })
 
 
 
-import users from './loginfeature.js';// Here we import our read && csv function
-const users44=[];
-users(users44);
+import users from './loginfeature.js';// Here we import our read passord files.
+const users44=users();
 
-//console.log(users44)
+
+console.log(users44) //console.logs to prove we are into the system, and shows off every username and password.
 
 function verifyToken(req, res, next) {
-    const token = req.cookies.token;
-    
-    if (!token) {
+    const token = req.cookies.token;// Here we request the cookie from the user
+   // console.log(token)
+    if (!token) {// here we say if the token is undefined, it will redirect the user the login page.
       return res.redirect('/login');
     }
     
     try {
-      const decoded = jwt.verify(token, 'secret');
-      req.user = decoded;
+      const decoded = jwt.verify(token, 'secret');// Here we decode our token
+      //console.log(decoded)
+      req.user = decoded;// here we acces the user
+      console.log(req.user)
       console.log(token)
       console.log(req.user.username);
-      next();
-    } catch (err) {
+      console.log(decoded.exp)
+   
+        if (decoded.exp*1000 <= Date.now()) { // Check if the token has expired the  it must be multiplied by 1000, beacuse it has to be in secounds. because the start time is from 1970
+         return res.redirect('/login');
+       }
+
+      next();//If next() is not called, the request will hang and will not proceed to the next middleware function or route handler.
+    } catch (err) { // if an error is meat, the program will redirect user to login page.
       res.redirect('/login');
     }
   }
 
-router.post("/login",(req,res)=>{                                  
-    let usernametest =req.body.username; 
-    let passwordtest=req.body.password; 
+router.post("/login",(req,res)=>{  // post action declared, will wait for post from front end                                
+    let usernametest =req.body.username; //gets username from front end
+    let passwordtest=req.body.password; //gets password from front end
 
-    let user = users44.find(function(user) {    
+    console.log(`${usernametest} tried to login`)// THis will log who tried to loged in or logged in
+
+    let user = users44.find(function(user) {    // here we test if the user exist in the system, and if the password is correct
         return user.username === usernametest && user.password === passwordtest; 
     });
-    
-    if(user){
-        // Generate an authentication token
-        const token = jwt.sign({ username: user.username }, 'secret');
+    console.log(user)
+    if(user){// if the correct information is typed in the user will be given a token
+        
+        const token = jwt.sign({ username: user.username }, 'secret', { expiresIn: '1h' });// Generate an authentication token with experation day, 1 hour i milisecounds
+
         console.log(user.username);
-        // Set the token as a cookie on the client's browser
-        res.cookie('token', token, { httpOnly: true });
+        
+        res.cookie('token', token, { httpOnly: true });// Set the token as a cookie on the client's browser
+        //the { httpOnly: true }  option means that the cookie can only be accessed via HTTP/S and not via JavaScript, which helps to prevent cross-site scripting (XSS) attacks.
         
         res.redirect("/forgot");
     }
