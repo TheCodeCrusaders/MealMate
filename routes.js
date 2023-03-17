@@ -103,7 +103,10 @@ router.post("/login",(req,res)=>{  // post action declared, will wait for post f
 
 
 
+router.get("/API/getUserName",verifyToken, (req, res) => {
+res.json({"username": req.user.username})
 
+})
 
 
 
@@ -117,9 +120,9 @@ router.post("/login",(req,res)=>{  // post action declared, will wait for post f
 
 
 // getting a list route (still neds to be modified for real login system)
-router.get("/API/getList", (req, res) => {
+router.get("/API/getList",verifyToken, (req, res) => {
     console.log(req.query.name);
-    const filePath = path.resolve() + `/USERS/${req.query.name}/items.json`;
+    const filePath = path.resolve() + `/data/USERS/${req.user.username}/items.json`;
 
     fs.readFile(filePath, (err, data) => {
         if (err) {
