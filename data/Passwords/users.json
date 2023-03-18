@@ -27,6 +27,14 @@
     {
       "username": "carl",
       "password": "pas"
+    },
+    {
+      "username": "admin",
+      "password": "hej"
+    },
+    {
+      "username": "preben",
+      "password": "123"
     }
   ]
 }
