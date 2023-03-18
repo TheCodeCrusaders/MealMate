@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", (e) => {
-    fetch("/getList")
+    fetch("/API/getList")
         .then(response => {
             if (response.ok) {
                 return response.json();
@@ -7,7 +7,10 @@ document.addEventListener("DOMContentLoaded", (e) => {
             throw new Error("response was not in the 200 range " + response.Error)
         })
         .then(data => createTable(data))
-        .catch(error => console.error(error));
+        .catch(error => {
+            console.log("something went wrong, hoping its the cookie not being there")
+            window.location.replace("/login");
+        });
 
 })
 
@@ -21,7 +24,7 @@ form.addEventListener("submit", (e) => {
         "expirationDate": form.expirationDate.value
     };
     console.log(data)
-    fetch("/postlist", {
+    fetch("/API/postlist", {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
         mode: "cors", // no-cors, *cors, same-origin
         cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
@@ -34,6 +37,7 @@ form.addEventListener("submit", (e) => {
         referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
         body: JSON.stringify(data), // body data type must match "Content-Type" header
     });
+    setTimeout(() => { window.location.reload(); }, 100);
 })
 
 const container = document.querySelector("#container");
@@ -74,21 +78,55 @@ function createTable(data) {
         consumedButton.textContent = "consumed";
 
         waistedButton.addEventListener("click", (e) => {
-
+            e.preventDefault();
+            let data = {
+                "index": index
+            };
+            fetch("/API/waisteditem", {
+                method: "POST", // *GET, POST, PUT, DELETE, etc.
+                mode: "cors", // no-cors, *cors, same-origin
+                cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: "same-origin", // include, *same-origin, omit
+                headers: {
+                    "Content-Type": "application/json",
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                redirect: "follow", // manual, *follow, error
+                referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                body: JSON.stringify(data), // body data type must match "Content-Type" header
+            })
+            setTimeout(() => { window.location.reload(); }, 100);
         })
 
         consumedButton.addEventListener("click", (e) => {
-            
-        })
-        
-        div.appendChild(name);
-        div.appendChild(location);
-        div.appendChild(expirationDate);
-        div.appendChild(waistedButton);
-        div.appendChild(consumedButton);
-        container.appendChild(div);
+            e.preventDefault();
+            let data = {
+                "index": index
+            };
+            fetch("/API/consumeditem", {
+                method: "POST", // *GET, POST, PUT, DELETE, etc.
+                mode: "cors", // no-cors, *cors, same-origin
+                cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: "same-origin", // include, *same-origin, omit
+                headers: {
+                    "Content-Type": "application/json",
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                redirect: "follow", // manual, *follow, error
+                referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                body: JSON.stringify(data), // body data type must match "Content-Type" header
+            })
+            setTimeout(() => { window.location.reload(); }, 100);
+    })
 
-    });
+    div.appendChild(name);
+    div.appendChild(location);
+    div.appendChild(expirationDate);
+    div.appendChild(waistedButton);
+    div.appendChild(consumedButton);
+    container.appendChild(div);
+
+});
 }
 
 
