@@ -5,6 +5,8 @@ import fs from "fs"
 import jwt from 'jsonwebtoken';
 import cookieParser from 'cookie-parser';
 router.use(cookieParser());
+import crypto from 'crypto';
+
 
 
 import recipies from './recipe.js'
@@ -73,7 +75,7 @@ function verifyToken(req, res, next) {
 
 router.post("/login",(req,res)=>{  // post action declared, will wait for post from front end                                
     let usernametest = req.body.username; //gets username from front end
-    let passwordtest= req.body.password; //gets password from front end
+    let passwordtest= crypto.createHash('sha256').update(req.body.password).digest('hex'); //gets password from front end
 
     console.log(`${usernametest} tried to login`)// THis will log who tried to loged in or logged in
 
@@ -143,7 +145,7 @@ router.post('/newuser', (req, res) => {
     // Extract the new user data from the request body
     const newUser = {
       username: req.body.username,
-      password: req.body.password
+      password: crypto.createHash('sha256').update(req.body.password).digest('hex')
     };
   
     const dataPath = path.join(path.resolve() + "/data/Passwords/users.json");
@@ -169,6 +171,8 @@ router.post('/newuser', (req, res) => {
       if (err) throw err;
     });
 
+    const itemsStandard = '[{"location": "Pantry","name": "Test (delete this)","expirationDate": "2023-05-04"}]';
+
     console.log(`${newUser.username} directory created.`);
 
     fs.writeFile(`data/USERS/${newUser.username}/consumedItems.json`, '', (err) => {
@@ -176,7 +180,7 @@ router.post('/newuser', (req, res) => {
       console.log(`consumedItems.json created in ${newUser.username}`);
     });
 
-    fs.writeFile(`data/USERS/${newUser.username}/items.json`, '', (err) => {
+    fs.writeFile(`data/USERS/${newUser.username}/items.json`, itemsStandard, (err) => {
       if (err) throw err;
       console.log(`items.json created in ${newUser.username}`);
     });
@@ -187,7 +191,7 @@ router.post('/newuser', (req, res) => {
     });
   
     // Return a response to the client
-    res.status(201).json(newUser);
+    res.redirect("/login");
   });
   
   
