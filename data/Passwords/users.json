@@ -2,39 +2,31 @@
   "users": [
     {
       "username": "allias",
-      "password": "password"
+      "password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
     },
     {
       "username": "mantas",
-      "password": "password"
+      "password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
     },
     {
       "username": "shadi",
-      "password": "password"
+      "password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
     },
     {
       "username": "dieago",
-      "password": "password"
+      "password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
     },
     {
       "username": "jeppe",
-      "password": "password"
+      "password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
     },
     {
       "username": "mathias",
-      "password": "password"
+      "password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
     },
     {
       "username": "carl",
-      "password": "pas"
-    },
-    {
-      "username": "admin",
-      "password": "123"
-    },
-    {
-      "username": "preben",
-      "password": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+      "password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
     }
   ]
 }
