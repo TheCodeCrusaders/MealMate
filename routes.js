@@ -10,10 +10,9 @@ router.use(cookieParser());
 
 
 
-
 import recipies from './recipe.js'
 router.post('/API/search', (req, res) => {
-    const name = req.body.navn;
+    const name = req.body.nameOfRecipe;
     res.json(recipies(name));
 })
 

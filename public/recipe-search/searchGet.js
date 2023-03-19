@@ -1,10 +1,11 @@
+
+
 const form = document.querySelector("#searchForm");
 form.addEventListener("submit", (e) => {
     e.preventDefault();
     let data = {
-        "navn": document.querySelector("#search").value
+        "nameOfRecipe": document.querySelector("#search").value,
     };
-    console.log(data)
     fetch("/API/search", {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
         mode: "cors", // no-cors, *cors, same-origin
@@ -20,35 +21,56 @@ form.addEventListener("submit", (e) => {
     })
         .then(result => result.json())
         .then(jsonData => listCreation(jsonData))
-
 })
 
-
-
-
-
-//Makes a list with only the recipe names only
-
+//Makes a list with the recipe names
+//Takes the value item in
 function listCreation(item) {
     console.log(item);
-    //Takes the value item in
     //It wil then return the result of all the needed recipies
     const resultList = document.getElementById('resultList');
+    resultList.textContent = '';
     //Loops through all the needed recipies
     item.forEach(element => {
         //Creates new list element
         const listItem = document.createElement('ul');
         //Creates a text node that holds the recipe name
-        const recipeName = document.createTextNode(element.navn);
+        const recipeName = document.createTextNode(element.nameOfRecipe);
         //Add the text node to the list element
         listItem.appendChild(recipeName);
-        element.ingredienser.forEach(el => {
+        element.ingredients.forEach(el => {
             const listIngrident = document.createElement('li');
-            const recipeingridients = document.createTextNode(el.ingrediens);
+            const recipeingridients = document.createTextNode(`${el.ingredient} amount: ${el.amount}`);
             listIngrident.appendChild(recipeingridients);
             listItem.appendChild(listIngrident);
-        })
+        });
+        //INPUT: Would be nice if you could set the instructions to the left
+        element.instructions.forEach(el => {
+            const listinstructions = document.createElement('li');
+            const instructionsText = document.createTextNode(el.inst);
+            console.log(el.inst);
+            listinstructions.appendChild(instructionsText);
+            listItem.appendChild(listinstructions);
+        });
+        
         //Add the list element to the list
         resultList.appendChild(listItem);
     });
 }
+
+const listItems = document.querySelector('.list');
+
+function showOrHide(e) {
+    //If the clicked element is a <ul>
+    if (e.target.tagName === 'UL') {
+        //Convert it to array form
+        const childList = Array.from(e.target.querySelectorAll('li'));
+        //Loops through all the list items and shows them
+        for (const lists of childList) {
+            lists.style.display = e.type === 'click' ? 'block' : 'none';
+        }
+    }
+}
+
+listItems.addEventListener('click', showOrHide);
+listItems.addEventListener('dblclick', showOrHide);
