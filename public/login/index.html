@@ -1,29 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
-    <link href="../CSS/styleLogin.css" rel="stylesheet">
-  </head>
-  <body>
-    <img src="../IMG/Uden_titel.jpg" alt="MEALTIME">
-    <h1 class="loginHeader">MEAL TIME</h1>
-    <ul class="container">
-      <form action="/login" method="post">
-      <section class="inputs">
-        <label id="username_label" for="username">Username:</label>
-        <input type="text" id="username_inputboks" name="username" placeholder="Your username..." required><br>
-  
-        <label id="passwordLabel" for="password">Password:</label>
-        <input type="password" id="password" name="password" placeholder="Your password..." required><br>
-        <input type="submit" class="submitButton" value="Login"><br><br>
+<html>
+<head>
+  <title>User Registration</title>
+  <link href="style.css" rel="stylesheet">
+</head>
+<body>
+    <center><img src="/IMG/logo.svg" alt="Mealmate" width="300" height="50"></center>
+  <div class="box">  
+    <h1>User login</h1>
+    <form id="myForm">
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username">
 
-        <a id="samtykkeLink" href = "/register">Make Acount</a> <br>
-        <a id="samtykkeLink2" href = "../public/html/forgortpasowrd">Forgot password</a>
-      </section>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password">
+
+      <p id="message" name="message"></p>
+
+      <button type="submit">Register</button>
     </form>
-    </ul>
-    
-  </body>
+    <script src="script.js"></script>
+  </div>
+</body>
 </html>

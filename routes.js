@@ -92,7 +92,8 @@ router.post("/login",(req,res)=>{  // post action declared, will wait for post f
         res.cookie('token', token, { httpOnly: true });// Set the token as a cookie on the client's browser
         //the { httpOnly: true }  option means that the cookie can only be accessed via HTTP/S and not via JavaScript, which helps to prevent cross-site scripting (XSS) attacks.
         
-        res.redirect("/dashboard");
+        return res.status(200).json({ success: 'User created successfully' });
+
     }
     else{
         res.redirect("/login");  
