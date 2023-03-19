@@ -4,9 +4,6 @@ import path from "path";
 import fs from "fs"
 
 
-
-
-
 import recipies from './recipe.js'
 router.post('/API/search', (req, res) => {
     const name = req.body.navn;
@@ -15,12 +12,10 @@ router.post('/API/search', (req, res) => {
 
 
 
-
-
-
 import users from './loginfeature.js';// Here we import our read && csv function
 const users44 = [];
 users(users44);
+
 
 router.post("/login", (req, res) => {                                  // This is the post function, this will be activated when ever things that has been include in the form action in the htlm file.
     // if then its activated this function will launch 
@@ -44,10 +39,6 @@ router.post("/login", (req, res) => {                                  // This i
 })
 
 
-
-
-
-
 // getting a list route (still neds to be modified for real login system)
 router.get("/API/getList", (req, res) => {
     console.log(req.query.name);
@@ -63,6 +54,7 @@ router.get("/API/getList", (req, res) => {
         }
     });
 });
+
 
 
 // write list to file (still neds to be modified for real login system)
@@ -84,5 +76,4 @@ router.post("/postlist", (req, res) => {
 
     res.redirect("/itemtracking");
 });
-
 export default router
