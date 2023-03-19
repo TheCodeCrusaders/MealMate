@@ -157,7 +157,6 @@ router.post('/newuser', (req, res) => {
     // Check for duplicate usernames
     const duplicate = data.users.find(user => user.username === newUser.username);
     if (duplicate) {
-      res.body.message.textContent = "ok";
       return res.status(400).json({ error: 'Username already exists' });
     }
   
@@ -191,7 +190,8 @@ router.post('/newuser', (req, res) => {
     });
   
     // Return a response to the client
-    res.redirect("/login");
+    return res.status(200).json({ success: 'User created successfully' });
+    //res.redirect("/login");
   });
   
   
