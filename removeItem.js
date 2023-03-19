@@ -30,7 +30,7 @@ const removeItem = {
                                     console.error('Error writing file:', err);
                                     return;
                                 }
-                                res.status(200);
+                                res.status(200).send("success");
                             })
                         }
                     })
@@ -67,7 +67,7 @@ const removeItem = {
                                     console.error('Error writing file:', err);
                                     return;
                                 }
-                                res.status(200);
+                                res.status(200).send("success");
                             })
                         }
                     })

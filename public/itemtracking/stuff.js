@@ -1,21 +1,21 @@
 document.addEventListener("DOMContentLoaded", (e) => {
+    fetchData();
+})
+function fetchData() {
     fetch("/API/getList")
         .then(response => {
             if (response.ok) {
                 return response.json();
             }
-            throw new Error("response was not in the 200 range " + response.Error)
+            throw new Error("response was not in the 200 range ")
         })
         .then(data => createTable(data))
         .catch(error => {
-            console.log("something went wrong, hoping its the cookie not being there")
             window.location.replace("/login");
         });
-
-})
-
+}
+let refIndex = 0;
 const form = document.querySelector("#itemForm");
-form.expirationDate
 form.addEventListener("submit", (e) => {
     e.preventDefault();
     let data = {
@@ -37,7 +37,12 @@ form.addEventListener("submit", (e) => {
         referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
         body: JSON.stringify(data), // body data type must match "Content-Type" header
     });
-    setTimeout(() => { window.location.reload(); }, 100);
+    form.location.selected = "Fridge";
+    form.name.value = "";
+    form.expirationDate.value = "";
+    createItem(data, refIndex + 1)
+
+    addNewItem();
 })
 
 const container = document.querySelector("#container");
@@ -61,75 +66,96 @@ backdrop.addEventListener("click", (e) => {
 
 function createTable(data) {
     data.forEach((element, index) => {
-        let div = document.createElement("div");
-        let name = document.createElement("div");
-        let location = document.createElement("div");
-        let expirationDate = document.createElement("div");
+        createItem(element, index)
+    });
+
+}
 
 
-        name.textContent = element.name;
-        location.textContent = element.location;
-        expirationDate.textContent = element.expirationDate;
+function createItem(element, index) {
+    let div = document.createElement("tr");
+    let name = document.createElement("td");
+    let location = document.createElement("td");
+    let expirationDate = document.createElement("td");
 
-        let waistedButton = document.createElement("button");
-        waistedButton.textContent = "waisted";
 
-        let consumedButton = document.createElement("button");
-        consumedButton.textContent = "consumed";
+    name.textContent = element.name;
+    location.textContent = element.location;
+    expirationDate.textContent = element.expirationDate;
+    let buttonContainer = document.createElement("td");
+    let waistedButton = document.createElement("button");
+    waistedButton.textContent = "waisted";
 
-        waistedButton.addEventListener("click", (e) => {
-            e.preventDefault();
-            let data = {
-                "index": index
-            };
-            fetch("/API/waisteditem", {
-                method: "POST", // *GET, POST, PUT, DELETE, etc.
-                mode: "cors", // no-cors, *cors, same-origin
-                cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-                credentials: "same-origin", // include, *same-origin, omit
-                headers: {
-                    "Content-Type": "application/json",
-                    // 'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                redirect: "follow", // manual, *follow, error
-                referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-                body: JSON.stringify(data), // body data type must match "Content-Type" header
-            })
-            setTimeout(() => { window.location.reload(); }, 100);
+    let consumedButton = document.createElement("button");
+    consumedButton.textContent = "consumed";
+
+    waistedButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        let data = {
+            "index": index
+        };
+        fetch("/API/waisteditem", {
+            method: "POST", // *GET, POST, PUT, DELETE, etc.
+            mode: "cors", // no-cors, *cors, same-origin
+            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: "same-origin", // include, *same-origin, omit
+            headers: {
+                "Content-Type": "application/json",
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: "follow", // manual, *follow, error
+            referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify(data), // body data type must match "Content-Type" header
+        }).then(response => {
+            if (response.ok) {
+                removeItems();
+            }
+
         })
 
-        consumedButton.addEventListener("click", (e) => {
-            e.preventDefault();
-            let data = {
-                "index": index
-            };
-            fetch("/API/consumeditem", {
-                method: "POST", // *GET, POST, PUT, DELETE, etc.
-                mode: "cors", // no-cors, *cors, same-origin
-                cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-                credentials: "same-origin", // include, *same-origin, omit
-                headers: {
-                    "Content-Type": "application/json",
-                    // 'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                redirect: "follow", // manual, *follow, error
-                referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-                body: JSON.stringify(data), // body data type must match "Content-Type" header
-            })
-            setTimeout(() => { window.location.reload(); }, 100);
+    })
+
+    consumedButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        let data = {
+            "index": index
+        };
+        fetch("/API/consumeditem", {
+            method: "POST", // *GET, POST, PUT, DELETE, etc.
+            mode: "cors", // no-cors, *cors, same-origin
+            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: "same-origin", // include, *same-origin, omit
+            headers: {
+                "Content-Type": "application/json",
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: "follow", // manual, *follow, error
+            referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify(data), // body data type must match "Content-Type" header
+        }).then(response => {
+            if (response.ok) {
+                removeItems();
+            }
+
+        })
+
     })
 
     div.appendChild(name);
     div.appendChild(location);
     div.appendChild(expirationDate);
-    div.appendChild(waistedButton);
-    div.appendChild(consumedButton);
+    buttonContainer.appendChild(waistedButton);
+    buttonContainer.appendChild(consumedButton);
+    div.appendChild(buttonContainer);
     container.appendChild(div);
-
-});
+    refIndex = index;
 }
 
+function removeItems() {
+    document.querySelectorAll("#container>tr").forEach((element) => {
+        container.removeChild(element);
 
+    })
+    fetchData();
 
-
-
+}
