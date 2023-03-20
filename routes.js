@@ -38,13 +38,6 @@ router.post("/forgot", (req, res) => {
 })
 
 
-
-router.get("/peepeepoopoo", verifyToken, (req, res) => {
-
-})
-
-
-
 import users from './loginfeature.js';// Here we import our read passord files.
 const users44 = users();
 
