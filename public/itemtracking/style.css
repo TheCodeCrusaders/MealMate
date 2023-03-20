@@ -2,23 +2,47 @@
     box-sizing: border-box;
 }
 
-#container {
-    width: 33%;
+main {
+    margin: 20px;
+}
+tr>td:last-of-type {
+    min-width: 165px;
+
+}
+#container{
+    border-collapse: collapse;
+}
+td{
+    border: 1px solid #3fc1c9;
 }
 
-#container>div {
-    display: grid;
-    grid-template-columns: 40% 80px 85px 100px 100px ;
-    grid-template-rows: auto;
+#h1Container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding:5%;
 }
 
-#container>div>div {
-    overflow-wrap: break-word;
-    border: 1px solid black;
-    padding: 2px
+button {
+    width: 80px;
+    background-color: #333;
+    color: white;
+    border: 1px solid #3fc1c9;
+    border-radius: 10px;
 }
 
-/* CSS */
+#itemtracking {
+    background-color: #333;
+    width: 30%;
+    border-radius: 10px;
+    color: white;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
 #itemForm {
     position: absolute;
     top: -100%;
@@ -30,23 +54,88 @@
     opacity: 0;
     visibility: hidden;
     transition: all 0.5s ease-out;
+    background-color: #333;
+    border-radius: 10px;
+    color: white;
+    padding: 10px;
 }
+
 #itemForm.visible {
     top: 50%;
     opacity: 1;
     visibility: visible;
 }
-#backdrop{
+
+#backdrop {
     position: absolute;
-    top:0;
-    left:0;
-    display:none;
+    top: 0;
+    left: 0;
+    display: none;
     width: 100vw;
     height: 100vh;
     filter: blur(1px);
-    background: rgba(255,255,255,.8);
+    background: rgba(255, 255, 255, .8);
     transition: all 0.5s ease-out;
 
+}
+
+/* from dashboard */
+
+body {
+    font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
+}
+
+header {
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    margin: 20px;
+    padding: 10px;
+    text-align: center;
+}
+
+footer {
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    margin: 20px;
+    text-align: center;
+}
+
+
+
+nav {
+    background-color: #333;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    width: 100%;
+}
+
+ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+li {
+    margin: 0 10px;
+    width: 100%;
+    text-align: center;
+}
+
+a {
+    color: #fff;
+    text-decoration: none;
+    align-content: center;
 }
 
 @media (max-width: 600px) {

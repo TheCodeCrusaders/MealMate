@@ -1,18 +1,21 @@
 document.addEventListener("DOMContentLoaded", (e) => {
-    fetch("/getList")
+    fetchData();
+})
+function fetchData() {
+    fetch("/API/getList")
         .then(response => {
             if (response.ok) {
                 return response.json();
             }
-            throw new Error("response was not in the 200 range " + response.Error)
+            throw new Error("response was not in the 200 range ")
         })
         .then(data => createTable(data))
-        .catch(error => console.error(error));
-
-})
-
+        .catch(error => {
+            window.location.replace("/login");
+        });
+}
+let refIndex = 0;
 const form = document.querySelector("#itemForm");
-form.expirationDate
 form.addEventListener("submit", (e) => {
     e.preventDefault();
     let data = {
@@ -21,7 +24,7 @@ form.addEventListener("submit", (e) => {
         "expirationDate": form.expirationDate.value
     };
     console.log(data)
-    fetch("/postlist", {
+    fetch("/API/postlist", {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
         mode: "cors", // no-cors, *cors, same-origin
         cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
@@ -34,6 +37,12 @@ form.addEventListener("submit", (e) => {
         referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
         body: JSON.stringify(data), // body data type must match "Content-Type" header
     });
+    form.location.selected = "Fridge";
+    form.name.value = "";
+    form.expirationDate.value = "";
+    createItem(data, refIndex + 1)
+
+    addNewItem();
 })
 
 const container = document.querySelector("#container");
@@ -57,41 +66,96 @@ backdrop.addEventListener("click", (e) => {
 
 function createTable(data) {
     data.forEach((element, index) => {
-        let div = document.createElement("div");
-        let name = document.createElement("div");
-        let location = document.createElement("div");
-        let expirationDate = document.createElement("div");
-
-
-        name.textContent = element.name;
-        location.textContent = element.location;
-        expirationDate.textContent = element.expirationDate;
-
-        let waistedButton = document.createElement("button");
-        waistedButton.textContent = "waisted";
-
-        let consumedButton = document.createElement("button");
-        consumedButton.textContent = "consumed";
-
-        waistedButton.addEventListener("click", (e) => {
-
-        })
-
-        consumedButton.addEventListener("click", (e) => {
-            
-        })
-        
-        div.appendChild(name);
-        div.appendChild(location);
-        div.appendChild(expirationDate);
-        div.appendChild(waistedButton);
-        div.appendChild(consumedButton);
-        container.appendChild(div);
-
+        createItem(element, index)
     });
+
 }
 
 
+function createItem(element, index) {
+    let div = document.createElement("tr");
+    let name = document.createElement("td");
+    let location = document.createElement("td");
+    let expirationDate = document.createElement("td");
 
 
+    name.textContent = element.name;
+    location.textContent = element.location;
+    expirationDate.textContent = element.expirationDate;
+    let buttonContainer = document.createElement("td");
+    let waistedButton = document.createElement("button");
+    waistedButton.textContent = "waisted";
 
+    let consumedButton = document.createElement("button");
+    consumedButton.textContent = "consumed";
+
+    waistedButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        let data = {
+            "index": index
+        };
+        fetch("/API/waisteditem", {
+            method: "POST", // *GET, POST, PUT, DELETE, etc.
+            mode: "cors", // no-cors, *cors, same-origin
+            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: "same-origin", // include, *same-origin, omit
+            headers: {
+                "Content-Type": "application/json",
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: "follow", // manual, *follow, error
+            referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify(data), // body data type must match "Content-Type" header
+        }).then(response => {
+            if (response.ok) {
+                removeItems();
+            }
+
+        })
+
+    })
+
+    consumedButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        let data = {
+            "index": index
+        };
+        fetch("/API/consumeditem", {
+            method: "POST", // *GET, POST, PUT, DELETE, etc.
+            mode: "cors", // no-cors, *cors, same-origin
+            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: "same-origin", // include, *same-origin, omit
+            headers: {
+                "Content-Type": "application/json",
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: "follow", // manual, *follow, error
+            referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify(data), // body data type must match "Content-Type" header
+        }).then(response => {
+            if (response.ok) {
+                removeItems();
+            }
+
+        })
+
+    })
+
+    div.appendChild(name);
+    div.appendChild(location);
+    div.appendChild(expirationDate);
+    buttonContainer.appendChild(waistedButton);
+    buttonContainer.appendChild(consumedButton);
+    div.appendChild(buttonContainer);
+    container.appendChild(div);
+    refIndex = index;
+}
+
+function removeItems() {
+    document.querySelectorAll("#container>tr").forEach((element) => {
+        container.removeChild(element);
+
+    })
+    fetchData();
+
+}
