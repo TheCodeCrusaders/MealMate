@@ -108,18 +108,18 @@ router.get("/API/getUserName", verifyToken, (req, res) => {
 import removeItem from "./removeItem.js"
 
 router.post("/API/consumeditem", verifyToken, (req, res) => {
-    removeItem.consumeItem(req,res);
+    removeItem.consumeItem(req, res);
 })
 
 
 router.post("/API/waisteditem", verifyToken, (req, res) => {
-    removeItem.waisteItem(req,res)
+    removeItem.waisteItem(req, res)
 })
 
-
+import helpers from "./helpers.js"
 
 // getting a list route (still neds to be modified for real login system)
-router.get("/API/getList", verifyToken, (req, res) => {
+router.get("/API/getList", verifyToken, async (req, res) => {
     const filePath = path.resolve() + `/data/USERS/${req.user.username}/items.json`;
 
     fs.readFile(filePath, (err, data) => {
@@ -131,6 +131,22 @@ router.get("/API/getList", verifyToken, (req, res) => {
             res.json(JSON.parse(jsonData));
         }
     });
+});
+
+router.get("/API/gettopexp", verifyToken, (req, res) => {
+    const filePath = path.resolve() + `/data/USERS/${req.user.username}/items.json`;
+
+    fs.readFile(filePath, (err, data) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send("Internal Server Error");
+        } else {
+            const jsonData = data.toString("utf8");
+            helpers.findSmallest(jsonData,res);
+            // res.json(JSON.parse(jsonData));
+        }
+    });
+    
 });
 
 
