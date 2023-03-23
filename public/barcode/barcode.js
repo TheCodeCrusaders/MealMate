@@ -10,12 +10,36 @@ const showpic=document.getElementById("showpic");
 
 const postpicplace=document.getElementById("postpicplace");
 
+function displayImages() {
+  let images = ""
+  imageArray.forEach((image, index) => {
+    images += `<div class="image">
+                <img src="${URL.createObjectURL(image)}" alt="image">
+                <span onclick="deleteImage(${index})">&times;</span>
+              </div>`
+  })
+  postpicplace.innerHTML = images
+}
+
+let imageArray =[];
 showpic.addEventListener('click', function(){
 console.log("It runs");
-  const file = fileInput.files[0];
-  const newimg= new Image();
-  postpicplace.appendChild(file)
+const fil=fileInput.files
+imageArray.push(fil[0])
+displayImages()
+
 });
+
+
+
+
+
+
+
+
+
+
+
 
 
 // Add an event listener to the submit button for when a file is selected
