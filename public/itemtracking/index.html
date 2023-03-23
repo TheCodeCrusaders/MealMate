@@ -2,41 +2,68 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/itemtracking/style.css">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="/itemtracking/style.css">
 </head>
 
 <body>
-    <main>
-        <h1>item tracking</h1>
-        <div id="input">
-            <button id="additem">add item</button>
-            <div id="backdrop">
-                
-            </div>
-            <form id="itemForm">
-                <label for="location">Location:</label>
-                <input type="text" id="location" name="location"><br><br>
+  <header>
+    <a href="/dashboard"><img src="/IMG/logo.svg" alt="Mealmate" width="300" height="50"></a> <!-- Clickable logo -->
+    <nav class="nav-menu"> <!-- Navigation bar -->
+      <ul>
+        <li><a href="/dashboard">Home</a></li>
+        <li><a href="/itemtracking">Item Tracker</a></li>
+        <li><a href="/stats">Statistics</a></li>
+        <li><a href="/contact">Contact</a></li>
+        <li><a href="/logout">Log out</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <section id="itemtracking">
+      <div id="h1Container">
+        <h1>item tracking</h1><button id="additem">add item</button>
+      </div>
 
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name"><br><br>
+      <div id="input">
 
-                <label for="expirationDate">Expiration Date:</label>
-                <input type="date" id="expirationDate" name="expirationDate"><br><br>
+        <div id="backdrop">
 
-                <input type="submit" value="Submit">
-            </form>
         </div>
-        <div id="container">
-            <h2>Inventory</h2>
-            <div><div>Name:</div><div>Location:</div><div>Exp Date</div></div>
-        </div>
+        <form id="itemForm">
+          <label for="location">Location:</label>
+          <select id="location" name="location">
+            <option value="fridge" selected>Fridge</option>
+            <option value="pantry">Pantry</option>
+            <option value="other">Other</option>
+          </select><br /><br />
 
-    </main>
-    <script src="/itemtracking/stuff.js"></script>
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" /><br /><br />
+
+          <label for="expirationDate">Expiration Date:</label>
+          <input type="date" id="expirationDate" name="expirationDate" /><br /><br />
+
+          <button type="submit">submit</button>
+        </form>
+      </div>
+      <table id="container">
+        <tr>
+          <th>name:</th>
+          <th>location:</th>
+          <th>Exp Date:</th>
+          <th>name:</th>
+        </tr>
+      </table>
+    </section>
+  </main>
+  <footer>
+    <a href="https://github.com/TheCodeCrusaders/MealMate">Open Source Project</a>
+  </footer>
+  <script src="/itemtracking/stuff.js"></script>
 </body>
 
 </html>
