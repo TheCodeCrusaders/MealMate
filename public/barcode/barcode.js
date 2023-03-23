@@ -1,3 +1,5 @@
+
+
 // Get the input element for the file
 const fileInput = document.getElementById('file-input');
 
@@ -38,42 +40,46 @@ displayImages()
 
 
 
+const quagga = new Quagga();
 
 
 
 
 // Add an event listener to the submit button for when a file is selected
-subbutton.addEventListener('click', function() {
+subbutton.addEventListener('click', async function() {//Works
+// Get the uploaded file
+const file = fileInput.files[0];
 
   // Get the selected file from the input element
-  const file = fileInput.files[0];
+  // Create a new image element and set its source to the uploaded file
+  const image = new Image();
+  image.src = URL.createObjectURL(file);
 
-  // Create a new image element to load the selected file into
-  const img = new Image();
+  // Wait for the image to load
+  await new Promise((resolve) => {
+    image.onload = resolve;
+  });
 
-  // When the image has finished loading, run Quagga to decode the barcode
-  img.onload = function() {
-    Quagga.decodeSingle({
-      src: img, // Set the source image to the loaded image
-      numOfWorkers: navigator.hardwareConcurrency || 4, // Set the number of workers to use for decoding
-      locate: true, // Enable barcode location
-      decoder: {
-        readers: ['ean_reader'] // Set the decoder to use the EAN reader
-      },
-      locator: {
-        patchSize: 'medium', // Set the patch size for the barcode locator
-        halfSample: true // Enable half-sample image resizing for the locator
-      }
-    }, function(result) {
-      // When decoding is complete, check if a barcode was detected
-      if (result && result.codeResult) {
-        resultDiv.innerHTML = 'Barcode detected: ' + result.codeResult.code; // Display the detected barcode
-      } else {
-        resultDiv.innerHTML = 'No barcode detected.'; // Display a message if no barcode was detected
-      }
-    });
-  };
+  quagga.init({
+    inputStream: {
+      type: 'ImageStream',
+      src: image,
+    },
+    decoder: {
+      readers: ['ean_reader'],
+    },
+  }, (err) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
 
-  // Load the selected file into the image element
-  img.src = URL.createObjectURL(file);
+   // Start the barcode detection
+   quagga.start();
+  });
+  // Listen for barcode detection events
+  quagga.onDetected((result) => {
+    console.log(result);
+    alert(`Barcode detected: ${result.codeResult.code}`);
+  });
 });
