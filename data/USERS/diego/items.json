@@ -1,1 +1,57 @@
-[]
+[
+  {
+    "location": "fridge",
+    "name": "yogurt",
+    "expirationDate": "2023-03-31"
+  },
+  {
+    "location": "fridge",
+    "name": "cheese",
+    "expirationDate": "2023-03-30"
+  },
+  {
+    "location": "fridge",
+    "name": "chips",
+    "expirationDate": "2023-03-29"
+  },
+  {
+    "location": "fridge",
+    "name": "osw",
+    "expirationDate": "2023-03-28"
+  },
+  {
+    "location": "fridge",
+    "name": "stuff",
+    "expirationDate": "2023-03-27"
+  },
+  {
+    "location": "fridge",
+    "name": "yee",
+    "expirationDate": "2023-03-26"
+  },
+  {
+    "location": "fridge",
+    "name": "item 7",
+    "expirationDate": ""
+  },
+  {
+    "location": "fridge",
+    "name": "item 8",
+    "expirationDate": "2023-03-25"
+  },
+  {
+    "location": "fridge",
+    "name": "item 9",
+    "expirationDate": "2023-03-25"
+  },
+  {
+    "location": "fridge",
+    "name": "item 10",
+    "expirationDate": ""
+  },
+  {
+    "location": "fridge",
+    "name": "stuff",
+    "expirationDate": "2023-03-26"
+  }
+]
