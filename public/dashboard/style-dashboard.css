@@ -73,6 +73,14 @@ section {
 #module1 {
     background-color: #f2f2f2;
 }
+#container>table {
+    width: 100%;
+}
+#container table>tr{
+    width: 100%;
+    display:flex;
+    justify-content: space-between;
+}
 #module2 {
     background-color: #e6e6ff;
 }
