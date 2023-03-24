@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
             // Create table element
             const table = document.createElement("table");
 
+
             // Create header row
             const headerRow = document.createElement("tr");
             const header1 = document.createElement("th");
@@ -55,6 +56,22 @@ document.addEventListener("DOMContentLoaded", (e) => {
         .catch(error => console.error(error));
 })
 
+document.addEventListener("DOMContentLoaded", (e) => {
+    fetch("/API/getUserName")
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error("response was not in the 200 range " + response.Error)
+        })
+        .then(data => {
+                let str = data.username;
+                let username = str.charAt(0).toUpperCase() + str.slice(1); // Makes first letter of username capital
+
+                // Selecting h1 element containing a welcome message and inserts username
+                document.querySelector("#username").textContent = "Hi, " + username + "!";
+            })            
+        })
 
 function move(amount) {
     var elem = document.getElementById("myBar");
