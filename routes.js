@@ -69,9 +69,9 @@ function verifyToken(req, res, next) {
 }
 
 
-router.post("/login",(req,res)=>{  // post action declared, will wait for post from front end                                
+router.post("/login", (req, res) => {  // post action declared, will wait for post from front end                                
     let usernametest = req.body.username; //gets username from front end
-    let passwordtest= crypto.createHash('sha256').update(req.body.password).digest('hex'); //gets password from front end
+    let passwordtest = crypto.createHash('sha256').update(req.body.password).digest('hex'); //gets password from front end
 
     console.log(`${usernametest} tried to login`)// THis will log who tried to loged in or logged in
 
@@ -88,7 +88,7 @@ router.post("/login",(req,res)=>{  // post action declared, will wait for post f
         res.cookie('token', token, { httpOnly: true });// Set the token as a cookie on the client's browser
         //the { httpOnly: true }  option means that the cookie can only be accessed via HTTP/S and not via JavaScript, which helps to prevent cross-site scripting (XSS) attacks.
 
-        
+
         return res.status(200).json({ success: 'User created successfully' });
     }
     else {
@@ -107,12 +107,12 @@ router.get("/API/getUserName", verifyToken, (req, res) => {
 import removeItem from "./removeItem.js"
 
 router.post("/API/consumeditem", verifyToken, (req, res) => {
-    removeItem.consumeItem(req,res);
+    removeItem.consumeItem(req, res);
 })
 
 
 router.post("/API/waisteditem", verifyToken, (req, res) => {
-    removeItem.waisteItem(req,res)
+    removeItem.waisteItem(req, res)
 })
 
 
@@ -130,81 +130,81 @@ router.get("/API/getList", verifyToken, (req, res) => {
             res.json(JSON.parse(jsonData));
         }
     });
-
-
-// write list to file (still neds to be modified for real login system)
-router.post("/API/postlist", verifyToken, (req, res) => {
-    console.log(req.body);
-
-    // Read the existing data from the JSON file
-    const dataPath = path.join(path.resolve() + `/data/USERS/${req.user.username}/items.json`);
-    let data = [];
-    try {
-        data = JSON.parse(fs.readFileSync(dataPath));
-    } catch (error) { }
-
-    // Add the new data to the array
-    data.push(req.body);
-
-    // Write the updated data back to the JSON file
-    fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
-
-    res.redirect("/itemtracking");
 });
 
-router.post('/newuser', (req, res) => {
-    // Extract the new user data from the request body
-    const newUser = {
-      username: req.body.username,
-      password: crypto.createHash('sha256').update(req.body.password).digest('hex')
-    };
-  
-    const dataPath = path.join(path.resolve() + "/data/Passwords/users.json");
-    let data = {};
-    try {
-        data = JSON.parse(fs.readFileSync(dataPath));
-    } catch (error) { }
-  
-    // Check for duplicate usernames
-    const duplicate = data.users.find(user => user.username === newUser.username);
-    if (duplicate) {
-      return res.status(400).json({ error: 'Username already exists' });
-    }
-  
-    // Add the new data to the array
-    data.users.push(newUser);
-  
-    // Write the updated data back to the JSON file
-    fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
+    // write list to file (still neds to be modified for real login system)
+    router.post("/API/postlist", verifyToken, (req, res) => {
+        console.log(req.body);
 
-    fs.mkdir(`data/USERS/${newUser.username}`, (err) => {
-      if (err) throw err;
+        // Read the existing data from the JSON file
+        const dataPath = path.join(path.resolve() + `/data/USERS/${req.user.username}/items.json`);
+        let data = [];
+        try {
+            data = JSON.parse(fs.readFileSync(dataPath));
+        } catch (error) { }
+
+        // Add the new data to the array
+        data.push(req.body);
+
+        // Write the updated data back to the JSON file
+        fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
+
+        res.redirect("/itemtracking");
     });
 
-    const itemsStandard = '[{"location": "Pantry","name": "Test (delete this)","expirationDate": "2023-05-04"}]';
+    router.post('/newuser', (req, res) => {
+        // Extract the new user data from the request body
+        const newUser = {
+            username: req.body.username,
+            password: crypto.createHash('sha256').update(req.body.password).digest('hex')
+        };
 
-    console.log(`${newUser.username} directory created.`);
+        const dataPath = path.join(path.resolve() + "/data/Passwords/users.json");
+        let data = {};
+        try {
+            data = JSON.parse(fs.readFileSync(dataPath));
+        } catch (error) { }
 
-    fs.writeFile(`data/USERS/${newUser.username}/consumedItems.json`, '', (err) => {
-      if (err) throw err;
-      console.log(`consumedItems.json created in ${newUser.username}`);
+        // Check for duplicate usernames
+        const duplicate = data.users.find(user => user.username === newUser.username);
+        if (duplicate) {
+            return res.status(400).json({ error: 'Username already exists' });
+        }
+
+        // Add the new data to the array
+        data.users.push(newUser);
+
+        // Write the updated data back to the JSON file
+        fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
+
+        fs.mkdir(`data/USERS/${newUser.username}`, (err) => {
+            if (err) throw err;
+        });
+
+        const itemsStandard = '[{"location": "Pantry","name": "Test (delete this)","expirationDate": "2023-05-04"}]';
+
+        console.log(`${newUser.username} directory created.`);
+
+        fs.writeFile(`data/USERS/${newUser.username}/consumedItems.json`, '', (err) => {
+            if (err) throw err;
+            console.log(`consumedItems.json created in ${newUser.username}`);
+        });
+
+        fs.writeFile(`data/USERS/${newUser.username}/items.json`, itemsStandard, (err) => {
+            if (err) throw err;
+            console.log(`items.json created in ${newUser.username}`);
+        });
+
+        fs.writeFile(`data/USERS/${newUser.username}/wastedItems.json`, '', (err) => {
+            if (err) throw err;
+            console.log(`wastedItems.json created in ${newUser.username}`);
+        });
+
+        // Return a response to the client
+        return res.status(200).json({ success: 'User created successfully' });
+        //res.redirect("/login");
     });
 
-    fs.writeFile(`data/USERS/${newUser.username}/items.json`, itemsStandard, (err) => {
-      if (err) throw err;
-      console.log(`items.json created in ${newUser.username}`);
-    });
 
-    fs.writeFile(`data/USERS/${newUser.username}/wastedItems.json`, '', (err) => {
-      if (err) throw err;
-      console.log(`wastedItems.json created in ${newUser.username}`);
-    });
-  
-    // Return a response to the client
-    return res.status(200).json({ success: 'User created successfully' });
-    //res.redirect("/login");
-  });
-  
-  
 
-export default router
+    export default router
