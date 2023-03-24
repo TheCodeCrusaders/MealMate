@@ -22,8 +22,24 @@
     <section id="module1">
         <h2>General Statistics</h2>
         <p>Here you can find some general statistics about our users:</p>
-        
+        <div class="tab">
+            <button class="tablink2" onclick="openTab2(event, 'weekly')">weekly waste</button>
+            <button class="tablink2" onclick="openTab2(event, 'monthly')">monthly waste</button>
+          </div>
+          
+          <div id="weekly" class="tabcontent2">
+            <table id="Weekly-waste">
+                <!-- Table content -->
+            </table>
+          </div>
+          
+          <div id="monthly" class="tabcontent2">
+            <table id="Monthly-waste">
+                <!-- Table content -->
+            </table>
+          </div>
     </section>
+    
     <section id="module2">
         <h2>Most Wasted Items</h2>
         <table id="Json-table">

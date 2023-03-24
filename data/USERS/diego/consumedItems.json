@@ -1,14 +1,20 @@
 [
   {
     "location": "fridge",
-    "name": "test",
-    "expirationDate": "2023-03-22",
-    "wastedDate": "2023-03-24"
+    "name": "agfa",
+    "expirationDate": "5202-04-13",
+    "wastedDate": "2023-03-26"
   },
   {
     "location": "fridge",
-    "name": "test",
-    "expirationDate": "2023-03-30",
-    "wastedDate": "2023-03-24"
+    "name": "agfa",
+    "expirationDate": "5202-04-13",
+    "wastedDate": "2023-03-23"
+  },
+  {
+    "location": "fridge",
+    "name": "agfa",
+    "expirationDate": "5202-04-13",
+    "wastedDate": "2023-03-23"
   }
 ]

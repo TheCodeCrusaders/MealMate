@@ -178,6 +178,56 @@ router.get("/API/getWastedItems", verifyToken, (req, res) => {
     });
 });
 
+router.get("/API/getweeklyWaste", verifyToken, (req, res) => {
+    const filePath = path.resolve() + `/data/USERS/${req.user.username}/wastedItems.json`;
+
+    fs.readFile(filePath, (err, data) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send("Internal Server Error");
+        } else {
+            const jsonData = JSON.parse(data.toString("utf8"));
+
+            // Get the date from one week ago
+            const oneWeekAgo = new Date();
+            oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+
+            // Filter the data based on the wastedDate attribute
+            const filteredData = jsonData.filter(item => {
+                const itemDate = new Date(item.wastedDate);
+                return itemDate >= oneWeekAgo;
+            });
+
+            res.json(filteredData);
+        }
+    });
+});
+
+router.get("/API/getmonthlyWaste", verifyToken, (req, res) => {
+    const filePath = path.resolve() + `/data/USERS/${req.user.username}/wastedItems.json`;
+
+    fs.readFile(filePath, (err, data) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send("Internal Server Error");
+        } else {
+            const jsonData = JSON.parse(data.toString("utf8"));
+
+            // Get the date from one week ago
+            const oneWeekAgo = new Date();
+            oneWeekAgo.setDate(oneWeekAgo.getDate() - 30);
+
+            // Filter the data based on the wastedDate attribute
+            const filteredData = jsonData.filter(item => {
+                const itemDate = new Date(item.wastedDate);
+                return itemDate >= oneWeekAgo;
+            });
+
+            res.json(filteredData);
+        }
+    });
+});
+
 // write list to file (still neds to be modified for real login system)
 router.post("/API/postlist", verifyToken, (req, res) => {
         console.log(req.body);
