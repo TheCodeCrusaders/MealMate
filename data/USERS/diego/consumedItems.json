@@ -2,6 +2,13 @@
   {
     "location": "fridge",
     "name": "test",
-    "expirationDate": "2023-03-16"
+    "expirationDate": "2023-03-22",
+    "wastedDate": "2023-03-24"
+  },
+  {
+    "location": "fridge",
+    "name": "test",
+    "expirationDate": "2023-03-30",
+    "wastedDate": "2023-03-24"
   }
 ]

@@ -3,5 +3,10 @@
     "location": "fridge",
     "name": "test",
     "expirationDate": "2023-03-16"
+  },
+  {
+    "location": "fridge",
+    "name": "test2",
+    "expirationDate": ""
   }
 ]

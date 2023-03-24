@@ -39,18 +39,23 @@
         <p>A graph showcasing the monthly trends in food waste could be added here.</p>
     </section>
     <section id="Total waste">
-        <h2>Total waste</h2>
-        <p>A running list that holds all the items wasted</p>
-        <table id="Total-waste">
-            <!-- Table content -->
-        </table>
-    </section>
-    <section id="Total consumed">
-        <h2>Total consumed</h2>
-        <p>A running list that holds all the items wasted</p>
-        <table id="Total-consumed">
-            <!-- Table content -->
-        </table>
+        <h2>Archive</h2>
+        <div class="tab">
+            <button class="tablinks" onclick="openTab(event, 'table1')">Total wasted</button>
+            <button class="tablinks" onclick="openTab(event, 'table2')">Total consumed</button>
+          </div>
+          
+          <div id="table1" class="tabcontent">
+            <table id="Total-waste">
+                <!-- Table content -->
+            </table>
+          </div>
+          
+          <div id="table2" class="tabcontent">
+            <table id="Total-consumed">
+                <!-- Table content -->
+            </table>
+          </div>
     </section>
     <script src="stats.js"></script>
 </main>

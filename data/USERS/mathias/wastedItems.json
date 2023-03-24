@@ -1,1 +1,13 @@
-[{"location": "Pantry","name": "Test (delete this)","expirationDate": "2023-05-04"}]
+[
+  {
+    "location": "fridge",
+    "name": "wasted",
+    "wastedDate": "5202-04-03"
+  },
+  {
+    "location": "fridge",
+    "name": "agfa",
+    "expirationDate": "5202-04-13",
+    "wastedDate": "2023-03-24"
+  }
+]

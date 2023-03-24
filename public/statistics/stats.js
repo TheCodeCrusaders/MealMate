@@ -21,9 +21,9 @@ document.addEventListener("DOMContentLoaded", (e) => {
           headerRow.appendChild(header2);
   
           const header3 = document.createElement("th");
-          header3.textContent = "Expiration date";
+          header3.textContent = "Date";
           headerRow.appendChild(header3);
-  
+
           // Add header row to table
           table.appendChild(headerRow);
           
@@ -37,10 +37,10 @@ document.addEventListener("DOMContentLoaded", (e) => {
               const cell2 = document.createElement("td");
               cell2.textContent = item.name;
               row.appendChild(cell2);
-  
-              const cell3 = document.createElement("td");
-              cell3.textContent = item.expirationDate;
-              row.appendChild(cell3);
+
+              const cell4 = document.createElement("td");
+              cell4.textContent = item.wastedDate;
+              row.appendChild(cell4);
               
               // Add row to table
               table.appendChild(row);
@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
           headerRow.appendChild(header2);
   
           const header3 = document.createElement("th");
-          header3.textContent = "Expiration date";
+          header3.textContent = "Date";
           headerRow.appendChild(header3);
   
           // Add header row to table
@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
               row.appendChild(cell2);
   
               const cell3 = document.createElement("td");
-              cell3.textContent = item.expirationDate;
+              cell3.textContent = item.wastedDate;
               row.appendChild(cell3);
               
               // Add row to table
@@ -107,3 +107,22 @@ document.addEventListener("DOMContentLoaded", (e) => {
       })
       .catch(error => console.error(error));
   })
+
+  function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+  }
+  
+  // Show the first tab by default
+  document.getElementById("table1").style.display = "block";
+  document.getElementsByClassName("tablinks")[0].className += " active";
+  
