@@ -46,41 +46,71 @@
     "name": "cereal",
     "expirationDate": "2023-04-10",
     "wastedDate": "2023-04-12"
-    },
-    {
+  },
+  {
     "location": "pantry",
     "name": "soup",
     "expirationDate": "2023-05-05",
     "wastedDate": "2023-05-10"
-    },
-    {
+  },
+  {
     "location": "freezer",
     "name": "chicken breasts",
     "expirationDate": "2023-02-10",
     "wastedDate": "2023-02-15"
-    },
-    {
+  },
+  {
     "location": "freezer",
     "name": "ice cream",
     "expirationDate": "2023-07-15",
     "wastedDate": "2023-07-20"
-    },
-    {
+  },
+  {
     "location": "fridge",
     "name": "milk",
     "expirationDate": "2023-03-29",
     "wastedDate": "2023-03-30"
-    },
-    {
+  },
+  {
     "location": "fridge",
     "name": "cheese",
     "expirationDate": "2023-04-05",
     "wastedDate": "2023-04-10"
-    },
-    {
+  },
+  {
     "location": "fridge",
     "name": "lettuce",
     "expirationDate": "2023-04-01",
     "wastedDate": "2023-04-05"
-    }
+  },
+  {
+    "location": "fridge",
+    "name": "chips",
+    "expirationDate": "2023-03-29",
+    "wastedDate": "2023-03-24"
+  },
+  {
+    "location": "fridge",
+    "name": "item 7",
+    "expirationDate": "",
+    "wastedDate": "2023-03-24"
+  },
+  {
+    "location": "fridge",
+    "name": "item 10",
+    "expirationDate": "",
+    "wastedDate": "2023-03-24"
+  },
+  {
+    "location": "fridge",
+    "name": "aaaaaaa",
+    "expirationDate": "2023-03-25",
+    "wastedDate": "2023-03-24"
+  },
+  {
+    "location": "fridge",
+    "name": "yee",
+    "expirationDate": "2023-03-26",
+    "wastedDate": "2023-03-24"
+  }
 ]
