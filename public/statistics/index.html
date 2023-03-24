@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Statistics</title>
+    <meta charset="UTF-8">
+    <link href="style-dashboard.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <a href="/dashboard"><img src="/IMG/logo.svg" alt="Statistics" width="300" height="50"></a> <!-- Clickable logo -->
+        <nav class="nav-menu"> <!-- Navigation bar -->
+            <ul>
+                <li><a href="/dashboard">Home</a></li>
+                <li><a href="/itemtracking">Item Tracker</a></li>
+                <li><a href="/statistics">Statistics</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a href="/logout">Log out</a></li>
+            </ul>
+        </nav>
+    </header>
+<main>
+    <section id="module1">
+        <h2>General Statistics</h2>
+        <p>Here you can find some general statistics about our users:</p>
+        <h4>Average food waste per week</h4>
+        <div id="myProgress">
+            <div id="myBar"></div>
+        </div>
+        <p>The average user wastes {average} kg of food per week!</p>
+    </section>
+    <section id="module2">
+        <h2>Most Wasted Items</h2>
+        <table id="Json-table">
+            <!-- Table content -->
+        </table>
+    </section>
+    <section id="module3">
+        <h2>Monthly Trends</h2>
+        <p>A graph showcasing the monthly trends in food waste could be added here.</p>
+    </section>
+    <section id="Total waste">
+        <h2>Total waste</h2>
+        <p>A running list that holds all the items wasted</p>
+        <table id="Total-waste">
+            <!-- Table content -->
+        </table>
+    </section>
+    <section id="Total consumed">
+        <h2>Total consumed</h2>
+        <p>A running list that holds all the items wasted</p>
+        <table id="Total-consumed">
+            <!-- Table content -->
+        </table>
+    </section>
+    <script src="stats.js"></script>
+</main>
+<footer>
+    <a href="https://github.com/TheCodeCrusaders/MealMate">Open Source Project</a>
+</footer>
+</body>
+</html>

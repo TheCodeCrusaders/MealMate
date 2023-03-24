@@ -132,6 +132,36 @@ router.get("/API/getList", verifyToken, (req, res) => {
     });
 });
 
+// getting a list route (still neds to be modified for real login system)
+router.get("/API/getConsumedItems", verifyToken, (req, res) => {
+    const filePath = path.resolve() + `/data/USERS/${req.user.username}/consumedItems.json`;
+
+    fs.readFile(filePath, (err, data) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send("Internal Server Error");
+        } else {
+            const jsonData = data.toString("utf8");
+            res.json(JSON.parse(jsonData));
+        }
+    });
+});
+
+// getting a list route (still neds to be modified for real login system)
+router.get("/API/getWastedItems", verifyToken, (req, res) => {
+    const filePath = path.resolve() + `/data/USERS/${req.user.username}/wastedItems.json`;
+
+    fs.readFile(filePath, (err, data) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send("Internal Server Error");
+        } else {
+            const jsonData = data.toString("utf8");
+            res.json(JSON.parse(jsonData));
+        }
+    });
+});
+
     // write list to file (still neds to be modified for real login system)
     router.post("/API/postlist", verifyToken, (req, res) => {
         console.log(req.body);

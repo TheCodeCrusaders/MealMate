@@ -1,0 +1,138 @@
+body {
+    font-family: Calibri,Candara,Segoe,Segoe UI,Optima,Arial,sans-serif;
+}
+header {
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    margin: 20px;
+    padding: 10px;
+    text-align: center;
+}
+h1 {
+    margin: 0;
+}
+main {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#p_sameline {
+    display: inline-block;
+}
+
+#p_green {
+    color: green;
+    font-weight: bold;
+    display: inline-block;
+}
+
+#p_red {
+    color: red;
+    font-weight: bold;
+    display: inline-block;
+}
+
+
+section {
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    background-color: #f1f1f1;
+    padding: 20px;
+    margin: 20px;
+    width: calc(33.33% - 80px);
+    position: relative;
+    top: -100px;
+    opacity: 0;
+    animation-name: fall;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-delay: 0.5s;
+
+}
+
+@keyframes fall {
+    from {
+        top: -50px;
+        opacity: 0;
+    }
+    to {
+        top: 0;
+        opacity: 1;
+    }
+}
+
+@media (max-width: 600px) {
+    section {
+        width: 100%;
+    }
+}
+
+#module1 {
+    background-color: #f2f2f2;
+}
+#module2 {
+    background-color: #e6e6ff;
+}
+#module3 {
+    background-color: #ffffcc;
+}
+footer {
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    margin: 20px;
+    text-align: center;
+}
+
+
+
+nav {
+    background-color: #333;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    width: 100%;
+}
+
+ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+li {
+    margin: 0 10px;
+    width: 100%;
+    text-align: center;
+}
+
+a {
+    color: #fff;
+    text-decoration: none;
+    align-content: center;
+}
+
+#myProgress {
+    width: 100%;
+    background-color: grey;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    margin: 10px 0;
+}
+
+#myBar {
+    width: 0%;
+    height: 30px;
+    background-color: green;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}

@@ -1,3 +1,7 @@
 [
-  null
+  {
+    "location": "fridge",
+    "name": "test",
+    "expirationDate": "2023-03-16"
+  }
 ]
