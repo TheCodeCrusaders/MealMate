@@ -141,11 +141,11 @@ router.get("/API/gettopexp", verifyToken, (req, res) => {
             res.status(500).send("Internal Server Error");
         } else {
             const jsonData = data.toString("utf8");
-            helpers.findSmallest(jsonData,res);
+            helpers.findSmallest(jsonData, res);
             // res.json(JSON.parse(jsonData));
         }
     });
-    
+
 });
 
 // getting a list route (still neds to be modified for real login system)
@@ -262,78 +262,96 @@ router.get("/API/getmonthlyWaste", verifyToken, (req, res) => {
 
 // write list to file (still neds to be modified for real login system)
 router.post("/API/postlist", verifyToken, (req, res) => {
-        console.log(req.body);
+    console.log(req.body);
 
-        // Read the existing data from the JSON file
-        const dataPath = path.join(path.resolve() + `/data/USERS/${req.user.username}/items.json`);
-        let data = [];
-        try {
-            data = JSON.parse(fs.readFileSync(dataPath));
-        } catch (error) { }
+    // Read the existing data from the JSON file
+    const dataPath = path.join(path.resolve() + `/data/USERS/${req.user.username}/items.json`);
+    let data = [];
+    try {
+        data = JSON.parse(fs.readFileSync(dataPath));
+    } catch (error) { }
 
-        // Add the new data to the array
-        data.push(req.body);
+    // Add the new data to the array
+    data.push(req.body);
 
-        // Write the updated data back to the JSON file
-        fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
+    // Write the updated data back to the JSON file
+    fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
 
-        res.redirect("/itemtracking");
+    res.redirect("/itemtracking");
+});
+
+router.post("/API/edititem", verifyToken, (req, res) => {
+    console.log(req.body);
+
+    // Read the existing data from the JSON file
+    const dataPath = path.join(path.resolve() + `/data/USERS/${req.user.username}/items.json`);
+    let data = [];
+    try {
+        data = JSON.parse(fs.readFileSync(dataPath));
+    } catch (error) { }
+    let modifiedjsson = { "location": req.body.location, "name": req.body.name, "expirationDate": req.body.expirationDate, }
+    // Add the new data to the array
+    data[req.body.index] = modifiedjsson;
+
+    // Write the updated data back to the JSON file
+    fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
+
+    res.redirect("/itemtracking");
+});
+
+router.post('/newuser', (req, res) => {
+    // Extract the new user data from the request body
+    const newUser = {
+        username: req.body.username,
+        password: crypto.createHash('sha256').update(req.body.password).digest('hex')
+    };
+
+    const dataPath = path.join(path.resolve() + "/data/Passwords/users.json");
+    let data = {};
+    try {
+        data = JSON.parse(fs.readFileSync(dataPath));
+    } catch (error) { }
+
+    // Check for duplicate usernames
+    const duplicate = data.users.find(user => user.username === newUser.username);
+    if (duplicate) {
+        return res.status(400).json({ error: 'Username already exists' });
+    }
+
+    // Add the new data to the array
+    data.users.push(newUser);
+
+    // Write the updated data back to the JSON file
+    fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
+
+    fs.mkdir(`data/USERS/${newUser.username}`, (err) => {
+        if (err) throw err;
     });
 
+    const itemsStandard = '[]';
 
-    router.post('/newuser', (req, res) => {
-        // Extract the new user data from the request body
-        const newUser = {
-            username: req.body.username,
-            password: crypto.createHash('sha256').update(req.body.password).digest('hex')
-        };
+    console.log(`${newUser.username} directory created.`);
 
-        const dataPath = path.join(path.resolve() + "/data/Passwords/users.json");
-        let data = {};
-        try {
-            data = JSON.parse(fs.readFileSync(dataPath));
-        } catch (error) { }
-
-        // Check for duplicate usernames
-        const duplicate = data.users.find(user => user.username === newUser.username);
-        if (duplicate) {
-            return res.status(400).json({ error: 'Username already exists' });
-        }
-
-        // Add the new data to the array
-        data.users.push(newUser);
-
-        // Write the updated data back to the JSON file
-        fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
-
-        fs.mkdir(`data/USERS/${newUser.username}`, (err) => {
-            if (err) throw err;
-        });
-
-        const itemsStandard = '[]';
-
-        console.log(`${newUser.username} directory created.`);
-
-        fs.writeFile(`data/USERS/${newUser.username}/consumedItems.json`, itemsStandard, (err) => {
-            if (err) throw err;
-            console.log(`consumedItems.json created in ${newUser.username}`);
-        });
-
-        fs.writeFile(`data/USERS/${newUser.username}/items.json`, itemsStandard, (err) => {
-            if (err) throw err;
-            console.log(`items.json created in ${newUser.username}`);
-        });
-
-        fs.writeFile(`data/USERS/${newUser.username}/wastedItems.json`, itemsStandard, (err) => {
-            if (err) throw err;
-            console.log(`wastedItems.json created in ${newUser.username}`);
-        });
-
-        // Return a response to the client
-        return res.status(200).json({ success: 'User created successfully' });
-        //res.redirect("/login");
+    fs.writeFile(`data/USERS/${newUser.username}/consumedItems.json`, itemsStandard, (err) => {
+        if (err) throw err;
+        console.log(`consumedItems.json created in ${newUser.username}`);
     });
 
+    fs.writeFile(`data/USERS/${newUser.username}/items.json`, itemsStandard, (err) => {
+        if (err) throw err;
+        console.log(`items.json created in ${newUser.username}`);
+    });
+
+    fs.writeFile(`data/USERS/${newUser.username}/wastedItems.json`, itemsStandard, (err) => {
+        if (err) throw err;
+        console.log(`wastedItems.json created in ${newUser.username}`);
+    });
+
+    // Return a response to the client
+    return res.status(200).json({ success: 'User created successfully' });
+    //res.redirect("/login");
+});
 
 
-    export default router
+
+export default router

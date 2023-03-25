@@ -10,33 +10,57 @@ function fetchData() {
             throw new Error("response was not in the 200 range ")
         })
         .then(data => createTable(data))
-        .catch(error => {
-            window.location.replace("/login");
-        });
+    // .catch(error => {
+    //     window.location.replace("/login");
+    // });
 }
-let refIndex = 0;
+let refIndex = NaN;
 const form = document.querySelector("#itemForm");
 form.addEventListener("submit", (e) => {
     e.preventDefault();
-    let data = {
-        "location": form.location.value,
-        "name": form.name.value,
-        "expirationDate": form.expirationDate.value
-    };
-    console.log(data)
-    fetch("/API/postlist", {
-        method: "POST", // *GET, POST, PUT, DELETE, etc.
-        mode: "cors", // no-cors, *cors, same-origin
-        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: "same-origin", // include, *same-origin, omit
-        headers: {
-            "Content-Type": "application/json",
-            // 'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        redirect: "follow", // manual, *follow, error
-        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-        body: JSON.stringify(data), // body data type must match "Content-Type" header
-    });
+    if (refIndex == NaN) {
+
+
+        let data = {
+            "location": form.location.value,
+            "name": form.name.value,
+            "expirationDate": form.expirationDate.value
+        };
+        fetch("/API/postlist", {
+            method: "POST", // *GET, POST, PUT, DELETE, etc.
+            mode: "cors", // no-cors, *cors, same-origin
+            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: "same-origin", // include, *same-origin, omit
+            headers: {
+                "Content-Type": "application/json",
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: "follow", // manual, *follow, error
+            referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify(data), // body data type must match "Content-Type" header
+        });
+    }
+    else{
+        let data = {
+            "location": form.location.value,
+            "name": form.name.value,
+            "expirationDate": form.expirationDate.value,
+            "index":refIndex
+        };
+        fetch("/API/edititem", {
+            method: "POST", // *GET, POST, PUT, DELETE, etc.
+            mode: "cors", // no-cors, *cors, same-origin
+            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: "same-origin", // include, *same-origin, omit
+            headers: {
+                "Content-Type": "application/json",
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: "follow", // manual, *follow, error
+            referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify(data), // body data type must match "Content-Type" header
+        });
+    }
     form.location.selected = "Fridge";
     form.name.value = "";
     form.expirationDate.value = "";
@@ -62,6 +86,7 @@ additem.addEventListener("click", (e) => {
 })
 backdrop.addEventListener("click", (e) => {
     addNewItem();
+    refIndex = NaN;
 })
 
 function createTable(data) {
@@ -73,15 +98,22 @@ function createTable(data) {
 
 
 function createItem(element, index) {
-    let div = document.createElement("tr");
+    let tr = document.createElement("tr");
     let name = document.createElement("td");
     let location = document.createElement("td");
     let expirationDate = document.createElement("td");
+    let daysLeft = document.createElement("td");
 
 
     name.textContent = element.name;
     location.textContent = element.location;
     expirationDate.textContent = element.expirationDate;
+
+
+    let currentDate = new Date();
+    let timeLeft = new Date(Date.parse(element.expirationDate) - currentDate);
+    daysLeft.textContent = `${Math.ceil(timeLeft / (1000 * 60 * 60 * 24))}`
+
     let buttonContainer = document.createElement("td");
     let waistedButton = document.createElement("button");
     waistedButton.textContent = "waisted";
@@ -89,8 +121,17 @@ function createItem(element, index) {
     let consumedButton = document.createElement("button");
     consumedButton.textContent = "consumed";
 
+    tr.addEventListener("click", (e) => {
+        refIndex = index;
+        form.location.selected = element.location;
+        form.name.value = element.name;
+        form.expirationDate.value = element.expirationDate;
+        addNewItem();
+    })
+
     waistedButton.addEventListener("click", (e) => {
         e.preventDefault();
+        e.stopPropagation();
         let data = {
             "index": index
         };
@@ -117,6 +158,7 @@ function createItem(element, index) {
 
     consumedButton.addEventListener("click", (e) => {
         e.preventDefault();
+        e.stopPropagation();
         let data = {
             "index": index
         };
@@ -141,13 +183,14 @@ function createItem(element, index) {
 
     })
 
-    div.appendChild(name);
-    div.appendChild(location);
-    div.appendChild(expirationDate);
+    tr.appendChild(name);
+    tr.appendChild(location);
+    tr.appendChild(expirationDate);
+    tr.appendChild(daysLeft);
     buttonContainer.appendChild(waistedButton);
     buttonContainer.appendChild(consumedButton);
-    div.appendChild(buttonContainer);
-    container.appendChild(div);
+    tr.appendChild(buttonContainer);
+    container.appendChild(tr);
     refIndex = index;
 }
 
