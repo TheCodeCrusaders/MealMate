@@ -54,7 +54,72 @@ function getstuff(api, id){
 
 
 
-
+  function getchartstuff(api, id) {
+    fetch(api)
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error("response was not in the 200 range " + response.Error);
+      })
+      .then(data => {
+        // Prepare the chart data
+        const chartData = {
+          labels: [],
+          datasets: [],
+        };
+  
+        // Loop through data and populate chartData
+        data.forEach(item => {
+          // Check if the item name is already in the datasets
+          let datasetIndex = chartData.datasets.findIndex(dataset => dataset.label === item.name);
+  
+          // If the item name is not in the datasets, create a new dataset for the item
+          if (datasetIndex === -1) {
+            datasetIndex = chartData.datasets.length;
+            chartData.datasets.push({
+              label: item.name,
+              data: [],
+              fill: false,
+              borderColor: `hsl(${Math.random() * 360}, 100%, 50%)`,
+              tension: 0.1,
+            });
+          }
+  
+          // Add the date to the labels if it's not already there
+          if (!chartData.labels.includes(item.wastedDate)) {
+            chartData.labels.push(item.wastedDate);
+          }
+  
+          // Increment the data value for the item at the corresponding date index
+          const dateIndex = chartData.labels.indexOf(item.wastedDate);
+          if (chartData.datasets[datasetIndex].data[dateIndex] === undefined) {
+            chartData.datasets[datasetIndex].data[dateIndex] = 1;
+          } else {
+            chartData.datasets[datasetIndex].data[dateIndex]++;
+          }
+        });
+  
+        // Sort the labels (dates) in ascending order
+        chartData.labels.sort();
+  
+        // Create a chart
+        const ctx = document.getElementById(id).getContext('2d');
+        const chart = new Chart(ctx, {
+          type: 'line',
+          data: chartData,
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true,
+              },
+            },
+          },
+        });
+      });
+  }
+  
+  
 
 // get total wasted and put it into the table
   document.addEventListener("DOMContentLoaded", (e) => {
@@ -66,7 +131,9 @@ function getstuff(api, id){
 
     getstuff("/API/getmonthlyWaste", "Monthly-waste");
 
-    
+    getchartstuff("/API/getweeklyWaste", "compareNowChart");
+    getchartstuff("/API/prevous7days", "compareBeforeChart");
+
   })
 
   function openTab(evt, tabName) {
@@ -97,7 +164,7 @@ function getstuff(api, id){
     evt.currentTarget.className += " active";
   }
 
-  
+
   // Show the first tab by default
   document.getElementById("table1").style.display = "block";
   document.getElementsByClassName("tablinks")[0].className += " active";

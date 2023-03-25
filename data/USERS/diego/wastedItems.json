@@ -1,116 +1,110 @@
 [
   {
     "location": "fridge",
-    "name": "agfa",
-    "expirationDate": "5202-04-13",
+    "name": "melon",
+    "expirationDate": "2023-03-25",
+    "wastedDate": "2023-03-25"
+  },
+  {
+    "location": "fridge",
+    "name": "ice",
+    "expirationDate": "2023-03-18",
+    "wastedDate": "2023-03-18"
+  },
+  {
+    "location": "fridge",
+    "name": "",
+    "expirationDate": "2023-03-11",
+    "wastedDate": "2023-03-11"
+  },
+  {
+    "location": "fridge",
+    "name": "",
+    "expirationDate": "2023-03-24",
+    "wastedDate": "2023-03-24"
+  },
+  {
+    "location": "fridge",
+    "name": "",
+    "expirationDate": "2023-03-17",
+    "wastedDate": "2023-03-17"
+  },
+  {
+    "location": "fridge",
+    "name": "",
+    "expirationDate": "2023-03-10",
+    "wastedDate": "2023-03-10"
+  },
+  {
+    "location": "fridge",
+    "name": "",
+    "expirationDate": "2023-03-26",
     "wastedDate": "2023-03-26"
   },
   {
     "location": "fridge",
-    "name": "agfa",
-    "expirationDate": "5202-04-13",
-    "wastedDate": "2023-03-23"
+    "name": "",
+    "expirationDate": "2023-03-19",
+    "wastedDate": "2023-03-19"
   },
   {
     "location": "fridge",
-    "name": "agfa",
-    "expirationDate": "5202-04-13",
-    "wastedDate": "2023-03-23"
+    "name": "",
+    "expirationDate": "2023-03-12",
+    "wastedDate": "2023-03-12"
   },
   {
     "location": "fridge",
-    "name": "agfa",
-    "expirationDate": "5202-04-13",
-    "wastedDate": "2023-03-23"
-  },
-  {
-    "location": "fridge",
-    "name": "agfa",
-    "expirationDate": "5202-04-13",
-    "wastedDate": "2023-03-23"
-  },
-  {
-    "location": "fridge",
-    "name": "agfa",
-    "expirationDate": "5202-04-13",
-    "wastedDate": "2023-03-23"
-  },
-  {
-    "location": "fridge",
-    "name": "agfa",
-    "expirationDate": "5202-04-13",
-    "wastedDate": "2023-03-23"
-  },
-  {
-    "location": "pantry",
-    "name": "cereal",
-    "expirationDate": "2023-04-10",
-    "wastedDate": "2023-04-12"
-  },
-  {
-    "location": "pantry",
-    "name": "soup",
-    "expirationDate": "2023-05-05",
-    "wastedDate": "2023-05-10"
-  },
-  {
-    "location": "freezer",
-    "name": "chicken breasts",
-    "expirationDate": "2023-02-10",
-    "wastedDate": "2023-02-15"
-  },
-  {
-    "location": "freezer",
-    "name": "ice cream",
-    "expirationDate": "2023-07-15",
-    "wastedDate": "2023-07-20"
-  },
-  {
-    "location": "fridge",
-    "name": "milk",
-    "expirationDate": "2023-03-29",
-    "wastedDate": "2023-03-30"
-  },
-  {
-    "location": "fridge",
-    "name": "cheese",
-    "expirationDate": "2023-04-05",
-    "wastedDate": "2023-04-10"
-  },
-  {
-    "location": "fridge",
-    "name": "lettuce",
-    "expirationDate": "2023-04-01",
-    "wastedDate": "2023-04-05"
-  },
-  {
-    "location": "fridge",
-    "name": "chips",
-    "expirationDate": "2023-03-29",
-    "wastedDate": "2023-03-24"
-  },
-  {
-    "location": "fridge",
-    "name": "item 7",
-    "expirationDate": "",
-    "wastedDate": "2023-03-24"
-  },
-  {
-    "location": "fridge",
-    "name": "item 10",
-    "expirationDate": "",
-    "wastedDate": "2023-03-24"
-  },
-  {
-    "location": "fridge",
-    "name": "aaaaaaa",
+    "name": "melon",
     "expirationDate": "2023-03-25",
+    "wastedDate": "2023-03-25"
+  },
+  {
+    "location": "fridge",
+    "name": "ice",
+    "expirationDate": "2023-03-18",
+    "wastedDate": "2023-03-18"
+  },
+  {
+    "location": "fridge",
+    "name": "",
+    "expirationDate": "2023-03-11",
+    "wastedDate": "2023-03-11"
+  },
+  {
+    "location": "fridge",
+    "name": "",
+    "expirationDate": "2023-03-24",
     "wastedDate": "2023-03-24"
   },
   {
     "location": "fridge",
-    "name": "yee",
+    "name": "",
+    "expirationDate": "2023-03-17",
+    "wastedDate": "2023-03-17"
+  },
+  {
+    "location": "fridge",
+    "name": "",
+    "expirationDate": "2023-03-10",
+    "wastedDate": "2023-03-10"
+  },
+  {
+    "location": "fridge",
+    "name": "",
     "expirationDate": "2023-03-26",
-    "wastedDate": "2023-03-24"
+    "wastedDate": "2023-03-26"
+  },
+  {
+    "location": "fridge",
+    "name": "",
+    "expirationDate": "2023-03-19",
+    "wastedDate": "2023-03-19"
+  },
+  {
+    "location": "fridge",
+    "name": "",
+    "expirationDate": "2023-03-12",
+    "wastedDate": "2023-03-12"
   }
 ]
