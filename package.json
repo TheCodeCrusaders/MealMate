@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/TheCodeCrusaders/MealMate#readme",
   "dependencies": {
+    "chart.js": "^4.2.1",
     "cookie-parser": "^1.4.6",
     "csv-parser": "^3.0.0",
     "express": "^4.18.2",
