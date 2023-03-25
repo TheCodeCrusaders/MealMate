@@ -127,14 +127,14 @@ function createItem(element, index) {
         })
     })
 
-    div.appendChild(name);
-    div.appendChild(location);
-    div.appendChild(expirationDate);
+    div.appendChild(name);                  //The .appendChild() method adds the HTML element 'name' as a child of the 'div' element, making it part of the hierarchical structure of the DOM tree under the 'div' element - See line 66
+    div.appendChild(location);              //^^    
+    div.appendChild(expirationDate);        //^^
     buttonContainer.appendChild(waistedButton);
     buttonContainer.appendChild(consumedButton);
     div.appendChild(buttonContainer);
-    container.appendChild(div);
-    refIndex = index;
+    container.appendChild(div);             //Assigns "div" elements to constant container
+    refIndex = index;                       //During the first iteration of the function call refIdex is assigned 1, and so on?
 }
 
 
