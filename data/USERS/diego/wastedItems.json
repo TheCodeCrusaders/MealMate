@@ -1,110 +1,38 @@
 [
   {
     "location": "fridge",
-    "name": "melon",
-    "expirationDate": "2023-03-25",
+    "name": "eggs",
+    "expirationDate": "2023-04-04",
     "wastedDate": "2023-03-25"
   },
   {
     "location": "fridge",
-    "name": "ice",
-    "expirationDate": "2023-03-18",
-    "wastedDate": "2023-03-18"
-  },
-  {
-    "location": "fridge",
-    "name": "",
-    "expirationDate": "2023-03-11",
-    "wastedDate": "2023-03-11"
-  },
-  {
-    "location": "fridge",
-    "name": "",
-    "expirationDate": "2023-03-24",
-    "wastedDate": "2023-03-24"
-  },
-  {
-    "location": "fridge",
-    "name": "",
-    "expirationDate": "2023-03-17",
-    "wastedDate": "2023-03-17"
-  },
-  {
-    "location": "fridge",
-    "name": "",
-    "expirationDate": "2023-03-10",
-    "wastedDate": "2023-03-10"
-  },
-  {
-    "location": "fridge",
-    "name": "",
-    "expirationDate": "2023-03-26",
-    "wastedDate": "2023-03-26"
-  },
-  {
-    "location": "fridge",
-    "name": "",
-    "expirationDate": "2023-03-19",
-    "wastedDate": "2023-03-19"
-  },
-  {
-    "location": "fridge",
-    "name": "",
-    "expirationDate": "2023-03-12",
-    "wastedDate": "2023-03-12"
-  },
-  {
-    "location": "fridge",
-    "name": "melon",
-    "expirationDate": "2023-03-25",
+    "name": "actimel",
+    "expirationDate": "2023-04-03",
     "wastedDate": "2023-03-25"
   },
   {
     "location": "fridge",
-    "name": "ice",
-    "expirationDate": "2023-03-18",
-    "wastedDate": "2023-03-18"
+    "name": "Strawberry yogurt",
+    "expirationDate": "2023-04-11",
+    "wastedDate": "2023-03-25"
   },
   {
     "location": "fridge",
-    "name": "",
-    "expirationDate": "2023-03-11",
-    "wastedDate": "2023-03-11"
+    "name": "eggs",
+    "expirationDate": "2023-04-04",
+    "wastedDate": "2023-03-25"
   },
   {
     "location": "fridge",
-    "name": "",
-    "expirationDate": "2023-03-24",
-    "wastedDate": "2023-03-24"
+    "name": "actimel",
+    "expirationDate": "2023-04-03",
+    "wastedDate": "2023-03-25"
   },
   {
     "location": "fridge",
-    "name": "",
-    "expirationDate": "2023-03-17",
-    "wastedDate": "2023-03-17"
-  },
-  {
-    "location": "fridge",
-    "name": "",
-    "expirationDate": "2023-03-10",
-    "wastedDate": "2023-03-10"
-  },
-  {
-    "location": "fridge",
-    "name": "",
-    "expirationDate": "2023-03-26",
-    "wastedDate": "2023-03-26"
-  },
-  {
-    "location": "fridge",
-    "name": "",
-    "expirationDate": "2023-03-19",
-    "wastedDate": "2023-03-19"
-  },
-  {
-    "location": "fridge",
-    "name": "",
-    "expirationDate": "2023-03-12",
-    "wastedDate": "2023-03-12"
+    "name": "Mayo light",
+    "expirationDate": "2023-05-22",
+    "wastedDate": "2023-03-25"
   }
 ]

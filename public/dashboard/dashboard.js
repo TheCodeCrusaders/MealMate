@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
 
                 const cell3 = document.createElement("td");
                 let timeLeft = new Date(Date.parse(item.expirationDate) - currentDate);
-                cell3.textContent = `Days left ${Math.ceil(timeLeft/ (1000 * 60 *60 *24)+1)}`;
+                cell3.textContent = `Days left ${Math.ceil(timeLeft/ (1000 * 60 *60 *24))}`;
                 // cell3.textContent = item.expirationDate;
                 row.appendChild(cell3);
 
