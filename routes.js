@@ -148,6 +148,118 @@ router.get("/API/gettopexp", verifyToken, (req, res) => {
     
 });
 
+// getting a list route (still neds to be modified for real login system)
+router.get("/API/getConsumedItems", verifyToken, (req, res) => {
+    const filePath = path.resolve() + `/data/USERS/${req.user.username}/consumedItems.json`;
+
+    fs.readFile(filePath, (err, data) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send("Internal Server Error");
+        } else {
+            const jsonData = data.toString("utf8");
+            res.json(JSON.parse(jsonData));
+        }
+    });
+});
+
+// getting a list route (still neds to be modified for real login system)
+router.get("/API/getWastedItems", verifyToken, (req, res) => {
+    const filePath = path.resolve() + `/data/USERS/${req.user.username}/wastedItems.json`;
+
+    fs.readFile(filePath, (err, data) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send("Internal Server Error");
+        } else {
+            const jsonData = data.toString("utf8");
+            res.json(JSON.parse(jsonData));
+        }
+    });
+});
+
+router.get("/API/getweeklyWaste", verifyToken, (req, res) => {
+    const filePath = path.resolve() + `/data/USERS/${req.user.username}/wastedItems.json`;
+
+    fs.readFile(filePath, (err, data) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send("Internal Server Error");
+        } else {
+            const jsonData = JSON.parse(data.toString("utf8"));
+
+            // Get the date from one week ago
+            const oneWeekAgo = new Date();
+            oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+
+            // Filter the data based on the wastedDate attribute
+            const filteredData = jsonData.filter(item => {
+                const itemDate = new Date(item.wastedDate);
+                return itemDate >= oneWeekAgo;
+            });
+
+            res.json(filteredData);
+        }
+    });
+});
+
+
+router.get("/API/prevous7days", verifyToken, (req, res) => {
+    const filePath = path.resolve() + `/data/USERS/${req.user.username}/wastedItems.json`;
+
+    fs.readFile(filePath, (err, data) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send("Internal Server Error");
+        } else {
+            const jsonData = JSON.parse(data.toString("utf8"));
+
+            // Get the date from 14 days ago
+            const twoWeeksAgo = new Date();
+            twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
+
+            // Get the date from 7 days ago
+            const oneWeekAgo = new Date();
+            oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+
+            // Filter the data based on the wastedDate attribute
+            const filteredData = jsonData.filter(item => {
+                const itemDate = new Date(item.wastedDate);
+                return itemDate >= twoWeeksAgo && itemDate < oneWeekAgo;
+            });
+
+            res.json(filteredData);
+        }
+    });
+});
+
+
+
+router.get("/API/getmonthlyWaste", verifyToken, (req, res) => {
+    const filePath = path.resolve() + `/data/USERS/${req.user.username}/wastedItems.json`;
+
+    fs.readFile(filePath, (err, data) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send("Internal Server Error");
+        } else {
+            const jsonData = JSON.parse(data.toString("utf8"));
+
+            // Get the date from one week ago
+            const oneWeekAgo = new Date();
+            oneWeekAgo.setDate(oneWeekAgo.getDate() - 30);
+
+            // Filter the data based on the wastedDate attribute
+            const filteredData = jsonData.filter(item => {
+                const itemDate = new Date(item.wastedDate);
+                return itemDate >= oneWeekAgo;
+            });
+
+            res.json(filteredData);
+        }
+    });
+});
+
 // write list to file (still neds to be modified for real login system)
 router.post("/API/postlist", verifyToken, (req, res) => {
         console.log(req.body);
@@ -167,6 +279,7 @@ router.post("/API/postlist", verifyToken, (req, res) => {
 
         res.redirect("/itemtracking");
     });
+
 
     router.post('/newuser', (req, res) => {
         // Extract the new user data from the request body
@@ -197,11 +310,11 @@ router.post("/API/postlist", verifyToken, (req, res) => {
             if (err) throw err;
         });
 
-        const itemsStandard = '[{"location": "Pantry","name": "Test (delete this)","expirationDate": "2023-05-04"}]';
+        const itemsStandard = '[]';
 
         console.log(`${newUser.username} directory created.`);
 
-        fs.writeFile(`data/USERS/${newUser.username}/consumedItems.json`, '', (err) => {
+        fs.writeFile(`data/USERS/${newUser.username}/consumedItems.json`, itemsStandard, (err) => {
             if (err) throw err;
             console.log(`consumedItems.json created in ${newUser.username}`);
         });
@@ -211,7 +324,7 @@ router.post("/API/postlist", verifyToken, (req, res) => {
             console.log(`items.json created in ${newUser.username}`);
         });
 
-        fs.writeFile(`data/USERS/${newUser.username}/wastedItems.json`, '', (err) => {
+        fs.writeFile(`data/USERS/${newUser.username}/wastedItems.json`, itemsStandard, (err) => {
             if (err) throw err;
             console.log(`wastedItems.json created in ${newUser.username}`);
         });
