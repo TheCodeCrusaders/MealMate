@@ -101,108 +101,6 @@ function fetchData() {
 
 //createItem() function decleration
 function createItem(element, index) {
-    let div = document.createElement("tr");                         //div = table row
-    let name = document.createElement("td");                        //name = table data
-    let location = document.createElement("td");                    //location = table data
-    let expirationDate = document.createElement("td");              //expirationDate = table data
-
-
-    name.textContent = element.name;                                //Text content of HTML element name is set equal to the value of HTML element name
-    location.textContent = element.location;
-    expirationDate.textContent = element.expirationDate;
-
-    let buttonContainer = document.createElement("td");             //buttonContainer = table data
-    let waistedButton = document.createElement("button");           //Creates "waisted" button
-    waistedButton.textContent = "wasted";                           //sets text content for button
-    let consumedButton = document.createElement("button");
-    consumedButton.textContent = "consumed";
-
-    waistedButton.addEventListener("click", (e) => {                //Upon click "waistedButton" executed function with parameter (e)
-        e.preventDefault();                                         //Prevent default browser behvaiour related to "click" attribute
-        let data = {                                                //Initialize a json style array
-            "index": index                                          //Uses argument from createItem(element, index)
-        };
-        fetch("/API/waisteditem", {                                 //fetches promise from /API/waisteditem, which resolves to the "response" object defined inside the endpoint "/API/waisteditems"
-            method: "POST",                                         //waistedButton perfroms a post request to the endpoint
-            mode: "cors",                                           //Allows computers not hosting the server to make request to "/API/waisteditem"
-            cache: "no-cache",                                      //Prevent cached data from interacting with the request, this ensures the response from "/API/waisteditem" is up to date
-            credentials: "same-origin",                             //Ensures that the server never sends cookies, cache etc. unless the request is coming from the same origin meaning, the same domain, port etc.
-            headers: {
-                "Content-Type": "application/json",                 //Specicies content type, we're sending with the POST request
-
-            },
-            redirect: "follow",                                     //If the response object contains code to redirect our page, this ensures we follow the redirect
-            referrerPolicy: "no-referrer",                          //Does not scan the users browsing history
-            body: JSON.stringify(data),                             //"body" is a POST/PUT specific property which specicies the payload send to the server .JSON.stringify converts the "data" variable into .json string
-        }).then((response) => {                                     //The resolved promise from fetch(/API/waisteditem) is stored in "response" parameter
-            if (response.ok) {                                      //If response given by fetch("/API/waisteditem") is inside [200:299] range,    
-                removeItems();                                      //Executes removeItems() function
-            }
-        })
-    })
-
-    consumedButton.addEventListener("click", (e) => {               //READ waistedButton ^^
-        e.preventDefault();
-        let data = {
-            "index": index
-        };
-        fetch("/API/consumeditem", {
-            method: "POST",                 // *GET, POST, PUT, DELETE, etc.
-            mode: "cors",                   // no-cors, *cors, same-origin
-            cache: "no-cache",              // *default, no-cache, reload, force-cache, only-if-cached
-            credentials: "same-origin",     // include, *same-origin, omit
-            headers: {
-                "Content-Type": "application/json",
-                // 'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            redirect: "follow",             // manual, *follow, error
-            referrerPolicy: "no-referrer",  // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-            body: JSON.stringify(data),     // body data type must match "Content-Type" header
-        }).then(response => {
-            if (response.ok) {
-                removeItems();
-            }
-        })
-    })
-
-    div.appendChild(name);                  //The .appendChild() method adds the HTML element 'name' as a child of the 'div' element, making it part of the hierarchical structure of the DOM tree under the 'div' element - See line 66
-    div.appendChild(location);              //^^    
-    div.appendChild(expirationDate);        //^^
-    buttonContainer.appendChild(waistedButton);
-    buttonContainer.appendChild(consumedButton);
-    div.appendChild(buttonContainer);
-    container.appendChild(div);             //Assigns "div" elements to constant container
-    refIndex = index;                       //During the first iteration of the function call refIdex is assigned 1, and so on?
-}
-
-
-//addNewItem() function decleration
-function addNewItem() {
-    form.classList.toggle("visible");
-    if (backdrop.style.display === "block") {
-        backdrop.style.display = "none";
-    }
-    else {
-        backdrop.style.display = "block";
-    }
-}
-additem.addEventListener("click", (e) => {
-    addNewItem();
-})
-backdrop.addEventListener("click", (e) => {
-    addNewItem();
-    refIndex = NaN;
-})
-
-function createTable(data) {
-    data.forEach((element, index) => {
-        createItem(element, index)
-    });
-
-}
-
-
-function createItem(element, index) {
     let tr = document.createElement("tr");
     let name = document.createElement("td");
     let location = document.createElement("td");
@@ -299,6 +197,33 @@ function createItem(element, index) {
     refIndex = index;
 }
 
+
+//addNewItem() function decleration
+function addNewItem() {
+    form.classList.toggle("visible");
+    if (backdrop.style.display === "block") {
+        backdrop.style.display = "none";
+    }
+    else {
+        backdrop.style.display = "block";
+    }
+}
+additem.addEventListener("click", (e) => {
+    addNewItem();
+})
+backdrop.addEventListener("click", (e) => {
+    addNewItem();
+    refIndex = NaN;
+})
+
+function createTable(data) {
+    data.forEach((element, index) => {
+        createItem(element, index)
+    });
+
+}
+
+//removeItems() function decleration
 function removeItems() {
     document.querySelectorAll("#container>tr").forEach((element) => {
         container.removeChild(element);
