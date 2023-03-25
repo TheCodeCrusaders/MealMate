@@ -6,7 +6,7 @@ const form = document.querySelector("#itemForm");
 
 
 //VARIABLE DECLERATIONS
-let refIndex = 0;
+let refIndex = NaN;
 
 
 //EVENTLISTENERS - Page functionality starts here
@@ -22,12 +22,12 @@ function fetchData() {
             throw new Error("response was not in the 200 range ")
         })
         .then(data => createTable(data))
-    // .catch(error => {
-    //     window.location.replace("/login");
-    // });
+    .catch(error => {
+        window.location.replace("/login");
+    });
 }
-let refIndex = NaN;
-const form = document.querySelector("#itemForm");
+
+
 form.addEventListener("submit", (e) => {
     e.preventDefault();
     if (refIndex == NaN) {
@@ -52,12 +52,12 @@ form.addEventListener("submit", (e) => {
             body: JSON.stringify(data), // body data type must match "Content-Type" header
         });
     }
-    else{
+    else {
         let data = {
             "location": form.location.value,
             "name": form.name.value,
             "expirationDate": form.expirationDate.value,
-            "index":refIndex
+            "index": refIndex
         };
         fetch("/API/edititem", {
             method: "POST", // *GET, POST, PUT, DELETE, etc.
