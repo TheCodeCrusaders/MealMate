@@ -248,6 +248,7 @@ router.post("/API/postlist", verifyToken, (req, res) => {
         res.redirect("/itemtracking");
     });
 
+
     router.post('/newuser', (req, res) => {
         // Extract the new user data from the request body
         const newUser = {
@@ -277,11 +278,11 @@ router.post("/API/postlist", verifyToken, (req, res) => {
             if (err) throw err;
         });
 
-        const itemsStandard = '[{"location": "Pantry","name": "Test (delete this)","expirationDate": "2023-05-04"}]';
+        const itemsStandard = '[]';
 
         console.log(`${newUser.username} directory created.`);
 
-        fs.writeFile(`data/USERS/${newUser.username}/consumedItems.json`, '', (err) => {
+        fs.writeFile(`data/USERS/${newUser.username}/consumedItems.json`, itemsStandard, (err) => {
             if (err) throw err;
             console.log(`consumedItems.json created in ${newUser.username}`);
         });
@@ -291,7 +292,7 @@ router.post("/API/postlist", verifyToken, (req, res) => {
             console.log(`items.json created in ${newUser.username}`);
         });
 
-        fs.writeFile(`data/USERS/${newUser.username}/wastedItems.json`, '', (err) => {
+        fs.writeFile(`data/USERS/${newUser.username}/wastedItems.json`, itemsStandard, (err) => {
             if (err) throw err;
             console.log(`wastedItems.json created in ${newUser.username}`);
         });
