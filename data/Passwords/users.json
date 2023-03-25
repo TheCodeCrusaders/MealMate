@@ -2,31 +2,11 @@
   "users": [
     {
       "username": "allias",
-      "password": "password"
-    },
-    {
-      "username": "mantas",
-      "password": "password"
-    },
-    {
-      "username": "shadi",
-      "password": "password"
-    },
-    {
-      "username": "dieago",
-      "password": "password"
-    },
-    {
-      "username": "jeppe",
-      "password": "password"
+      "password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
     },
     {
       "username": "mathias",
-      "password": "password"
-    },
-    {
-      "username": "carl",
-      "password": "pas"
+      "password": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92"
     }
   ]
 }
