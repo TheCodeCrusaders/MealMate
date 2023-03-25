@@ -40,7 +40,7 @@ form.addEventListener("submit", (e) => {
     form.location.selected = "Fridge";
     form.name.value = "";
     form.expirationDate.value = "";
-    createItem(data, refIndex + 1)
+    removeItems();
 
     addNewItem();
 })
