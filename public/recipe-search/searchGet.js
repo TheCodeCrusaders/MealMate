@@ -1,5 +1,3 @@
-
-
 const form = document.querySelector("#searchForm");
 form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -21,42 +19,32 @@ form.addEventListener("submit", (e) => {
     })
         .then(result => result.json())
         .then(jsonData => listCreation(jsonData))
+
+
+
 })
 
-//Makes a list with the recipe names
-//Takes the value item in
-function listCreation(item) {
-    console.log(item);
-    //It wil then return the result of all the needed recipies
-    const resultList = document.getElementById('resultList');
-    resultList.textContent = '';
-    //Loops through all the needed recipies
-    item.forEach(element => {
-        //Creates new list element
-        const listItem = document.createElement('ul');
-        //Creates a text node that holds the recipe name
-        const recipeName = document.createTextNode(element.nameOfRecipe);
-        //Add the text node to the list element
-        listItem.appendChild(recipeName);
-        element.ingredients.forEach(el => {
-            const listIngrident = document.createElement('li');
-            const recipeingridients = document.createTextNode(`${el.ingredient} amount: ${el.amount}`);
-            listIngrident.appendChild(recipeingridients);
-            listItem.appendChild(listIngrident);
+function listCreation(recipies) {
+    console.log(recipies)
+    const allList = document.getElementById('resultList');
+    allList.textContent = '';
+    recipies.forEach(ULelement => {
+        recipieListOrder = document.createElement('ul');
+        recipieListOrder.textContent = ULelement.nameOfRecipe;
+        ULelement.ingredients.forEach(LIelement => {
+            listIngredients = document.createElement('li');
+            listIngredients.textContent = `${LIelement.ingredient} amount: ${LIelement.amount}`
+            recipieListOrder.appendChild(listIngredients);
         });
-        //INPUT: Would be nice if you could set the instructions to the left
-        element.instructions.forEach(el => {
-            const listinstructions = document.createElement('li');
-            const instructionsText = document.createTextNode(el.inst);
-            console.log(el.inst);
-            listinstructions.appendChild(instructionsText);
-            listItem.appendChild(listinstructions);
+        ULelement.instructions.forEach(instelement => {
+            listInstructions = document.createElement('li');
+            listInstructions.textContent = instelement.inst;
+            recipieListOrder.appendChild(listInstructions)
         });
-        
-        //Add the list element to the list
-        resultList.appendChild(listItem);
+        allList.appendChild(recipieListOrder);
     });
 }
+
 
 const listItems = document.querySelector('.list');
 

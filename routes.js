@@ -10,8 +10,8 @@ import crypto from 'crypto';
 
 import recipies from './recipe.js'
 router.post('/API/search', (req, res) => {
-    const name = req.body.nameOfRecipe;
-    res.json(recipies(name));
+    const itemName = req.body.nameOfRecipe;
+    res.json(recipies(itemName));
 })
 
 
