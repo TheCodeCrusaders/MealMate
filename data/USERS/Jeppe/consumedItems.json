@@ -1,0 +1,14 @@
+[
+  null,
+  {
+    "location": "fridge",
+    "name": "Kage",
+    "expirationDate": "0005-05-05"
+  },
+  null,
+  {
+    "location": "fridge",
+    "name": "cake3",
+    "expirationDate": "0018-06-05"
+  }
+]
