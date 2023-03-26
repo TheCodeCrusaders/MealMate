@@ -1,5 +1,5 @@
 //CONSTANT DECLERATIONS
-const container = document.querySelector("#container");
+const container = document.querySelector("#container");     //Select the first HTML element matching the CSS #container element
 const backdrop = document.querySelector("#backdrop");
 const additem = document.querySelector("#additem");
 const form = document.querySelector("#itemForm");
@@ -21,34 +21,41 @@ document.addEventListener("DOMContentLoaded", (e) => {
 form.name.addEventListener("input", async (e) => {
     const inputItemName = e.target.value;
     const isItemValid = await itemExists(inputItemName);
-  
+
     const autocompleteList = document.querySelector("#autocomplete-list");
-    autocompleteList.innerHTML = "";
-  
+
+    // Remove all child nodes from the autocompleteList
+    while (autocompleteList.firstChild) {
+        autocompleteList.removeChild(autocompleteList.firstChild);
+    }
+
     if (!isItemValid) {
-      form.name.style.borderColor = "red";
+        form.name.style.borderColor = "red";
     } else {
-      form.name.style.borderColor = "";
+        form.name.style.borderColor = "";
     }
-  
+
     if (inputItemName.length > 0) {
-      const globalItems = await fetchGlobalItems();
-      const matchingItems = globalItems.filter(item =>
-        item.name.toLowerCase().startsWith(inputItemName.toLowerCase())
-      );
-  
-      matchingItems.forEach(item => {
-        const itemDiv = document.createElement("div");
-        itemDiv.textContent = item.name;
-        itemDiv.addEventListener("click", () => {
-          form.name.value = item.name;
-          form.name.style.borderColor = "";
-          autocompleteList.innerHTML = "";
+        const globalItems = await fetchGlobalItems();
+        const matchingItems = globalItems.filter(item =>
+            item.name.toLowerCase().startsWith(inputItemName.toLowerCase())
+        );
+
+        matchingItems.forEach(item => {
+            const itemDiv = document.createElement("div");
+            itemDiv.textContent = item.name;
+            itemDiv.addEventListener("click", () => {
+                form.name.value = item.name;
+                form.name.style.borderColor = "";
+                // Remove all child nodes from the autocompleteList after selecting an item
+                while (autocompleteList.firstChild) {
+                    autocompleteList.removeChild(autocompleteList.firstChild);
+                }
+            });
+            autocompleteList.appendChild(itemDiv);
         });
-        autocompleteList.appendChild(itemDiv);
-      });
     }
-  });
+});
 
 
 form.addEventListener("submit", (e) => {
@@ -278,12 +285,11 @@ async function fetchGlobalItems() {
     const response = await fetch('/API/getListGlobalItems');
     const data = await response.json();
     return data;
-  }
+}
 
 //!!TO READ!!
-  // Step 2: Create a function to check if the item exists in the file
-  async function itemExists(itemName) {
+// Step 2: Create a function to check if the item exists in the file
+async function itemExists(itemName) {
     const globalItems = await fetchGlobalItems();
     return globalItems.some(item => item.name.toLowerCase() === itemName.toLowerCase());
-  }
-  
+}
