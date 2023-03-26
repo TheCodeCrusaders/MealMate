@@ -231,3 +231,32 @@ function removeItems() {
     })
     fetchData();
 }
+
+//GPT TEST:
+
+// // Step 1: Fetch the Global-items.json file
+// async function fetchGlobalItems() {
+//     const response = await fetch('Global-Items/Global-Items.json');
+//     const data = await response.json();
+//     return data;
+//   }
+  
+//   // Step 2: Create a function to check if the item exists in the file
+//   async function itemExists(itemName) {
+//     const globalItems = await fetchGlobalItems();
+//     return globalItems.some(item => item.name.toLowerCase() === itemName.toLowerCase());
+//   }
+  
+//   // Step 3: Modify form submission to check for item existence before adding it
+//   form.addEventListener("submit", async (e) => {
+//     e.preventDefault();
+    
+//     const inputItemName = form.name.value;
+//     const isItemValid = await itemExists(inputItemName);
+    
+//     if (isItemValid) {
+//       // Your existing code for adding the item
+//     } else {
+//       alert('Item not found in Global-items.json. Please enter a valid item.');
+//     }
+//   });
