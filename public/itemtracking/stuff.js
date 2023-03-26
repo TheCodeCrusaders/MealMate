@@ -14,11 +14,11 @@ function fetchData() {
     //     window.location.replace("/login");
     // });
 }
-let refIndex = NaN;
+let refIndex = undefined;
 const form = document.querySelector("#itemForm");
 form.addEventListener("submit", (e) => {
     e.preventDefault();
-    if (refIndex == NaN) {
+    if (refIndex === undefined) {
 
 
         let data = {
@@ -64,6 +64,7 @@ form.addEventListener("submit", (e) => {
     form.location.selected = "Fridge";
     form.name.value = "";
     form.expirationDate.value = "";
+    refIndex = undefined;
     removeItems();
 
     addNewItem();
@@ -86,7 +87,7 @@ additem.addEventListener("click", (e) => {
 })
 backdrop.addEventListener("click", (e) => {
     addNewItem();
-    refIndex = NaN;
+    refIndex = undefined;
 })
 
 function createTable(data) {
@@ -191,7 +192,6 @@ function createItem(element, index) {
     buttonContainer.appendChild(consumedButton);
     tr.appendChild(buttonContainer);
     container.appendChild(tr);
-    refIndex = index;
 }
 
 function removeItems() {
