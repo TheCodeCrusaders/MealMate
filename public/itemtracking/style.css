@@ -259,10 +259,3 @@ table td {
     /* Set the text color to black and add the !important declaration */
     background-color: #f6f6f6;
 }
-
-/* Set the z-index of the input field to a higher value */
-
-#itemForm #name{
-color: #000
-}
-
