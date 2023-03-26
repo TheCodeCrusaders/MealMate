@@ -9,23 +9,46 @@ const form = document.querySelector("#itemForm");
 let refIndex = NaN;
 
 
-//EVENTLISTENERS - Page functionality starts here
+//Upon page being loaded, fetches the currently logged in user's personal items list, by calling fetchData()
 document.addEventListener("DOMContentLoaded", (e) => {
     fetchData();
+    fetchGlobalItems(); //!!TO READ!!
 })
-function fetchData() {
-    fetch("/API/getList")
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            }
-            throw new Error("response was not in the 200 range ")
-        })
-        .then(data => createTable(data))
-    .catch(error => {
-        window.location.replace("/login");
-    });
-}
+
+//EVENTLISTENERS - Page functionality starts here
+
+//!!TO READ!!
+form.name.addEventListener("input", async (e) => {
+    const inputItemName = e.target.value;
+    const isItemValid = await itemExists(inputItemName);
+  
+    const autocompleteList = document.querySelector("#autocomplete-list");
+    autocompleteList.innerHTML = "";
+  
+    if (!isItemValid) {
+      form.name.style.borderColor = "red";
+    } else {
+      form.name.style.borderColor = "";
+    }
+  
+    if (inputItemName.length > 0) {
+      const globalItems = await fetchGlobalItems();
+      const matchingItems = globalItems.filter(item =>
+        item.name.toLowerCase().startsWith(inputItemName.toLowerCase())
+      );
+  
+      matchingItems.forEach(item => {
+        const itemDiv = document.createElement("div");
+        itemDiv.textContent = item.name;
+        itemDiv.addEventListener("click", () => {
+          form.name.value = item.name;
+          form.name.style.borderColor = "";
+          autocompleteList.innerHTML = "";
+        });
+        autocompleteList.appendChild(itemDiv);
+      });
+    }
+  });
 
 
 form.addEventListener("submit", (e) => {
@@ -95,6 +118,21 @@ function fetchData() {
         .then((data) => createTable(data))                        //The "data" parameter stores the parsed JSON data from the resolved Promise (from response.json()). .then() executes the createTable() function with "data" as input
         .catch((error) => {                                       //If any error occurs in the Promise chain, this .catch() block is executed
             window.location.replace("/login");                    //Upon error, user is redirected to /login endpoint
+        });
+}
+
+//!!TO READ!!
+function fetchDataGlobalItems() {
+    fetch("/API/getListGlobalItems")        //fetch() returns a promise, which resolves to a "response" object. The response it contains, is specified whiten /API/getList. In this case it's the items.json for the user currently logged in, which is stored in "response"
+        .then((response) => {               //The resolved promise, which is now stored in "response", is used as parameter for an anonymous function in the .then method
+            if (response.ok) {              //.ok method checks if the reponse is whiten [200:299] status-code range, if true execute body of if statement
+                return response.json();     //.json() method parses "response" object for json data, the parsed data is then considered a promise, thus we need a new .then method to handle it's resolvement
+            }
+            throw new Error("response was not in the 200 range ") //Throw statement signal an error has occured. It signals .catch method to overtake the code, once throw has run it's course. Constructor statement "new Error()" stores information about the error
+        })
+        .then((data) => createTable(data))                        //The "data" parameter stores the parsed JSON data from the resolved Promise (from response.json()). .then() executes the createTable() function with "data" as input
+        .catch((error) => {                                       //If any error occurs in the Promise chain, this .catch() block is executed
+            alert("An error occured");                            //Upon error, user is redirected to /login endpoint
         });
 }
 
@@ -234,29 +272,18 @@ function removeItems() {
 
 //GPT TEST:
 
-// // Step 1: Fetch the Global-items.json file
-// async function fetchGlobalItems() {
-//     const response = await fetch('Global-Items/Global-Items.json');
-//     const data = await response.json();
-//     return data;
-//   }
+//!!TO READ!!
+// Step 1: Fetch the Global-items.json file
+async function fetchGlobalItems() {
+    const response = await fetch('/API/getListGlobalItems');
+    const data = await response.json();
+    return data;
+  }
+
+//!!TO READ!!
+  // Step 2: Create a function to check if the item exists in the file
+  async function itemExists(itemName) {
+    const globalItems = await fetchGlobalItems();
+    return globalItems.some(item => item.name.toLowerCase() === itemName.toLowerCase());
+  }
   
-//   // Step 2: Create a function to check if the item exists in the file
-//   async function itemExists(itemName) {
-//     const globalItems = await fetchGlobalItems();
-//     return globalItems.some(item => item.name.toLowerCase() === itemName.toLowerCase());
-//   }
-  
-//   // Step 3: Modify form submission to check for item existence before adding it
-//   form.addEventListener("submit", async (e) => {
-//     e.preventDefault();
-    
-//     const inputItemName = form.name.value;
-//     const isItemValid = await itemExists(inputItemName);
-    
-//     if (isItemValid) {
-//       // Your existing code for adding the item
-//     } else {
-//       alert('Item not found in Global-items.json. Please enter a valid item.');
-//     }
-//   });

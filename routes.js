@@ -133,6 +133,21 @@ router.get("/API/getList", verifyToken, async (req, res) => {
     });
 });
 
+//!!TO READ!!
+router.get("/API/getListGlobalItems", async (req, res) => {
+    const filePath = path.resolve() + `/Global-Items/Global-Items.json`;
+
+    fs.readFile(filePath, (err, data) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send("Internal Server Error");
+        } else {
+            const jsonData = data.toString("utf8");
+            res.json(JSON.parse(jsonData));
+        }
+    });
+});
+
 router.get("/API/gettopexp", verifyToken, (req, res) => {
     const filePath = path.resolve() + `/data/USERS/${req.user.username}/items.json`;
 
