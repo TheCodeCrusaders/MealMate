@@ -28,12 +28,10 @@
         <h1>item tracking</h1>
         <button id="additem">add item</button>
       </div>
-
       <div id="input">
-
         <div id="backdrop">
-
         </div>
+
         <form id="itemForm">
           <label for="location">Location:</label>
           <select id="location" name="location">
@@ -43,14 +41,15 @@
           </select><br /><br />
 
           <label for="name">Name:</label>
-          <input type="text" id="name" name="name" /><br /><br />
-
+          <input type="text" id="name" name="name" placeholder="Item name" /><br /><br /> <!--placeholder added-->
+          <div id="autocomplete-list"></div>                                              <!--div added-->
           <label for="expirationDate">Expiration Date:</label>
           <input type="date" id="expirationDate" name="expirationDate" /><br /><br />
 
-          <button type="submit">submit</button>
+          <button type="submit">Import to personal item list</button>
         </form>
       </div>
+
       <table id="container">
         <tr>
           <th>name:</th>
@@ -60,8 +59,10 @@
           <th>buttons:</th>
         </tr>
       </table>
+      
     </section>
   </main>
+
   <footer>
     <a href="https://github.com/TheCodeCrusaders/MealMate">Open Source Project</a>
   </footer>

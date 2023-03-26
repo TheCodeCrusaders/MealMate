@@ -6,6 +6,7 @@ import jwt from 'jsonwebtoken';
 import cookieParser from 'cookie-parser';
 router.use(cookieParser());
 import crypto from 'crypto';
+import removeItem from "./removeItem.js"
 
 
 
@@ -104,7 +105,7 @@ router.get("/API/getUserName", verifyToken, (req, res) => {
 
 
 
-import removeItem from "./removeItem.js"
+
 
 router.post("/API/consumeditem", verifyToken, (req, res) => {
     removeItem.consumeItem(req, res);
@@ -120,6 +121,21 @@ import helpers from "./helpers.js"
 // getting a list route (still neds to be modified for real login system)
 router.get("/API/getList", verifyToken, async (req, res) => {
     const filePath = path.resolve() + `/data/USERS/${req.user.username}/items.json`;
+
+    fs.readFile(filePath, (err, data) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send("Internal Server Error");
+        } else {
+            const jsonData = data.toString("utf8");
+            res.json(JSON.parse(jsonData));
+        }
+    });
+});
+
+//!!TO READ!!
+router.get("/API/getListGlobalItems", async (req, res) => {
+    const filePath = path.resolve() + `/Global-Items/Global-Items.json`;
 
     fs.readFile(filePath, (err, data) => {
         if (err) {
