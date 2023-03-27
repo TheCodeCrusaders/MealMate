@@ -60,32 +60,31 @@ function verifyToken(req, res, next) {
 }
 
 
-router.post("/login", (req, res) => {  // post action declared, will wait for post from front end                                
-    let usernametest = req.body.username; //gets username from front end
-    let passwordtest = crypto.createHash('sha256').update(req.body.password).digest('hex'); //gets password from front end
-
-    console.log(`${usernametest} tried to login`)// THis will log who tried to loged in or logged in
-
-    let user = users44.find(function (user) {    // here we test if the user exist in the system, and if the password is correct
-        return user.username === usernametest && user.password === passwordtest;
+router.post("/login", (req, res) => {
+    let usernametest = req.body.username;
+    
+    // GPT: Hash the entered password using the SHA-256 algorithm before checking against stored hash
+    let passwordtest = crypto.createHash('sha256').update(req.body.password).digest('hex');
+  
+    console.log(`${usernametest} tried to login`);
+  
+    let user = users44.find(function (user) {
+      return user.username === usernametest && user.password === passwordtest;
     });
     console.log(user)
-    if (user) {// if the correct information is typed in the user will be given a token
-
-        const token = jwt.sign({ username: user.username }, 'secret', { expiresIn: '1h' });// Generate an authentication token with experation day, 1 hour i milisecounds
-
-        console.log(user.username);
-
-        res.cookie('token', token, { httpOnly: true });// Set the token as a cookie on the client's browser
-        //the { httpOnly: true }  option means that the cookie can only be accessed via HTTP/S and not via JavaScript, which helps to prevent cross-site scripting (XSS) attacks.
-
-
-        return res.status(200).json({ success: 'User created successfully' });
+    if (user) {
+      const token = jwt.sign({ username: user.username }, 'secret', { expiresIn: '1h' });
+  
+      console.log(user.username);
+  
+      res.cookie('token', token, { httpOnly: true });
+  
+      // GPT: Return a JSON object with a success message when the user logs in successfully
+      return res.status(200).json({ success: 'User logged in successfully' });
+    } else {
+      res.redirect("/login");
     }
-    else {
-        res.redirect("/login");
-    }
-})
+  });
 
 
 router.get("/API/getUserName", verifyToken, (req, res) => {
