@@ -1,17 +1,11 @@
-
-
-// Get the input element for the file
+//CONSTANT DECLERATIONS
 const fileInput = document.getElementById('file-input');
-
-// Get the result element to show the detected barcode
 const resultDiv = document.getElementById('result');
-//submit button
 const subbutton=document.getElementById('submitbu');
-
 const showpic=document.getElementById("showpic");
-
 const postpicplace=document.getElementById("postpicplace");
 
+//FUNCTION DECLERATIONS
 function displayImages() {
   postpicplace.textContent = ""; // Clear existing content
   imageArray.forEach((image, index) => {
@@ -31,13 +25,6 @@ function displayImages() {
     postpicplace.appendChild(imageDiv);
   });
 }
-
-
-
-
-
-
-
 
 
 const quagga = new Quagga();
