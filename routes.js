@@ -6,25 +6,11 @@ import jwt from 'jsonwebtoken';
 import cookieParser from 'cookie-parser';
 router.use(cookieParser());
 
-
-
-
-
-
 import recipies from './recipe.js'
 router.post('/API/search', (req, res) => {
     const name = req.body.navn;
     res.json(recipies(name));
 })
-
-
-
-
-
-
-
-
-
 
 
 //New Page for forgot password This is the Current tasting page For Tokens login System. Dont touch it is hurting nobody.
@@ -95,10 +81,6 @@ router.post("/login", (req, res) => {  // post action declared, will wait for po
         res.redirect("/login");
     }
 })
-
-
-
-
 
 
 router.get("/API/getUserName", verifyToken, (req, res) => {
