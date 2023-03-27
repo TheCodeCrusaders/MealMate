@@ -9,11 +9,10 @@ import crypto from 'crypto';
 import removeItem from "./removeItem.js"
 
 
-
 import recipies from './recipe.js'
 router.post('/API/search', (req, res) => {
-    const name = req.body.navn;
-    res.json(recipies(name));
+    const itemName = req.body.nameOfRecipe;
+    res.json(recipies(itemName));
 })
 
 
