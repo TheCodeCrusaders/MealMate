@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Statistics</title>
+    <meta charset="UTF-8">
+    <link href="style-dashboard.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <a href="/dashboard"><img src="/IMG/logo.svg" alt="Statistics" width="300" height="50"></a> <!-- Clickable logo -->
+        <nav class="nav-menu"> <!-- Navigation bar -->
+            <ul>
+                <li><a href="/dashboard">Home</a></li>
+                <li><a href="/itemtracking">Item Tracker</a></li>
+                <li><a href="/statistics">Statistics</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a href="/logout">Log out</a></li>
+            </ul>
+        </nav>
+    </header>
+<main>
+    <section id="module1">
+        <h2>General Statistics</h2>
+        <p>Here you can find some general statistics about our users:</p>
+        <div class="tab">
+            <button class="tablink2" onclick="openTab2(event, 'weekly')">Weekly waste</button>
+            <button class="tablink2" onclick="openTab2(event, 'monthly')">Monthly waste</button>
+          </div>
+          
+          <div id="weekly" class="tabcontent2">
+            <table id="Weekly-waste">
+                <!-- Table content -->
+            </table>
+          </div>
+          
+          <div id="monthly" class="tabcontent2">
+            <table id="Monthly-waste">
+                <!-- Table content -->
+            </table>
+          </div>
+    </section>
+    
+    <section id="module2">
+        <h2>Most Wasted Items</h2>
+        <table id="Json-table">
+            <!-- Table content -->
+        </table>
+    </section>
+
+
+    <section id="module3">
+        <h2>Monthly Trends</h2>
+        <p>A graph showcasing the monthly trends in food waste could be added here.</p>
+        <canvas id="compareNowChart"></canvas>
+        <canvas id="compareBeforeChart"></canvas>
+    </section>
+    
+
+
+    <section id="Total waste">
+        <h2>Archive</h2>
+        <div class="tab">
+            <button class="tablinks" onclick="openTab(event, 'table1')">Total wasted</button>
+            <button class="tablinks" onclick="openTab(event, 'table2')">Total consumed</button>
+          </div>
+          
+          <div id="table1" class="tabcontent">
+            <table id="Total-waste">
+                <!-- Table content -->
+            </table>
+          </div>
+          
+          <div id="table2" class="tabcontent">
+            <table id="Total-consumed">
+                <!-- Table content -->
+            </table>
+          </div>
+    </section>
+    <script src="stats.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</main>
+<footer>
+    <a href="https://github.com/TheCodeCrusaders/MealMate">Open Source Project</a>
+</footer>
+</body>
+</html>
