@@ -13,24 +13,24 @@ const showpic=document.getElementById("showpic");
 const postpicplace=document.getElementById("postpicplace");
 
 function displayImages() {
-  let images = ""
+  postpicplace.textContent = ""; // Clear existing content
   imageArray.forEach((image, index) => {
-    images += `<div class="image">
-                <img src="${URL.createObjectURL(image)}" alt="image">
-                <span onclick="deleteImage(${index})">&times;</span>
-              </div>`
-  })
-  postpicplace.innerHTML = images
+    const imageDiv = document.createElement("div");
+    imageDiv.className = "image";
+
+    const img = document.createElement("img");
+    img.src = URL.createObjectURL(image);
+    img.alt = "image";
+    imageDiv.appendChild(img);
+
+    const span = document.createElement("span");
+    span.textContent = "×";
+    span.onclick = () => deleteImage(index);
+    imageDiv.appendChild(span);
+
+    postpicplace.appendChild(imageDiv);
+  });
 }
-
-let imageArray =[];
-showpic.addEventListener('click', function(){
-console.log("It runs");
-const fil=fileInput.files
-imageArray.push(fil[0])
-displayImages()
-
-});
 
 
 
