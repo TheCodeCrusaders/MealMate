@@ -18,20 +18,22 @@ document.addEventListener("DOMContentLoaded", (e) => {
 //EVENTLISTENERS - Page functionality starts here
 
 //!!TO READ!!
-form.name.addEventListener("input", async (e) => {
-    const inputItemName = e.target.value;
-    const isItemValid = await itemExists(inputItemName);
+form.name.addEventListener("input", async (e) => {                          //Anon functin with parameter (e) is made asynchronisis to allow using "await"
+    const inputItemName = e.target.value;                                   //Value entered into form.name is assigned inputItemName
+    const isItemValid = await itemExists(inputItemName);                    //"await" pauses execution until itemExists() Promise resolves, then the code continues without blocking other tasks.
 
-    const autocompleteList = document.querySelector("#autocomplete-list");
+    const autocompleteList = document.querySelector("#autocomplete-list");  //autocompleteList is assigned first HTML-elmenent 'id' mathching autocomplete-list
 
-    // Remove all child nodes from the autocompleteList
-    while (autocompleteList.firstChild) {
-        autocompleteList.removeChild(autocompleteList.firstChild);
+    // Remove all child nodes from the autocompleteList                     ////|HTML childen = Every <> inside of <html>, e.g <body> is a child |HTML child node = any <> inside of a HTML child, e.g <html><body><p></body></html>, <p> is a child node to <body>|
+    while (autocompleteList.firstChild) {                                   //While autocompleteList has a child note === true
+        autocompleteList.removeChild(autocompleteList.firstChild);          //While true, the .removeChild node removes the first child node in the autocompleteList
     }
 
-    if (!isItemValid) {
+    if (isItemValid === false) {                                            //"await" in line 23 lets itemExists run in the background, effectively reaching the if statement, while the promised is being resolved                                
         form.name.style.borderColor = "red";
-    } else {
+    }
+
+    else {
         form.name.style.borderColor = "";
     }
 
@@ -47,6 +49,7 @@ form.name.addEventListener("input", async (e) => {
             itemDiv.addEventListener("click", () => {
                 form.name.value = item.name;
                 form.name.style.borderColor = "";
+
                 // Remove all child nodes from the autocompleteList after selecting an item
                 while (autocompleteList.firstChild) {
                     autocompleteList.removeChild(autocompleteList.firstChild);
