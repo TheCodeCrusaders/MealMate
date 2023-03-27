@@ -1,31 +1,45 @@
-import fs from 'fs';
 import path from 'path';
+import fs from 'fs';
 
-//Variable to store the recipies for later use
-const results = [];
+const recipies = JSON.parse(fs.readFileSync(path.resolve() + '/listofrecipes.json'));
+let itemArray = [];
 
-//Saves all the recipies in a variable
-const recipeFile = JSON.parse(fs.readFileSync(path.resolve()+ '/data.json'));
-function listOfRecipies(name) {
+function listRecipies(items) {
     try {
-        //Goes through all the recipies and checks if a recipe name or ingredient matches up with the searched variable
-        for (const recipe of recipeFile) {
-            //toLowerCase Makes all the names in the file lower case
-            if (recipe.navn.toLowerCase().includes(name.toLowerCase()) || 
-                recipe.ingredienser.some(ingredient => 
-                    ingredient.ingrediens.toLowerCase().includes(name.toLowerCase()))
-                ) {
-                    //If the recipe or ingrediens existit does it will then push it into the result array
-                    results.push(recipe);
-            }
-            console.log(results);
+        itemArray.push(items);
+        console.log(itemArray);
+        if (items == 'reset') {
+            itemArray.splice(0);
         }
-        return results;
+        let recipiesSaved = [];
+        for(const theRecipe of recipies) {
+            if (theRecipe.ingredients && theRecipe.ingredients.some(searchFor =>
+                itemArray.some(item => searchFor.ingredient.toLowerCase().includes(item)))) {
+                recipiesSaved.push(theRecipe);
+            }
+        }
+       
+        let recipieSorted = sortRecipes(recipiesSaved, itemArray);
+        return recipieSorted;
     } catch (error) {
         console.log(error);
     }
 }
 
 
-//Exports the function to app.js
-export default listOfRecipies;
+function sortRecipes(recipeList, arrayOfItems){
+    for(let i = 0; i < recipeList.length; i++) {
+        let rankingSystem = 0;
+        for(let j = 0; j < arrayOfItems.length; j++) {
+            if (recipeList[i].ingredients.some(item => item.ingredient.includes(arrayOfItems[j]))) {
+                rankingSystem++;
+            }
+        }
+        recipeList[i].rankingSystem = rankingSystem;
+        console.log(`${recipeList[i].nameOfRecipe}: ${recipeList.rankingSystem}`);
+    }
+    let sorted = recipeList.sort((a, b) => b.rankingSystem - a.rankingSystem)
+    return sorted;
+}
+
+export default listRecipies;

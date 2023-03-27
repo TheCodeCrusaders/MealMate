@@ -102,3 +102,6 @@ dist
 
 # TernJS port file
 .tern-port
+data/USERS/diego/consumedItems.json
+data/USERS/diego/items.json
+data/USERS/diego/wastedItems.json

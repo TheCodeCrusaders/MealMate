@@ -1,15 +1,38 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>JSON Data Search</title>
+    <title>Mealmate Recipe Search</title>
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <h1>JSON Data Search</h1>
-    <form action="/search" method="post" id="searchForm">
-        <input type="text" id="search" name="search" placeholder="Search...">
-        <button type="submit" id="searchButton" name="searchButton">Search</button>
-    </form>
-    <ul id="resultList" name="resultList"></ul>
+    <script src="dashboard.js"></script>
+    <header>
+        <a href="/dashboard"><img src="/IMG/logo.svg" alt="Mealmate" width="300" height="50"></a> <!-- Clickable logo -->
+        <nav class="nav-menu"> <!-- Navigation bar -->
+            <ul class="navBar">
+                <li><a href="/dashboard">Home</a></li>
+                <li><a href="/recipe-search">Recipies</a></li>
+                <li><a href="/itemtracking">Item Tracker</a></li>
+                <li><a href="/stats">Statistics</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a href="/logout">Log out</a></li>
+            </ul>
+        </nav>
+    </header>
+    <section class="searchPlaceHolder">
+      <h1>Recipe Search</h1>
+      <form action="/search" method="post" id="searchForm">
+          <input type="search" id="filter" name="filter" placeholder="Add ingridents...">
+          <input type="search" id="search" name="search" placeholder="Search...">
+          <button type="submit" id="searchButton" name="searchButton">Search</button>
+      </form>
+      <div class="list">
+        <ul id="resultList" name="resultList"></ul>
+      </div>
+      <div class="list_2">
+        <ul id="resultList" name="resultList"></ul>
+      </div>
+    </section>
     <script src="searchGet.js"></script>
   </body>
 </html>

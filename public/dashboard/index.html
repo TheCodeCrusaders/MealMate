@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <title>Mealmate</title>
-    <meta chars="UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="style-dashboard.css" rel="stylesheet">
 
 </head>
@@ -13,8 +14,9 @@
         <nav class="nav-menu"> <!-- Navigation bar -->
             <ul>
                 <li><a href="/dashboard">Home</a></li>
+                <li><a href="/recipe-search">Recipies</a></li>
                 <li><a href="/itemtracking">Item Tracker</a></li>
-                <li><a href="/stats">Statistics</a></li>
+                <li><a href="/statistics">Statistics</a></li>
                 <li><a href="/contact">Contact</a></li>
                 <li><a href="/logout">Log out</a></li>
             </ul>
@@ -22,7 +24,7 @@
     </header>
 <main>
     <section id="module1">
-        <h2>Hi, {username}!</h2>
+        <h2 id="username"></h2>
         <p>This is your statistics for current week:</p>
         <h4>Wasted food in kg</h4>
         <div id="myProgress">
@@ -32,10 +34,9 @@
         <p id="p_sameline">This amount is {average - amount}<p id="p_red">&nbsp;higher</p>/<p id="p_green">lower&nbsp;</p>than the average consumer wastes in Denmark</p>
     </section>
     <section id="module2">
-        <h2>Item Tracker:</h2>
-        <table id="Json-table">
-
-        </table>
+        <h2>Soon to expire</h2>
+        <div id="container">
+        </div>
     </section>
     <section id="module3">
         <h2>Statistics</h2>
