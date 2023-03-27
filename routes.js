@@ -66,25 +66,26 @@ router.post("/login", (req, res) => {
     // GPT: Hash the entered password using the SHA-256 algorithm before checking against stored hash
     let passwordtest = crypto.createHash('sha256').update(req.body.password).digest('hex');
   
-    console.log(`${usernametest} tried to login`);
+    console.log(`Login attempt by: ${usernametest}`);
   
     let user = users44.find(function (user) {
       return user.username === usernametest && user.password === passwordtest;
     });
-    console.log(user)
+
     if (user) {
       const token = jwt.sign({ username: user.username }, 'secret', { expiresIn: '1h' });
   
-      console.log(user.username);
+      console.log(`Login successful for: ${user.username}`);
   
       res.cookie('token', token, { httpOnly: true });
   
       // GPT: Return a JSON object with a success message when the user logs in successfully
       return res.status(200).json({ success: 'User logged in successfully' });
     } else {
+      console.log(`Login failed for: ${usernametest}`);
       res.redirect("/login");
     }
-  });
+});
 
 
 router.get("/API/getUserName", verifyToken, (req, res) => {
