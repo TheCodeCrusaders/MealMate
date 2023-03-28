@@ -1,25 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <script src="https://unpkg.com/quagga/dist/quagga.min.js"></script>
-    <script src="https://unpkg.com/@ericblade/quagga2/dist/quagga.min.js"></script>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="https://unpkg.com/@ericblade/quagga2"></script>
+	<title>Barcode Scanner</title>
+	<script src="https://cdn.jsdelivr.net/npm/quagga/dist/quagga.min.js"></script>
+	<script>
+		// Start the Quagga scanner
+		Quagga.init({
+			inputStream : {
+				name : "Live",
+				type : "LiveStream",
+				target: document.querySelector('#scanner-container')
+			},
+			decoder : {
+				readers : ["ean_reader", "code_128_reader", "code_39_reader", "codabar_reader", "upc_reader", "upc_e_reader", "ean_8_reader"]
+			}
+		}, function(err) {
+			if (err) {
+				console.log(err);
+				return;
+			}
+			console.log("Quagga initialization succeeded");
+			Quagga.start();
+		});
+
+		// Add event listeners for barcode detection
+		Quagga.onDetected(function(result) {
+			console.log("Barcode detected and processed : [" + result.codeResult.code + "]");
+		});
+	</script>
+	<style>
+		#scanner-container {
+			width: 640px;
+			height: 480px;
+			margin: auto;
+			position: relative;
+		}
+
+		#scanner-container canvas {
+			position: absolute;
+			top: 0;
+			left: 0;
+			z-index: -1;
+		}
+	</style>
 </head>
 <body>
-    <button id="submitbu">Submit</button>
-  
-    <input type="file" id="file-input" accept="image/jpeg, image/png, image/jpg">
-    
-     <!----> 
-
-     <button id ="showpic">show pic</button>
-
-     <div id="result"></div>
-     <div id ="postpicplace"><tr > </tr></div>
-      <script src="barcode.js"></script>
+	<div id="scanner-container"></div>
 </body>
 </html>
