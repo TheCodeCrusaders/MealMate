@@ -2,55 +2,27 @@
 <html>
 <head>
 	<title>Barcode Scanner</title>
-	<script src="https://cdn.jsdelivr.net/npm/quagga/dist/quagga.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@zxing/library@0.18.5"></script>
 	<script>
-		var scannerActive = false;
-
+		const codeReader = new ZXing.BrowserMultiFormatReader();
+		
 		function startScanner() {
-			if (!scannerActive) {
-				scannerActive = true;
-				Quagga.init({
-					inputStream : {
-						name : "Live",
-						type : "LiveStream",
-						target: document.querySelector('#scanner-container')
-					},
-					decoder : {
-						readers : ["ean_reader", "code_128_reader", "code_39_reader", "codabar_reader", "upc_reader", "upc_e_reader", "ean_8_reader"]
-					}
-				}, function(err) {
-					if (err) {
-						console.log(err);
-						return;
-					}
-					console.log("Quagga initialization succeeded");
-					Quagga.start();
-				});
-
-				Quagga.onDetected(function(result) {
-					console.log("Barcode detected and processed : [" + result.codeResult.code + "]");
-				});
-			}
+			codeReader.decodeFromInputVideoDevice(undefined, 'video').then(result => {
+				console.log(result.text);
+			}).catch(err => {
+				console.error(err);
+			});
 		}
 	</script>
 	<style>
-		#scanner-container {
-			width: 640px;
-			height: 480px;
-			margin: auto;
-			position: relative;
-		}
-
-		#scanner-container canvas {
-			position: absolute;
-			top: 0;
-			left: 0;
-			z-index: -1;
+		#video {
+			width: 100%;
+			height: auto;
 		}
 	</style>
 </head>
 <body>
+	<video id="video" playsinline></video>
 	<button onclick="startScanner()">Start Scanner</button>
-	<div id="scanner-container"></div>
 </body>
 </html>
