@@ -1,46 +1,63 @@
+//CONSTANT DECLERATIONS
+const postpicplace = document.getElementById("postpicplace");
 const fileInput = document.getElementById('file-input');
-const scanButton = document.getElementById('scan-button');
+const resultDiv = document.getElementById('result');
+const subbutton = document.getElementById('submitbu');
+const showpic = document.getElementById("showpic");
+const quagga = new Quagga();
 
-// Initialize Quagga
-Quagga.init({
-  inputStream: {
-    name: 'FileInput',
-    size: 2800, // Image size
-    singleChannel: false,
-  },
-  decoder: {
-    readers: ['ean_reader', 'code_128_reader', 'upc_reader', 'code_39_reader', 'code_39_vin_reader', 'codabar_reader', 'i2of5_reader', '2of5_reader', 'code_93_reader', 'code_ean_8_reader', 'upc_e_reader', 'upc_ean_reader'], // List of barcode types to scan
-  },
-  locate: true,
-  numOfWorkers: 8,
-}, (err) => {
-  if (err) {
-    console.error(err);
-    return;
-  }
 
-  // Start Quagga when initialization is complete
-  Quagga.start();
+
+
+//EVENT LISTENERS
+subbutton.addEventListener('click', async function () {
+  const file = fileInput.files[0];
+  const image = new Image();
+  image.src = URL.createObjectURL(file);
+  await new Promise((resolve) => {
+    image.onload = resolve;
+  });
+  quagga.init({
+    inputStream: {
+      type: 'ImageStream',
+      src: image,
+    },
+    decoder: {
+      readers: ['ean_reader'],
+    },
+  }, (err) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    quagga.start();
+  });
+  quagga.onDetected((result) => {
+    console.log(result);
+    alert(`Barcode detected: ${result.codeResult.code}`);
+  });
 });
 
-// Listen for file input changes
-fileInput.addEventListener('change', () => {
-  if (fileInput.files && fileInput.files[0]) {
-    // Load the selected file into Quagga
-    Quagga.decodeSingle({
-      src: URL.createObjectURL(fileInput.files[0]),
-      numOfWorkers: 16, // Disable web workers to prevent a CORS error
-    }, (result) => {
-      if (result && result.codeResult) {
-        console.log(`Barcode detected: ${result.codeResult.code}`);
-      } else {
-        console.log('No barcode detected');
-      }
-    });
-  }
-});
 
-// Listen for scan button clicks
-scanButton.addEventListener('click', () => {
-  fileInput.click();
-});
+
+
+//FUNCTION DECLERATIONS
+function displayImages() {
+  postpicplace.textContent = ""; // Clear existing content
+  imageArray.forEach((image, index) => {
+    const imageDiv = document.createElement("div");
+    imageDiv.className = "image";
+
+    const img = document.createElement("img");
+    img.src = URL.createObjectURL(image);
+    img.alt = "image";
+    imageDiv.appendChild(img);
+
+    const span = document.createElement("span");
+    span.textContent = "×";
+    span.onclick = () => deleteImage(index);
+    imageDiv.appendChild(span);
+
+    postpicplace.appendChild(imageDiv);
+  });
+}

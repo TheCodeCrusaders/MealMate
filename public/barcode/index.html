@@ -1,57 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>QuaggaJS EAN-13 Barcode Scanner</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<!-- Include the QuaggaJS library -->
-	<script src="https://cdn.jsdelivr.net/npm/@ericblade/quagga2/dist/quagga.js"></script>
+    <script src="https://unpkg.com/quagga/dist/quagga.min.js"></script>
+    <script src="https://unpkg.com/@ericblade/quagga2/dist/quagga.min.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/@ericblade/quagga2"></script>
 </head>
 <body>
-	<h1>QuaggaJS EAN-13 Barcode Scanner</h1>
-	<div id="scanner-container"></div>
-	<div id="result"></div>
+    <button id="submitbu">Submit</button>
+  
+    <input type="file" id="file-input" accept="image/jpeg, image/png, image/jpg">
+    
+     <!----> 
 
-	<!-- Add a button to activate the scanner -->
-	<button onclick="startScanner()">Scan Barcode</button>
+     <button id ="showpic">show pic</button>
 
-	<!-- Initialize QuaggaJS -->
-	<script>
-		// Set up the configuration for the QuaggaJS scanner
-		const config = {
-			inputStream: {
-				type: "LiveStream",
-				constraints: {
-					width: { min: 640 },
-					height: { min: 480 },
-					facingMode: "environment",
-				},
-			},
-			decoder: {
-				readers: ["ean_reader"],
-			},
-			locate: true,
-		};
-
-		// Define a function to start the scanner
-		function startScanner() {
-			Quagga.init(config, function (err) {
-				if (err) {
-					console.error(err);
-					return;
-				}
-				console.log("QuaggaJS scanner initialized.");
-
-				Quagga.start();
-
-				// Add event listener for when a barcode is detected
-				Quagga.onDetected(function (result) {
-					console.log("Barcode detected: " + result.codeResult.code);
-					document.getElementById("result").textContent = result.codeResult.code;
-				});
-			});
-		}
-
-	</script>
+     <div id="result"></div>
+     <div id ="postpicplace"><tr > </tr></div>
+      <script src="barcode.js"></script>
 </body>
 </html>
