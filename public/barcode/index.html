@@ -4,29 +4,34 @@
 	<title>Barcode Scanner</title>
 	<script src="https://cdn.jsdelivr.net/npm/quagga/dist/quagga.min.js"></script>
 	<script>
-		// Start the Quagga scanner
-		Quagga.init({
-			inputStream : {
-				name : "Live",
-				type : "LiveStream",
-				target: document.querySelector('#scanner-container')
-			},
-			decoder : {
-				readers : ["ean_reader", "code_128_reader", "code_39_reader", "codabar_reader", "upc_reader", "upc_e_reader", "ean_8_reader"]
-			}
-		}, function(err) {
-			if (err) {
-				console.log(err);
-				return;
-			}
-			console.log("Quagga initialization succeeded");
-			Quagga.start();
-		});
+		var scannerActive = false;
 
-		// Add event listeners for barcode detection
-		Quagga.onDetected(function(result) {
-			console.log("Barcode detected and processed : [" + result.codeResult.code + "]");
-		});
+		function startScanner() {
+			if (!scannerActive) {
+				scannerActive = true;
+				Quagga.init({
+					inputStream : {
+						name : "Live",
+						type : "LiveStream",
+						target: document.querySelector('#scanner-container')
+					},
+					decoder : {
+						readers : ["ean_reader", "code_128_reader", "code_39_reader", "codabar_reader", "upc_reader", "upc_e_reader", "ean_8_reader"]
+					}
+				}, function(err) {
+					if (err) {
+						console.log(err);
+						return;
+					}
+					console.log("Quagga initialization succeeded");
+					Quagga.start();
+				});
+
+				Quagga.onDetected(function(result) {
+					console.log("Barcode detected and processed : [" + result.codeResult.code + "]");
+				});
+			}
+		}
 	</script>
 	<style>
 		#scanner-container {
@@ -45,6 +50,7 @@
 	</style>
 </head>
 <body>
+	<button onclick="startScanner()">Start Scanner</button>
 	<div id="scanner-container"></div>
 </body>
 </html>
