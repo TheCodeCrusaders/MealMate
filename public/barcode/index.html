@@ -12,6 +12,9 @@
 	<div id="scanner-container"></div>
 	<div id="result"></div>
 
+	<!-- Add a button to activate the scanner -->
+	<button onclick="startScanner()">Scan Barcode</button>
+
 	<!-- Initialize QuaggaJS -->
 	<script>
 		// Set up the configuration for the QuaggaJS scanner
@@ -30,22 +33,24 @@
 			locate: true,
 		};
 
-		// Start the scanner
-		Quagga.init(config, function (err) {
-			if (err) {
-				console.error(err);
-				return;
-			}
-			console.log("QuaggaJS scanner initialized.");
+		// Define a function to start the scanner
+		function startScanner() {
+			Quagga.init(config, function (err) {
+				if (err) {
+					console.error(err);
+					return;
+				}
+				console.log("QuaggaJS scanner initialized.");
 
-			Quagga.start();
+				Quagga.start();
 
-			// Add event listener for when a barcode is detected
-			Quagga.onDetected(function (result) {
-				console.log("Barcode detected: " + result.codeResult.code);
-				document.getElementById("result").textContent = result.codeResult.code;
+				// Add event listener for when a barcode is detected
+				Quagga.onDetected(function (result) {
+					console.log("Barcode detected: " + result.codeResult.code);
+					document.getElementById("result").textContent = result.codeResult.code;
+				});
 			});
-		});
+		}
 
 	</script>
 </body>
