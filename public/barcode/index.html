@@ -7,7 +7,10 @@
 		const codeReader = new ZXing.BrowserMultiFormatReader();
 		
 		function startScanner() {
-			codeReader.decodeFromInputVideoDevice(undefined, 'video').then(result => {
+			const hints = new Map();
+			hints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS, [ZXing.BarcodeFormat.EAN_13]);
+			
+			codeReader.decodeFromInputVideoDevice(undefined, 'video', { hints: hints }).then(result => {
 				console.log(result.text);
 			}).catch(err => {
 				console.error(err);
