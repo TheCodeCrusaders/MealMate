@@ -1,12 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+	<title>QuaggaJS EAN-13 Barcode Scanner</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Include the QuaggaJS library -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
 </head>
 <body>
-    
+	<h1>QuaggaJS EAN-13 Barcode Scanner</h1>
+	<div id="scanner-container"></div>
+	<div id="result"></div>
+
+	<!-- Initialize QuaggaJS -->
+	<script>
+		// Set up the configuration for the QuaggaJS scanner
+		const config = {
+			inputStream: {
+				type: "LiveStream",
+				constraints: {
+					width: { min: 640 },
+					height: { min: 480 },
+					facingMode: "environment",
+				},
+			},
+			decoder: {
+				readers: ["ean_reader"],
+			},
+			locate: true,
+		};
+
+		// Start the scanner
+		Quagga.init(config, function (err) {
+			if (err) {
+				console.error(err);
+				return;
+			}
+			console.log("QuaggaJS scanner initialized.");
+
+			Quagga.start();
+
+			// Add event listener for when a barcode is detected
+			Quagga.onDetected(function (result) {
+				console.log("Barcode detected: " + result.codeResult.code);
+				document.getElementById("result").textContent = result.codeResult.code;
+			});
+		});
+
+	</script>
 </body>
 </html>
