@@ -14,16 +14,20 @@ document.addEventListener("DOMContentLoaded", (e) => {
             // Create header row
             const headerRow = document.createElement("tr");
             const header1 = document.createElement("th");
-            header1.textContent = "Location";
+            header1.textContent = "Product";
             headerRow.appendChild(header1);
 
             const header2 = document.createElement("th");
-            header2.textContent = "Name";
+            header2.textContent = "Quantity";
             headerRow.appendChild(header2);
 
             const header3 = document.createElement("th");
-            header3.textContent = "Expiration date";
+            header3.textContent = "Price";
             headerRow.appendChild(header3);
+
+            const header4 = document.createElement("th");
+            header4.textContent = "";
+            headerRow.appendChild(header4);
 
             // Add header row to table
             table.appendChild(headerRow);
@@ -50,39 +54,8 @@ document.addEventListener("DOMContentLoaded", (e) => {
             });
 
             // Add table to HTML page
-            const tableContainer = document.getElementById("container");
+            const tableContainer = document.getElementById("shoppinglist");
             tableContainer.appendChild(table);
         })
         .catch(error => console.error(error));
 })
-
-document.addEventListener("DOMContentLoaded", (e) => {
-    fetch("/API/getUserName")
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            }
-            throw new Error("response was not in the 200 range " + response.Error)
-        })
-        .then(data => {
-                let str = data.username;
-                let username = str.charAt(0).toUpperCase() + str.slice(1); // Makes first letter of username capital
-
-                // Selecting h1 element containing a welcome message and inserts username
-                document.querySelector("#username").textContent = "Hi, " + username + "!";
-            })            
-        })
-
-function move(amount) {
-    var elem = document.getElementById("myBar");
-    var width = 0;
-    var id = setInterval(frame, 10);
-    function frame() {
-        if (width >= amount) {
-            clearInterval(id);
-        } else {
-            width++;
-            elem.style.width = width + '%';
-        }
-    }
-}

@@ -7,6 +7,8 @@ import cookieParser from 'cookie-parser';
 router.use(cookieParser());
 import crypto from 'crypto';
 import removeItem from "./removeItem.js"
+import getShoppingList from "./shoppinglist.js"
+import saveShoppingList from "./shoppinglist.js"
 
 
 import recipies from './recipe.js'
@@ -367,6 +369,31 @@ router.post('/newuser', (req, res) => {
     //res.redirect("/login");
 });
 
+// Add a new item to the shopping list
+router.post('/api/shoppingList', function(req, res) {
+    const shoppingList = getShoppingList();
+    const newItem = req.body;
+    shoppingList.push(newItem);
+    saveShoppingList(shoppingList);
+    res.send('Item added to shopping list: ' + JSON.stringify(newItem));
+  });
+  
+  // Get all items in the shopping list
+  router.get('/api/shoppingList', function(req, res) {
+    const shoppingList = getShoppingList();
+    res.send(shoppingList);
+  });
+  
+  // Remove an item from the shopping list
+  router.delete('/api/shoppingList/:id', function(req, res) {
+    const itemId = req.params.id;
+    const shoppingList = getShoppingList();
+    const updatedShoppingList = shoppingList.filter(function(item) {
+      return item.id !== itemId;
+    });
+    saveShoppingList(updatedShoppingList);
+    res.send('Item removed from shopping list: ' + itemId);
+  });
 
 
 export default router

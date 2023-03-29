@@ -42,7 +42,7 @@ section {
     background-color: #f1f1f1;
     padding: 20px;
     margin: 20px;
-    width: calc(33.33% - 80px);
+    width: calc(50% - 80px);
     position: relative;
     top: -100px;
     opacity: 0;
@@ -271,4 +271,38 @@ table td {
 /* Table border */
 table th, table td {
   border: 1px solid #ddd;
+}
+
+#shoppinglist-table #shoppinglist-form input[type="text"] {
+  border: none;
+  background-color: #f2f2f2;
+  padding: 10px;
+  width: 100%;
+}
+
+#shoppinglist-table #shoppinglist-form input[type="number"]::-webkit-inner-spin-button,
+#shoppinglist-table #shoppinglist-form input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+#shoppinglist-table #shoppinglist-form input[type="number"] {
+  border: none;
+  background-color: #f2f2f2;
+  padding: 10px;
+  width: auto;
+}
+
+#shoppinglist-table #shoppinglist-form button[type="submit"] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+#shoppinglist-table #shoppinglist-form button[type="submit"]:hover {
+  background-color: #3e8e41;
 }
