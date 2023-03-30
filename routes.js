@@ -424,6 +424,7 @@ router.post('/newuser', (req, res) => {
 
   router.get("/api/productPrice", async (req, res) => {
     const { query } = req.query;
+  
     const response = await fetch(`https://api.sallinggroup.com/v1-beta/product-suggestions/relevant-products?query=${query}`, {
       headers: {
         "Authorization": "Bearer ccf79589-89f0-4ff5-a034-2e7d93cdbbf0",
@@ -431,7 +432,15 @@ router.post('/newuser', (req, res) => {
         "Accept": "application/json"
       }
     });
+  
     const data = await response.json();
+  
+ // Check if the response is empty
+ if (!data || !data.suggestions || data.suggestions.length === 0) {
+    res.json({ suggestions: [{title: undefined, price: 0}] });
+    return;
+  }
+  
     res.json(data);
   });
 
