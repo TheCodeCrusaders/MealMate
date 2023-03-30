@@ -1,5 +1,5 @@
 //CONSTANT DECLERATIONS
-const startscanning = document.getElementById("star_scanning");
+const startscanning = document.getElementById("start_scanning");
 
 //EVENT LISTENERS
 startscanning.addEventListener('click', async function () {
