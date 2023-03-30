@@ -1,3 +1,8 @@
+const form = document.querySelector("#itemForm");
+const backdrop = document.querySelector("#backdrop");
+
+let refIndex = undefined;
+
 document.addEventListener("DOMContentLoaded", (e) => {
   loadShoppinglist();
 })
@@ -70,6 +75,15 @@ function loadShoppinglist() {
               .catch(error => console.error(error));
           };
           cell4.appendChild(deleteButton);
+
+          const addToInventory = document.createElement("button");
+          addToInventory.textContent = "Add to inventory";
+          addToInventory.onclick = () => {
+              addNewItem(item.name, item.id);
+          }
+
+          cell4.appendChild(addToInventory);
+
           row.appendChild(cell4);
 
           const pricePromise = fetch(`/api/productPrice?query=${item.name}`, {
@@ -156,3 +170,93 @@ addItemForm.addEventListener('submit', function(event) {
     */
   });
 });
+
+/*form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  if (refIndex === undefined) {
+
+    let data = {
+      "location": form.location.value,
+      "name": form.name.value,
+      "expirationDate": form.expirationDate.value
+    };
+    fetch("/API/postlist", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    })
+      .then(response => {
+        if (response.ok) {
+          alert("Item added to shopping list!");
+        } else {
+          throw new Error("Error adding item to personal list");
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        alert("Error adding item to personal list");
+      });
+  }
+});*/
+
+function addNewItemToPersonalList(itemId) {
+  if (refIndex === undefined) {
+
+    let data = {
+      "location": form.location.value,
+      "name": form.name.value,
+      "expirationDate": form.expirationDate.value
+    };
+    fetch("/API/postlist", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    })
+      .then(response => {
+        if (response.ok) {
+          fetch(`/api/shoppingList/` + itemId, {
+            method: 'DELETE'
+          })
+            .then(response => {
+              // Remove row from table on successful deletion
+              if (response.ok) {
+                location.reload();
+              }
+            })
+        } else {
+          throw new Error("Error adding item to personal list");
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        alert("Error adding item to personal list");
+      });
+  }
+}
+
+
+//addNewItem() function decleration
+function addNewItem(itemName, itemId) {
+  form.classList.toggle("visible");
+  if (backdrop.style.display === "block") {
+      backdrop.style.display = "none";
+  }
+  else {
+      backdrop.style.display = "block";
+  }
+
+  document.getElementById("name").value = itemName;
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    addNewItemToPersonalList(itemId);
+   });
+}
+backdrop.addEventListener("click", (e) => {
+  addNewItem();
+  refIndex = undefined;
+})

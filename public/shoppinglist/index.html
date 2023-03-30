@@ -41,6 +41,27 @@
                 <!-- Table content -->
             </table>
           </div>
+          <div id="input">
+            <div id="backdrop">
+            </div>
+    
+            <form id="itemForm">
+              <label for="location">Location:</label>
+              <select id="location" name="location">
+                <option value="fridge" selected>Fridge</option>
+                <option value="pantry">Pantry</option>
+                <option value="other">Other</option>
+              </select><br /><br />
+    
+              <label for="name">Name:</label>
+              <input type="text" id="name" name="name" placeholder="Item name" /><br /><br /> <!--placeholder added-->
+              <div id="autocomplete-list"></div>                                              <!--div added-->
+              <label for="expirationDate">Expiration Date:</label>
+              <input type="date" id="expirationDate" name="expirationDate" /><br /><br />
+    
+              <button type="submit">Import to personal item list</button>
+            </form>
+          </div>
     </section>
 </main>
 <footer>
