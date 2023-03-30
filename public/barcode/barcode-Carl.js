@@ -23,7 +23,7 @@ subbutton.addEventListener('click', async function () {
       src: image,
     },
     decoder: {
-      readers: ['ean_reader'],
+      readers: ['ean_13'],
     },
   }, (err) => {
     if (err) {
