@@ -6,7 +6,7 @@ const recipies = JSON.parse(fs.readFileSync(path.resolve() + '/listofrecipes.jso
 
 export function listRecipies(items, itemsWant) {
     try {
-        const recipies1 = recipies;
+        const recipies1 = JSON.parse(JSON.stringify(recipies));
         let recipiesSaved = [];
         let sorted;
         recipies1.forEach(recipe => {
@@ -67,7 +67,7 @@ function sortRecipes(recipeList, arrayOfItems) {
 
 export function topRecipiesForUsers(userItems) {
     try {
-        const recipies2 = recipies;
+        const recipies2 = JSON.parse(JSON.stringify(recipies));
         let recipiesSaved = [];
         recipies2.forEach(recipe => {
             recipe.ingredients.forEach(element => {
@@ -88,7 +88,7 @@ export function topRecipiesForUsers(userItems) {
             if (recipies2[i].score != undefined) {
                 recipiesSaved.push(recipies2[i]);
             }
-            if (recipiesSaved >= 5) {
+            if (recipiesSaved.length >= 5) {
                 break;
             }
         }
