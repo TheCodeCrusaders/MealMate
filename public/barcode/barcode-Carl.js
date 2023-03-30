@@ -8,7 +8,8 @@ console.log("Started Scanning")
 Quagga.init({
   inputStream : {
       name : "Live",
-      type : "LiveStream"
+      type : "LiveStream",
+      target: document.querySelector('#camera')
   },
   decoder : {
       readers : ["ean_13"]
