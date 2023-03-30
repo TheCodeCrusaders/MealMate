@@ -9,6 +9,7 @@ export function listRecipies(items, itemsWant) {
         let recipiesSaved = [];
         let sorted;
         recipies1.forEach(recipe => {
+            recipe.score = 0;
             recipe.ingredients.forEach(element => {
                 items.forEach(item => {
                     //Specific when it comes to items? should we have .includes()?
@@ -33,12 +34,12 @@ export function listRecipies(items, itemsWant) {
                 })
             })
         });
-        recipies1.forEach(el => {
-            if (el.score != undefined) {
-                recipiesSaved.push(el);
-            }
-        })
-        sorted = recipiesSaved.sort((a, b) => (b.score / b.ingredients.length) - (a.score / a.ingredients.length));
+        // recipies1.forEach(el => {
+        //     if (el.score != undefined) {
+        //         recipiesSaved.push(el);
+        //     }
+        // })
+        sorted = recipies1.sort((a, b) => (b.score / b.ingredients.length) - (a.score / a.ingredients.length));
         return sorted;
     } catch (error) {
         console.log(error);

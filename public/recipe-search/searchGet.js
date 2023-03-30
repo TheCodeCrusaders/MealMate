@@ -1,12 +1,20 @@
 let itemsSaved = [];
-
 const form = document.querySelector("#searchForm");
-window.addEventListener('load', function() {
-    document.querySelector('#searchButton').click();
-});
+document.addEventListener('DOMContentLoaded', () => {
+    fetchData();
+})
+
 form.addEventListener("submit", (e) => {
-    createButton();
     e.preventDefault();
+    if (itemsSaved.includes(document.querySelector('#search').value)) {
+        document.querySelector('#search').value = '';
+        return;
+    }
+    createButton();
+    fetchData();
+    
+})
+function fetchData() {
     let data = {
         "itemsSaved": itemsSaved,
     };
@@ -25,7 +33,7 @@ form.addEventListener("submit", (e) => {
     })
         .then(result => result.json())
         .then(jsonData => listCreation(jsonData))
-})
+}
 
 function listCreation(recipies) {
     form.reset();
@@ -34,7 +42,7 @@ function listCreation(recipies) {
     allList.textContent = '';
     recipies.forEach(ULelement => {
         recipieListOrder = document.createElement('ul');
-        recipieListOrder.textContent = ULelement.nameOfRecipe;
+        recipieListOrder.textContent = `${ULelement.nameOfRecipe} ${ULelement.score} / ${ULelement.ingredients.length}`;
         ULelement.ingredients.forEach(LIelement => {
             listIngredients = document.createElement('li');
             listIngredients.textContent = `${LIelement.ingredient} amount: ${LIelement.amount}`
@@ -62,6 +70,7 @@ function createButton() {
             itemsSaved.pop();
             form.lastChild.remove();
         }
+        fetchData();
     })
 }
 

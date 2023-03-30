@@ -162,7 +162,7 @@ function createItem(element, index) {
     let getdays = Math.ceil(timeLeft/(1000 * 60 * 60 * 24))
     const dayOfWeek = weekdays[timeLeft.getDay()];
     if (getdays < 7 && getdays >= 0) {
-        daysLeft.textContent = `${dayOfWeek} ${getdays}`
+        daysLeft.textContent = `${dayOfWeek} in ${getdays} days`
     } else {
         daysLeft.textContent = `${getdays}`
     }
