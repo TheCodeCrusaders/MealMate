@@ -12,8 +12,11 @@ Quagga.init({
       target: document.querySelector('#camera')
   },
   decoder : {
-      readers : ["ean_13"]
-  }
+      readers : ["ean_reader"]
+  },
+  canvas: {
+    willReadFrequently: true
+}
 }, function(err) {
   if (err) {
       console.log(err);
