@@ -35,7 +35,9 @@ function loadShoppinglist() {
 
       // Add header row to table
       table.appendChild(headerRow);
-      let currentDate = new Date();
+
+      let total = 0;
+      const pricePromises = [];
       // Loop through data and create rows
       data.forEach(item => {
           const row = document.createElement("tr");
@@ -62,6 +64,7 @@ function loadShoppinglist() {
                 // Remove row from table on successful deletion
                 if (response.ok) {
                   table.removeChild(row);
+                  location.reload();
                 }
               })
               .catch(error => console.error(error));
@@ -69,9 +72,48 @@ function loadShoppinglist() {
           cell4.appendChild(deleteButton);
           row.appendChild(cell4);
 
-          // Add row to table
-          table.appendChild(row);
+          const pricePromise = fetch(`/api/productPrice?query=${item.name}`, {
+          })
+          .then(response => response.json())
+          .then(data => {
+            // Get the price for the first product in the suggestions array
+            const price = data.suggestions[0].price;
+            cell3.textContent = price.toFixed(2) + " kr";
+            return price * item.quantity;
+          })
+          .catch(error => console.error(error));
+        // Add row to table
+
+        pricePromises.push(pricePromise);
+
+        table.appendChild(row);
       });
+      Promise.all(pricePromises)
+      .then(prices => {
+        prices.forEach(price => {
+          total += price;
+        });
+        // Add total row to table
+        const totalRow = document.createElement("tr");
+        const totalCell1 = document.createElement("td");
+        totalCell1.textContent = "Total";
+        totalRow.appendChild(totalCell1);
+    
+        const totalCell2 = document.createElement("td");
+        totalCell2.textContent = "";
+        totalRow.appendChild(totalCell2);
+    
+        const totalCell3 = document.createElement("td");
+        totalCell3.textContent = total.toFixed(2) + " kr";
+        totalRow.appendChild(totalCell3);
+    
+        const totalCell4 = document.createElement("td");
+        totalRow.appendChild(totalCell4);
+    
+        // Add total row to table
+        table.appendChild(totalRow);
+      })
+      .catch(error => console.error(error));
 
       // Add table to HTML page
       const tableContainer = document.getElementById("shoppinglist");
@@ -80,15 +122,17 @@ function loadShoppinglist() {
   .catch(error => console.error(error));
 }
 
+
 const addItemForm = document.getElementById('shoppinglist-form');
 addItemForm.addEventListener('submit', function(event) {
   event.preventDefault();
-  const itemName = document.getElementById('shoppinglist-input').value;
-  const itemQuantity = document.getElementById('shoppinglist-amount').value;
+  const formData = new FormData(addItemForm); // Get the form data
+
   const itemData = {
-    name: itemName,
-    quantity: itemQuantity
+    name: formData.get('shoppinglist-input'), // Replace 'username' with the name of your username input field
+    quantity: formData.get('shoppinglist-amount') // Replace 'password' with the name of your password input field
   };
+
   fetch('/api/shoppingList', {
     method: 'POST',
     headers: {
@@ -99,9 +143,16 @@ addItemForm.addEventListener('submit', function(event) {
   .then(response => response.json())
   .then(data => {
     console.log(data);
-    // do something with the response data, like update the UI
+    // Update the shopping list in the DOM
+    location.reload();
   })
   .catch(error => {
     console.error(error);
+
+    location.reload(); 
+    /*
+    Reloading the page here, some kind of error with the JSON-format. 
+    Can't figure it out, so I'm just reloading the page when receiving an error.
+    */
   });
 });

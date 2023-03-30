@@ -422,5 +422,18 @@ router.post('/newuser', (req, res) => {
     res.send('Item removed from shopping list: ' + itemId);
   });
 
+  router.get("/api/productPrice", async (req, res) => {
+    const { query } = req.query;
+    const response = await fetch(`https://api.sallinggroup.com/v1-beta/product-suggestions/relevant-products?query=${query}`, {
+      headers: {
+        "Authorization": "Bearer ccf79589-89f0-4ff5-a034-2e7d93cdbbf0",
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      }
+    });
+    const data = await response.json();
+    res.json(data);
+  });
+
 
 export default router
