@@ -5,22 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="style-dashboard.css" rel="stylesheet">
-
 </head>
 <body onload="move(40)"> <!-- Running move() function to set process bar) -->
 <script src="dashboard.js"></script>
     <header>
         <a href="/dashboard"><img src="/IMG/logo.svg" alt="Mealmate" width="300" height="50"></a> <!-- Clickable logo -->
-        <nav class="nav-menu"> <!-- Navigation bar -->
-            <ul>
-                <li><a href="/dashboard">Home</a></li>
-                <li><a href="/recipe-search">Recipies</a></li>
-                <li><a href="/itemtracking">Item Tracker</a></li>
-                <li><a href="/statistics">Statistics</a></li>
-                <li><a href="/contact">Contact</a></li>
-                <li><a href="/logout">Log out</a></li>
-            </ul>
-        </nav>
+        <div id="nav-placeholder">
+        </div>
+        <script src="/../navbar.js"></script>
     </header>
 <main>
     <section id="module1">
@@ -47,6 +39,7 @@
 <footer>
     <a href="https://github.com/TheCodeCrusaders/MealMate">Open Source Project</a>
 </footer>
+
 <script>
     
 </script>
