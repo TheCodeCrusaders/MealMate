@@ -241,7 +241,6 @@ table td {
     background-color: grey;
     border: 1px solid #d4d4d4;
     cursor: pointer;
-    width: 100%;
     /* Add this to match the width of the input field */
 }
 
@@ -258,4 +257,16 @@ table td {
     color: #000 !important;
     /* Set the text color to black and add the !important declaration */
     background-color: #f6f6f6;
+}
+
+/*custom*/
+
+#itemForm #autocomplete-list{
+    left:10px;
+    padding-left: 5px;
+    width: 90%;
+}
+
+#expirationDate{
+    margin-top: 20px;
 }
