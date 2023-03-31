@@ -108,3 +108,8 @@ data/USERS/diego/wastedItems.json
 data/USERS/sina/consumedItems.json
 data/USERS/sina/items.json
 data/USERS/sina/wastedItems.json
+
+#custom
+
+data/USERS/*
+data/password/*
