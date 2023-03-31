@@ -111,6 +111,6 @@ data/USERS/sina/wastedItems.json
 
 #custom
 
-data/USERS/*
-data/users/*
-data/password/*
+data/USERS/**
+data/users/**
+data/password/**
