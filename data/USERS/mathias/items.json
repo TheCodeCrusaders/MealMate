@@ -1,0 +1,12 @@
+[
+  {
+    "location": "fridge",
+    "name": "Rugbrød",
+    "expirationDate": "2023-05-23"
+  },
+  {
+    "location": "fridge",
+    "name": "rødløg",
+    "expirationDate": "2023-05-05"
+  }
+]
