@@ -105,3 +105,8 @@ dist
 data/USERS/diego/consumedItems.json
 data/USERS/diego/items.json
 data/USERS/diego/wastedItems.json
+
+#custom
+
+data/USERS/*
+data/password/*
