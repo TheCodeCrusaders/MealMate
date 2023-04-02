@@ -1,10 +1,15 @@
+let itemsSaved = [];
+
 const form = document.querySelector("#searchForm");
+window.addEventListener('load', function() {
+    document.querySelector('#searchButton').click();
+});
 form.addEventListener("submit", (e) => {
+    createButton();
     e.preventDefault();
     let data = {
-        "navn": document.querySelector("#search").value
+        "itemsSaved": itemsSaved,
     };
-    console.log(data)
     fetch("/API/search", {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
         mode: "cors", // no-cors, *cors, same-origin
@@ -20,35 +25,57 @@ form.addEventListener("submit", (e) => {
     })
         .then(result => result.json())
         .then(jsonData => listCreation(jsonData))
-
 })
 
-
-
-
-
-//Makes a list with only the recipe names only
-
-function listCreation(item) {
-    console.log(item);
-    //Takes the value item in
-    //It wil then return the result of all the needed recipies
-    const resultList = document.getElementById('resultList');
-    //Loops through all the needed recipies
-    item.forEach(element => {
-        //Creates new list element
-        const listItem = document.createElement('ul');
-        //Creates a text node that holds the recipe name
-        const recipeName = document.createTextNode(element.navn);
-        //Add the text node to the list element
-        listItem.appendChild(recipeName);
-        element.ingredienser.forEach(el => {
-            const listIngrident = document.createElement('li');
-            const recipeingridients = document.createTextNode(el.ingrediens);
-            listIngrident.appendChild(recipeingridients);
-            listItem.appendChild(listIngrident);
-        })
-        //Add the list element to the list
-        resultList.appendChild(listItem);
+function listCreation(recipies) {
+    form.reset();
+    const allList = document.getElementById('resultList');
+    allList.textContent = '';
+    recipies.forEach(ULelement => {
+        recipieListOrder = document.createElement('ul');
+        recipieListOrder.textContent = ULelement.nameOfRecipe;
+        ULelement.ingredients.forEach(LIelement => {
+            listIngredients = document.createElement('li');
+            listIngredients.textContent = `${LIelement.ingredient} amount: ${LIelement.amount}`
+            recipieListOrder.appendChild(listIngredients);
+        });
+        ULelement.instructions.forEach(instelement => {
+            listInstructions = document.createElement('li');
+            listInstructions.textContent = instelement.inst;
+            recipieListOrder.appendChild(listInstructions)
+        });
+        allList.appendChild(recipieListOrder);
     });
 }
+
+function createButton() {
+    const itemName = document.createElement('span');
+    itemName.textContent = `${document.querySelector('#search').value}||`;
+    itemName.className = 'item-name';
+    itemsSaved.push(document.querySelector('#search').value);
+    form.appendChild(itemName);
+    const resetFilter = document.querySelector('#resetFilter');
+    resetFilter.addEventListener('click', function () {
+        while (itemsSaved.length > 0) {
+            itemsSaved.pop();
+            form.lastChild.remove();
+        }
+    })
+}
+
+const listItems = document.querySelector('.list');
+
+function showOrHide(e) {
+    //If the clicked element is a <ul>
+    if (e.target.tagName === 'UL') {
+        //Convert it to array form
+        const childList = Array.from(e.target.querySelectorAll('li'));
+        //Loops through all the list items and shows them
+        for (const lists of childList) {
+            lists.style.display = e.type === 'click' ? 'block' : 'none';
+        }
+    }
+}
+
+listItems.addEventListener('click', showOrHide);
+listItems.addEventListener('dblclick', showOrHide);

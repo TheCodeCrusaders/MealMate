@@ -12,15 +12,9 @@
 <body>
   <header>
     <a href="/dashboard"><img src="/IMG/logo.svg" alt="Mealmate" width="300" height="50"></a> <!-- Clickable logo -->
-    <nav class="nav-menu"> <!-- Navigation bar -->
-      <ul>
-        <li><a href="/dashboard">Home</a></li>
-        <li><a href="/itemtracking">Item Tracker</a></li>
-        <li><a href="/statistics">Statistics</a></li>
-        <li><a href="/contact">Contact</a></li>
-        <li><a href="/logout">Log out</a></li>
-      </ul>
-    </nav>
+    <div id="nav-placeholder">
+    </div>
+    <script src="/../navbar.js"></script>
   </header>
   <main>
     <section id="itemtracking">
@@ -28,12 +22,10 @@
         <h1>item tracking</h1>
         <button id="additem">add item</button>
       </div>
-
       <div id="input">
-
         <div id="backdrop">
-
         </div>
+
         <form id="itemForm">
           <label for="location">Location:</label>
           <select id="location" name="location">
@@ -43,14 +35,15 @@
           </select><br /><br />
 
           <label for="name">Name:</label>
-          <input type="text" id="name" name="name" /><br /><br />
-
+          <input type="text" id="name" name="name" autocomplete="off" placeholder="Item name" /><br /><br /> <!--placeholder added-->
+          <div id="autocomplete-list"></div>                                              <!--div added-->
           <label for="expirationDate">Expiration Date:</label>
           <input type="date" id="expirationDate" name="expirationDate" /><br /><br />
 
-          <button type="submit">submit</button>
+          <button type="submit">Import to personal item list</button>
         </form>
       </div>
+
       <table id="container">
         <tr>
           <th>name:</th>
@@ -60,8 +53,10 @@
           <th>buttons:</th>
         </tr>
       </table>
+      
     </section>
   </main>
+
   <footer>
     <a href="https://github.com/TheCodeCrusaders/MealMate">Open Source Project</a>
   </footer>
