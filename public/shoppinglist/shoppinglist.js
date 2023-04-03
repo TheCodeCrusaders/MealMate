@@ -47,6 +47,7 @@ function loadShoppinglist() {
       // Loop through data and create rows
       data.forEach(item => {
         let productName = "";
+        let productLink = "";
           const row = document.createElement("tr");
           const cell1 = document.createElement("td");
           cell1.textContent = item.name;
@@ -57,10 +58,17 @@ function loadShoppinglist() {
           row.appendChild(cell2);
 
           const cell3 = document.createElement("td");
+          cell3.className = "cell3";
           cell3.textContent = "";
-          cell3.addEventListener("mouseover", () => {
-            cell3.setAttribute("title", productName);
+          cell3.style.cursor = "pointer";
+          cell3.addEventListener("click", () => {
+            window.open(productLink, "_blank");
           });
+          
+          cell3.addEventListener("mouseover", () => {
+            cell3.setAttribute("title", "Origin: '" + productName + "' -> Click to view details");
+          });
+          
           row.appendChild(cell3);
 
           const cell4 = document.createElement("td");
@@ -101,6 +109,10 @@ function loadShoppinglist() {
             cell3.textContent = price.toFixed(2) + " kr";
             if (productName === "") {
               productName = data.suggestions[0].title;
+            }
+
+            if (productLink === "") {
+              productLink = data.suggestions[0].link;
             }
 
             return price * item.quantity;
