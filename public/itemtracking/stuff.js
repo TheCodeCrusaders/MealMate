@@ -8,6 +8,9 @@ const form = document.querySelector("#itemForm");
 //VARIABLE DECLERATIONS
 let refIndex = undefined;
 
+//Disables autocomplete for ID itemForm
+form.setAttribute('autocomplete', 'off');
+
 
 //Upon page being loaded, fetches the currently logged in user's personal items list, by calling fetchData()
 document.addEventListener("DOMContentLoaded", (e) => {
@@ -62,11 +65,13 @@ form.addEventListener("submit", (e) => {
     e.preventDefault();
     if (refIndex === undefined) {
 
-
         let data = {
             "location": form.location.value,
             "name": form.name.value,
-            "expirationDate": form.expirationDate.value
+            "expirationDate": form.expirationDate.value,
+            "shelf-stable": form.shelfStable.value,
+            "freezable": form.freezable.value,
+            "calories": form.calories.value
         };
         fetch("/API/postlist", {
             method: "POST", // *GET, POST, PUT, DELETE, etc.
@@ -87,6 +92,9 @@ form.addEventListener("submit", (e) => {
             "location": form.location.value,
             "name": form.name.value,
             "expirationDate": form.expirationDate.value,
+            "shelf-able": form.shelfStable.value,
+            "freezable": form.freezable.value,
+            "calories": form.calories.value,
             "index": refIndex
         };
         fetch("/API/edititem", {
@@ -103,11 +111,15 @@ form.addEventListener("submit", (e) => {
             body: JSON.stringify(data), // body data type must match "Content-Type" header
         });
     }
-    form.location.selected = "Fridge";
-    form.name.value = "";
     form.expirationDate.value = "";
+    form.calories.value = "";
+    form.name.value = "";
+    
+    form.location.selected = "Fridge";
+    form.shelfStable.value = "Yes";
+    form.freezable.value = "Yes";
+    
     removeItems();
-
     addNewItem();
 })
 

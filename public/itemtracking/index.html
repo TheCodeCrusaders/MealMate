@@ -19,8 +19,15 @@
   <main>
     <section id="itemtracking">
       <div id="h1Container">
-        <h1>item tracking</h1>
+        <h1>Item Tracking</h1>
         <button id="additem">add item</button>
+        <label for="Sort">
+          <img src="UpDown.png" alt="Logo" width="10" height="10">
+        </label>
+        <select id="Sort" name="Sort">
+          <option value="Recently added" selected>Recently added</option>
+          <option value="Expiration date">Expiration date</option>
+        </select>
       </div>
       <div id="input">
         <div id="backdrop">
@@ -28,11 +35,27 @@
 
         <form id="itemForm">
           <label for="location">Location:</label>
-          <select id="location" name="location">
+          <select id="location" name="Location">
             <option value="fridge" selected>Fridge</option>
             <option value="pantry">Pantry</option>
             <option value="other">Other</option>
           </select><br /><br />
+
+          <label for="shelfStable">shelfStable:</label>
+          <select id="shelfStable" name="shelfStable">
+            <option value="Yes" selected>Yes</option>
+            <option value="No">No</option>
+          </select><br /><br />
+
+          <label for="freezable">Freezable:</label>
+          <select id="freezable" name="freezable">
+            <option value="Yes" selected>Yes</option>
+            <option value="No">No</option>
+          </select><br /><br />
+
+          <label for="calories">Calories:</label>
+          <input type="text" id="calories" name="calories" autocomplete="off" placeholder="Per 100g/100ml/unit" /><br /><br /> <!--placeholder added-->
+          
 
           <label for="name">Name:</label>
           <input type="text" id="name" name="name" autocomplete="off" placeholder="Item name" /><br /><br /> <!--placeholder added-->
@@ -40,7 +63,11 @@
           <label for="expirationDate">Expiration Date:</label>
           <input type="date" id="expirationDate" name="expirationDate" /><br /><br />
 
-          <button type="submit">Import to personal item list</button>
+          <button type="submit" style="background-color: transparent; position: relative; display: inline-block; border: none; padding: 0;">
+            <img src="70x70.png" alt="Logo" width="70" height="70">
+            <span style="position: absolute; top: 100%; left: 50%; transform: translate(-50%, -50%);">Add</span>
+          </button>
+          
         </form>
       </div>
 
