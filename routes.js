@@ -8,6 +8,8 @@ router.use(cookieParser());
 import crypto from 'crypto';
 import removeItem from "./functions/removeItem.js"
 
+const userDirectoryPath = "/data/USERS/";
+
 
 import { listRecipies, topRecipiesForUsers } from './functions/recipe.js'
 router.post('/API/search', verifyToken, (req, res) => {
@@ -347,6 +349,10 @@ router.post('/newuser', (req, res) => {
     if (duplicate) {
         return res.status(400).json({ error: 'Username already exists' });
     }
+
+    if (fs.existsSync(`data/USERS/${newUser.username}/`)) {
+        return res.status(400).json({ error: 'Username already exists' });
+      }
 
     // Add the new data to the array
     data.users.push(newUser);
