@@ -10,7 +10,6 @@ import removeItem from "./functions/removeItem.js"
 
 const userDirectoryPath = "/data/USERS/";
 
-
 import { listRecipies, topRecipiesForUsers } from './functions/recipe.js'
 router.post('/API/search', verifyToken, (req, res) => {
     fs.promises.readFile(`${path.resolve()}/data/USERS/${req.user.username}/items.json`)
