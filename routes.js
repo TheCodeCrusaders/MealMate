@@ -437,7 +437,7 @@ router.post('/newuser', (req, res) => {
   
     const response = await fetch(`https://api.sallinggroup.com/v1-beta/product-suggestions/relevant-products?query=${query}`, {
       headers: {
-        "Authorization": "Bearer ccf79589-89f0-4ff5-a034-2e7d93cdbbf0",
+        "Authorization": "Bearer 3dac909e-0081-464f-aeac-f9a2efe5cf1a",
         "Content-Type": "application/json",
         "Accept": "application/json"
       }

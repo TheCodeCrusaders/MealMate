@@ -43,7 +43,7 @@ function loadShoppinglist() {
 
       let total = 0;
       const pricePromises = [];
-
+  
       // Loop through data and create rows
       data.forEach(item => {
         let productName = "";
@@ -64,11 +64,11 @@ function loadShoppinglist() {
           cell3.addEventListener("click", () => {
             window.open(productLink, "_blank");
           });
-
+          
           cell3.addEventListener("mouseover", () => {
             cell3.setAttribute("title", "Origin: '" + productName + "' -> Click to view details");
           });
-
+          
           row.appendChild(cell3);
 
           const cell4 = document.createElement("td");
@@ -82,9 +82,7 @@ function loadShoppinglist() {
                 // Remove row from table on successful deletion
                 if (response.ok) {
                   table.removeChild(row);
-                  setTimeout(() => {
-                    loadShoppinglist();
-                  }, 1000);        
+                  location.reload();
                 }
               })
               .catch(error => console.error(error));
@@ -138,19 +136,19 @@ function loadShoppinglist() {
         totalCell1.textContent = "Total";
         totalCell1.style.fontWeight = "bold";
         totalRow.appendChild(totalCell1);
-
+    
         const totalCell2 = document.createElement("td");
         totalCell2.textContent = "";
         totalRow.appendChild(totalCell2);
-
+    
         const totalCell3 = document.createElement("td");
         totalCell3.textContent = total.toFixed(2) + " kr";
         totalCell3.style.fontWeight = "bold";
         totalRow.appendChild(totalCell3);
-
+    
         const totalCell4 = document.createElement("td");
         totalRow.appendChild(totalCell4);
-
+    
         // Add total row to table
         table.appendChild(totalRow);
       })
@@ -158,11 +156,11 @@ function loadShoppinglist() {
 
       // Add table to HTML page
       const tableContainer = document.getElementById("shoppinglist");
-      tableContainer.innerHTML = "";
       tableContainer.appendChild(table);
   })
   .catch(error => console.error(error));
 }
+
 
 const addItemForm = document.getElementById('shoppinglist-form');
 addItemForm.addEventListener('submit', function(event) {
@@ -194,17 +192,16 @@ addItemForm.addEventListener('submit', function(event) {
   .then(data => {
     console.log(data);
     // Update the shopping list in the DOM
-    setTimeout(() => {
-        loadShoppinglist();
-      }, 1000);
-
+    location.reload();
   })
   .catch(error => {
     console.error(error);
 
-    setTimeout(() => {
-        loadShoppinglist();
-      }, 1000);
+    location.reload();
+    /*
+    Reloading the page here, some kind of error with the JSON-format.
+    Can't figure it out, so I'm just reloading the page when receiving an error.
+    */
   });
 });
 
@@ -231,7 +228,7 @@ function addNewItemToPersonalList(itemId) {
             .then(response => {
               // Remove row from table on successful deletion
               if (response.ok) {
-                loadShoppinglist();
+                location.reload();
               }
             })
         } else {

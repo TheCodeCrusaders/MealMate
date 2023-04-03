@@ -82,9 +82,7 @@ function loadShoppinglist() {
                 // Remove row from table on successful deletion
                 if (response.ok) {
                   table.removeChild(row);
-                  setTimeout(() => {
-                    loadShoppinglist();
-                  }, 1000);        
+                    updateTotalPrice();          
                 }
               })
               .catch(error => console.error(error));
@@ -194,17 +192,12 @@ addItemForm.addEventListener('submit', function(event) {
   .then(data => {
     console.log(data);
     // Update the shopping list in the DOM
-    setTimeout(() => {
-        loadShoppinglist();
-      }, 1000);
-
+    loadShoppinglist();
   })
   .catch(error => {
     console.error(error);
 
-    setTimeout(() => {
-        loadShoppinglist();
-      }, 1000);
+    loadShoppinglist();
   });
 });
 
@@ -267,3 +260,15 @@ backdrop.addEventListener("click", (e) => {
   addNewItem();
   refIndex = undefined;
 })
+
+function updateTotalPrice() {
+  const table = document.getElementById("shoppinglist");
+  const rows = table.rows;
+  let total = 0;
+  for (let i = 1; i < rows.length - 1; i++) {
+    const quantity = parseInt(rows[i].cells[1].innerHTML);
+    const price = parseFloat(rows[i].cells[2].innerHTML.substring(0, rows[i].cells[2].innerHTML.length - 3));
+    total += quantity * price;
+  }
+  rows[rows.length - 1].cells[2].innerHTML = total.toFixed(2) + " kr";
+}
