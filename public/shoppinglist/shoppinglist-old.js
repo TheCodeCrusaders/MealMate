@@ -1,18 +1,62 @@
 const form = document.querySelector("#itemForm");
 const backdrop = document.querySelector("#backdrop");
-const addItemForm = document.getElementById('shoppinglist-form');
 let refIndex = undefined;
 let canClick = true;
 
 document.addEventListener("DOMContentLoaded", (e) => {
   loadShoppinglist();
+  setTimeout(() => {
+    loadPrices();
+  }, 1000);
 });
 
-addItemForm.addEventListener('submit', function(event) {
-  event.preventDefault();
-  searchList();
-});
+function handleClick() {
+    if (canClick) {
+      // Perform button click logic here
+      loadPrices();
+      // Disable button for 1 minute
+      canClick = false;
+      setTimeout(() => {
+        canClick = true;
+      }, 60000);
+    }
+  }
   
+
+function loadPrices() {
+  const pricePromises = [];
+  const cells = document.querySelectorAll(".cell3");
+  cells.forEach(cell => {
+    const item = cell.parentNode;
+    const pricePromise = fetch(`/api/productPrice?query=${item.querySelector("td:first-child").textContent}`, {})
+      .then(response => response.json())
+      .then(data => {
+        const price = data.suggestions[0].price;
+        cell.textContent = price.toFixed(2) + " kr";
+        cell.style.cursor = "pointer";
+        cell.addEventListener("click", () => {
+          window.open(data.suggestions[0].link, "_blank");
+        });
+        cell.addEventListener("mouseover", () => {
+          cell.setAttribute("title", "Origin: '" + data.suggestions[0].title + "' -> Click to view details");
+        });
+        return price * item.querySelector(".cell2").textContent;
+      })
+      .catch(error => console.error(error));
+    pricePromises.push(pricePromise);
+  });
+  Promise.all(pricePromises)
+    .then(prices => {
+      let total = 0;
+      prices.forEach(price => {
+        total += price;
+      });
+      const totalCell = document.querySelector("#total-cell");
+      totalCell.textContent = total.toFixed(2) + " kr";
+    })
+    .catch(error => console.error(error));
+}
+
 function loadShoppinglist() {
   fetch("/api/shoppingList")
     .then(response => {
@@ -28,6 +72,10 @@ function loadShoppinglist() {
       header1.textContent = "Product";
       headerRow.appendChild(header1);
 
+      const header2 = document.createElement("th");
+      header2.textContent = "Quantity";
+      headerRow.appendChild(header2);
+
       const header3 = document.createElement("th");
       header3.textContent = "Price";
       headerRow.appendChild(header3);
@@ -39,20 +87,31 @@ function loadShoppinglist() {
 
       table.appendChild(headerRow);
 
-      let total = 0;
-
       data.forEach(item => {
         const row = document.createElement("tr");
         const cell1 = document.createElement("td");
         cell1.textContent = item.name;
         row.appendChild(cell1);
 
+        const cell2 = document.createElement("td");
+        cell2.className = "cell2";
+        cell2.textContent = item.quantity;
+        row.appendChild(cell2);
+
         const cell3 = document.createElement("td");
-        cell3.className = "cell3"; 
-        cell3.textContent = item.price.toFixed(2) + " kr";
+        cell3.className = "cell3";
 
-        total += item.price;
+        if (canClick === true) {
+            cell3.style.cursor = "pointer";
+        }
+        else {
+            cell3.style.cursor = "default";
+        }
 
+        
+        cell3.textContent = "Click to reload";
+
+        cell3.addEventListener("click", handleClick);
 
         row.appendChild(cell3);
 
@@ -89,10 +148,12 @@ function loadShoppinglist() {
       totalCell1.style.fontWeight = "bold";
       totalRow.appendChild(totalCell1);
 
+      const totalCell2 = document.createElement("td");
+      totalRow.appendChild(totalCell2);
 
       const totalCell3 = document.createElement("td");
       totalCell3.id = "total-cell";
-      totalCell3.textContent = total.toFixed(2) + " kr";
+      totalCell3.textContent = "0 kr";
       totalCell3.style.fontWeight = "bold";
       totalRow.appendChild(totalCell3);
 
@@ -108,107 +169,40 @@ function loadShoppinglist() {
     .catch(error => console.error(error));
 }
 
-function searchList() {
+const addItemForm = document.getElementById('shoppinglist-form');
+addItemForm.addEventListener('submit', function(event) {
+  event.preventDefault();
   const formData = new FormData(addItemForm);
+  const quantityInput = formData.get('shoppinglist-amount');
+  const parsedQuantity = parseInt(quantityInput);
+  let itemData = {};
 
-  const itemData = {
-    name: formData.get('shoppinglist-input')
+  if (!isNaN(parsedQuantity) && parsedQuantity >= 0 && parsedQuantity <= 1000) {
+    itemData = {
+      name: formData.get('shoppinglist-input'),
+      quantity: parsedQuantity
+    };
+  } else {
+    alert("Please enter a number between 1 and 1000 for the quantity.");
+    return;
   }
 
-  fetch(`/api/productPrice?query=${itemData.name}`)
-  .then(response => {
-      if (response.ok) {
-          return response.json();
-      }
-      throw new Error("response was not in the 200 range " + response.Error)
-  })
-  .then(data => {
-      // Create table element
-      const table = document.createElement("table");
-
-      // Create header row
-      const headerRow = document.createElement("tr");
-      const header1 = document.createElement("th");
-      header1.textContent = "Product name";
-      headerRow.appendChild(header1);
-
-      const header2 = document.createElement("th");
-      header2.textContent = "Price";
-      headerRow.appendChild(header2);
-
-      const header3 = document.createElement("th");
-      header3.textContent = "Image";
-      headerRow.appendChild(header3);
-
-      const header4 = document.createElement("th");
-      header4.textContent = "";
-      headerRow.appendChild(header4);
-
-      // Add header row to table
-      table.appendChild(headerRow);
-
-// Loop through data and create rows
-data.suggestions.forEach(item => {
-  const rowData = {
-    name: item.title,
-    price: item.price
-  };
-
-  const row = document.createElement("tr");
-  const cell1 = document.createElement("td");
-  cell1.textContent = item.title;
-  cell1.style.cursor = "pointer";
-  cell1.addEventListener("click", () => {
-    window.open(item.link, "_blank");
-  });
-  row.appendChild(cell1);
-
-  const cell2 = document.createElement("td");
-  cell2.textContent = item.price.toFixed(2) + " kr";
-  row.appendChild(cell2);
-
-  const cell3 = document.createElement("td");
-  const img = document.createElement("img");
-  img.src = item.img;
-  cell3.appendChild(img);
-  row.appendChild(cell3);
-
-  const cell4 = document.createElement("td");
-  const addButton = document.createElement("button");
-  addButton.textContent = "Add";
-  addButton.onclick = () => {
-    fetch('/api/shoppingList', {
+  fetch('/api/shoppingList', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(rowData)
+      body: JSON.stringify(itemData)
     })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('There was an error adding the item to the shopping list.');
-      }      
-      tableContainer.removeChild(table);   
-      loadShoppinglist();  
+    .then(response => response.json())
+    .then(data => {
+        loadShoppinglist();
     })
     .catch(error => {
       console.error(error);
+      loadShoppinglist();
     });
-  };
-  cell4.appendChild(addButton);
-  row.appendChild(cell4);
-
-  table.appendChild(row);
-})
-
-      // Append table to the DOM
-      const tableContainer = document.getElementById("shoppinglist-search");
-      tableContainer.appendChild(table);
-    })
-    .catch(error => {
-      console.error(error);
-    })
-}
+});
 
 function addNewItemToPersonalList(itemId) {
   if (refIndex === undefined) {

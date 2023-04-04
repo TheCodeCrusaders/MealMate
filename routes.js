@@ -400,8 +400,65 @@ router.post('/newuser', (req, res) => {
     fs.writeFileSync(shoppingListFilePath, JSON.stringify(shoppingList));
   }
 
+  router.post("/api/shoppingList", verifyToken, (req, res) => {
+    const filePath = path.resolve() + `/data/USERS/${req.user.username}/shoppinglist.json`;
+    const shoppingList = getShoppingList(filePath);
+
+    const newItem = {
+        id: uuidv4(),
+        name: req.body.name,
+        price: req.body.price
+      };
+
+    shoppingList.push(newItem);
+    saveShoppingList(filePath, shoppingList);
+    res.send('Item added to shopping list: ' + JSON.stringify(newItem));
+  });
+  
+  // Get all items in the shopping list
+  router.get("/api/shoppingList", verifyToken, (req, res) =>
+ {
+    const filePath = path.resolve() + `/data/USERS/${req.user.username}/shoppinglist.json`;
+    const shoppingList = getShoppingList(filePath);
+    res.send(shoppingList);
+  });
+  
+  // Remove an item from the shopping list
+  router.delete("/api/shoppingList/:id", verifyToken, (req, res) => {
+    const filePath = path.resolve() + `/data/USERS/${req.user.username}/shoppinglist.json`;
+    const itemId = req.params.id;
+    const shoppingList = getShoppingList(filePath);
+    const updatedShoppingList = shoppingList.filter(function(item) {
+      return item.id !== itemId;
+    });
+    saveShoppingList(filePath, updatedShoppingList);
+    res.send('Item removed from shopping list: ' + itemId);
+  });
+
+  router.get("/api/productPrice", async (req, res) => {
+    const { query } = req.query;
+  
+    const response = await fetch(`https://api.sallinggroup.com/v1-beta/product-suggestions/relevant-products?query=${query}`, {
+      headers: {
+        "Authorization": "Bearer 3dac909e-0081-464f-aeac-f9a2efe5cf1a",
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      }
+    });
+  
+    const data = await response.json();
+  
+ // Check if the response is empty
+ if (!data || !data.suggestions || data.suggestions.length === 0) {
+    res.json({ suggestions: [{title: undefined, price: 0}] });
+    return;
+  }
+  
+    res.json(data);
+  });
 
   // Add a new item to the shopping list
+  /*
   router.post("/api/shoppingList", verifyToken, (req, res) => {
     const filePath = path.resolve() + `/data/USERS/${req.user.username}/shoppinglist.json`;
     const shoppingList = getShoppingList(filePath);
@@ -458,6 +515,6 @@ router.post('/newuser', (req, res) => {
   
     res.json(data);
   });
-
+*/
 
 export default router
