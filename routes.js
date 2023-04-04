@@ -101,8 +101,9 @@ router.post("/login", (req, res) => {  // post action declared, will wait for po
 
 
 router.get("/API/getUserName", verifyToken, (req, res) => {
-    res.json({ "username": req.user.username })
-
+    res.json({
+        "username": req.user.username,
+    })
 })
 
 
@@ -457,64 +458,41 @@ router.post('/newuser', (req, res) => {
     res.json(data);
   });
 
-  // Add a new item to the shopping list
-  /*
-  router.post("/api/shoppingList", verifyToken, (req, res) => {
-    const filePath = path.resolve() + `/data/USERS/${req.user.username}/shoppinglist.json`;
-    const shoppingList = getShoppingList(filePath);
+  router.post("/API/changePassword", verifyToken, (req, res) => {
 
-    const newItem = {
-        id: uuidv4(),
-        name: req.body.name,
-        quantity: req.body.quantity
-      };
+    const userDetails = {
+        username: req.user.username,
+        oldPassword: crypto.createHash('sha256').update(req.body.oldPassword).digest('hex'),
+        newPassword1: crypto.createHash('sha256').update(req.body.newPassword1).digest('hex'),
+        newPassword2: crypto.createHash('sha256').update(req.body.newPassword2).digest('hex')
+    };
 
-    shoppingList.push(newItem);
-    saveShoppingList(filePath, shoppingList);
-    res.send('Item added to shopping list: ' + JSON.stringify(newItem));
-  });
-  
-  // Get all items in the shopping list
-  router.get("/api/shoppingList", verifyToken, (req, res) =>
- {
-    const filePath = path.resolve() + `/data/USERS/${req.user.username}/shoppinglist.json`;
-    const shoppingList = getShoppingList(filePath);
-    res.send(shoppingList);
-  });
-  
-  // Remove an item from the shopping list
-  router.delete("/api/shoppingList/:id", verifyToken, (req, res) => {
-    const filePath = path.resolve() + `/data/USERS/${req.user.username}/shoppinglist.json`;
-    const itemId = req.params.id;
-    const shoppingList = getShoppingList(filePath);
-    const updatedShoppingList = shoppingList.filter(function(item) {
-      return item.id !== itemId;
-    });
-    saveShoppingList(filePath, updatedShoppingList);
-    res.send('Item removed from shopping list: ' + itemId);
+    const filePath = path.join(path.resolve() + "/data/Passwords/users.json");
+
+    const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+
+    const user = data.users.find(user => user.username === userDetails.username);
+
+    // Check if the old password matches with the user's password
+    if (user.password !== userDetails.oldPassword) {
+        return res.status(400).json({ error: 'Old password is incorrect!' });
+    }
+
+    // Check if the new password and confirm password match
+    if (userDetails.newPassword1 !== userDetails.newPassword2) {
+        return res.status(400).json({ error: 'The new password doesnt match!' });
+    }
+
+      // Update the user's password
+      user.password = userDetails.newPassword1;
+
+      // Save the updated data to file
+      fs.writeFileSync(filePath, JSON.stringify(data));
+
+      res.json({ success: true });
+
+
   });
 
-  router.get("/api/productPrice", async (req, res) => {
-    const { query } = req.query;
-  
-    const response = await fetch(`https://api.sallinggroup.com/v1-beta/product-suggestions/relevant-products?query=${query}`, {
-      headers: {
-        "Authorization": "Bearer 3dac909e-0081-464f-aeac-f9a2efe5cf1a",
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      }
-    });
-  
-    const data = await response.json();
-  
- // Check if the response is empty
- if (!data || !data.suggestions || data.suggestions.length === 0) {
-    res.json({ suggestions: [{title: undefined, price: 0}] });
-    return;
-  }
-  
-    res.json(data);
-  });
-*/
 
 export default router
