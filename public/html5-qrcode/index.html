@@ -1,36 +1,26 @@
+Copy code
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-  <title>HTML5QR Scanner</title>
-  <style>
-    #scanner {
-      width: 100%;
-      height: auto;
-    }
-
-    #buttons {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      margin-top: 1rem;
-    }
-
-    button {
-      padding: 0.5rem 1rem;
-      font-size: 1rem;
-    }
-  </style>
-  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EAN-13 Barcode Scanner</title>
+      
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    
+    <script src="app.js" defer></script>
 </head>
 <body>
-  <div id="scanner"></div>
-  <div id="buttons">
-    <button id="startButton">Start</button>
-    <button id="stopButton">Stop</button>
-  </div>
-  <script src="ean13.js"></script>
+    <h1>EAN-13 Barcode Scanner</h1>
+    <div>
+        <label for="camera-select">Select Camera:</label>
+        <select id="camera-select"></select>
+    </div>
+    <button id="start-btn">Start Scanning</button>
+    <button id="stop-btn" disabled>Stop Scanning</button>
+    <div>
+        <video id="video" width="300" height="200" style="border: 1px solid black"></video>
+    </div>
+    <p id="result"></p>
 </body>
 </html>
