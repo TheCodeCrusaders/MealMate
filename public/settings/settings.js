@@ -28,6 +28,16 @@ document.addEventListener("DOMContentLoaded", (e) => {
               newPassword1: formData.get('new-password'), // Replace 'password' with the name of your password input field
               newPassword2: formData.get('confirm-password') // Replace 'password' with the name of your password input field
           };
+        
+        if (!userData.newPassword1) {
+            errorMessage.innerText = 'Error: Please enter a password';
+            return;
+        }
+    
+        if (userData.newPassword1.length < 6) {
+            errorMessage.innerText = 'Error: Password must be at least 6 characters long';
+            return;
+        }
       
           // Make fetch request to server with oldPassword and newPassword
           fetch("/API/changePassword", {

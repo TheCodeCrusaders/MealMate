@@ -108,6 +108,8 @@ function loadShoppinglist() {
     .catch(error => console.error(error));
 }
 
+let searchData = null;
+
 function searchList() {
   const formData = new FormData(addItemForm);
 
@@ -115,99 +117,123 @@ function searchList() {
     name: formData.get('shoppinglist-input')
   }
 
-  fetch(`/api/productPrice?query=${itemData.name}`)
-  .then(response => {
-      if (response.ok) {
+  if (searchData) {
+    // Use cached data
+    createTable(searchData);
+  } else {
+    // Fetch new data
+    fetch(`/api/productPrice?query=${itemData.name}`)
+      .then(response => {
+        if (response.ok) {
           return response.json();
-      }
-      throw new Error("response was not in the 200 range " + response.Error)
-  })
-  .then(data => {
-      // Create table element
-      const table = document.createElement("table");
+        }
+        throw new Error("Response was not in the 200 range " + response.Error)
+      })
+      .then(data => {
+        searchData = data;
+        createTable(data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+}
 
-      // Create header row
-      const headerRow = document.createElement("tr");
-      const header1 = document.createElement("th");
-      header1.textContent = "Product name";
-      headerRow.appendChild(header1);
+function createTable(data) {
+  // Remove old table
+  const tableContainer = document.getElementById("shoppinglist-search");
+  while (tableContainer.firstChild) {
+    tableContainer.removeChild(tableContainer.firstChild);
+  }
 
-      const header2 = document.createElement("th");
-      header2.textContent = "Price";
-      headerRow.appendChild(header2);
+  // Create table element
+  const table = document.createElement("table");
 
-      const header3 = document.createElement("th");
-      header3.textContent = "Image";
-      headerRow.appendChild(header3);
+  // Create header row
+  const headerRow = document.createElement("tr");
+  const header1 = document.createElement("th");
+  header1.textContent = "Product name";
+  headerRow.appendChild(header1);
 
-      const header4 = document.createElement("th");
-      header4.textContent = "";
-      headerRow.appendChild(header4);
+  const header2 = document.createElement("th");
+  header2.textContent = "Price";
+  headerRow.appendChild(header2);
 
-      // Add header row to table
-      table.appendChild(headerRow);
+  const header3 = document.createElement("th");
+  header3.textContent = "Image";
+  headerRow.appendChild(header3);
 
-// Loop through data and create rows
-data.suggestions.forEach(item => {
-  const rowData = {
-    name: item.title,
-    price: item.price
-  };
+  const header4 = document.createElement("th");
+  header4.textContent = "";
+  headerRow.appendChild(header4);
 
-  const row = document.createElement("tr");
-  const cell1 = document.createElement("td");
-  cell1.textContent = item.title;
-  cell1.style.cursor = "pointer";
-  cell1.addEventListener("click", () => {
-    window.open(item.link, "_blank");
-  });
-  row.appendChild(cell1);
+  // Add header row to table
+  table.appendChild(headerRow);
 
-  const cell2 = document.createElement("td");
-  cell2.textContent = item.price.toFixed(2) + " kr";
-  row.appendChild(cell2);
+  // Loop through data and create rows
+  data.suggestions.forEach(item => {
+    const rowData = {
+      name: item.title,
+      price: item.price
+    };
 
-  const cell3 = document.createElement("td");
-  const img = document.createElement("img");
-  img.src = item.img;
-  cell3.appendChild(img);
-  row.appendChild(cell3);
-
-  const cell4 = document.createElement("td");
-  const addButton = document.createElement("button");
-  addButton.textContent = "Add";
-  addButton.onclick = () => {
-    fetch('/api/shoppingList', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(rowData)
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('There was an error adding the item to the shopping list.');
-      }      
-      tableContainer.removeChild(table);   
-      loadShoppinglist();  
-    })
-    .catch(error => {
-      console.error(error);
+    const row = document.createElement("tr");
+    const cell1 = document.createElement("td");
+    cell1.textContent = item.title;
+    cell1.style.cursor = "pointer";
+    cell1.addEventListener("click", () => {
+      window.open(item.link, "_blank");
     });
-  };
-  cell4.appendChild(addButton);
-  row.appendChild(cell4);
+    row.appendChild(cell1);
 
-  table.appendChild(row);
-})
+    const cell2 = document.createElement("td");
+    cell2.textContent = item.price.toFixed(2) + " kr";
+    row.appendChild(cell2);
 
-      // Append table to the DOM
-      const tableContainer = document.getElementById("shoppinglist-search");
-      tableContainer.appendChild(table);
-    })
-    .catch(error => {
-      console.error(error);
-    })
+    const cell3 = document.createElement("td");
+    const img = document.createElement("img");
+    img.src = item.img;
+    cell3.appendChild(img);
+    row.appendChild(cell3);
+
+    const cell4 = document.createElement("td");
+    const addButton = document.createElement("button");
+    addButton.textContent = "Add";
+    addButton.onclick = () => {
+      fetch('/api/shoppingList', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(rowData)
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('There was an error adding the item to the shopping list.');
+          }
+          // Remove old table
+          while (table.firstChild) {
+            table.removeChild(table.firstChild);
+          }
+          // Clear cached data
+          searchData = null;
+          // Add new search
+          searchList();
+
+          loadShoppinglist();
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    };
+    cell4.appendChild(addButton);
+    row.appendChild(cell4);
+
+    table.appendChild(row);
+  })
+
+  // Append table to the DOM
+  tableContainer.appendChild(table);
 }
 
 function addNewItemToPersonalList(itemId) {
