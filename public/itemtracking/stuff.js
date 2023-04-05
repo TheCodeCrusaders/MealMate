@@ -3,6 +3,9 @@ const container = document.querySelector("#container");     //Select the first H
 const backdrop = document.querySelector("#backdrop");
 const additem = document.querySelector("#additem");
 const form = document.querySelector("#itemForm");
+const privateForm = document.querySelector('#privateForm');
+const newItemBackdrop = document.querySelector('#newItemBackdrop');
+const createNewItem = document.querySelector('#privateItemAdd');
 
 
 //VARIABLE DECLERATIONS
@@ -42,6 +45,46 @@ form.name.addEventListener("input", async (e) => {
         );
 
         matchingItems.forEach(item => {
+            const itemDiv = document.createElement("div");
+            itemDiv.textContent = item.name;
+            itemDiv.addEventListener("click", () => {
+                form.name.value = item.name;
+                form.name.style.borderColor = "";
+                // Remove all child nodes from the autocompleteList after selecting an item
+                while (autocompleteList.firstChild) {
+                    autocompleteList.removeChild(autocompleteList.firstChild);
+                }
+            });
+            autocompleteList.appendChild(itemDiv);
+        });
+    }
+});
+
+//EVENTLISTENERS - Page functionality starts here
+
+//!!TO READ!!
+form.name.addEventListener("input", async (e) => {
+    const inputItemName = e.target.value;
+    const isPrivateItemValid = await privateItemExists(inputItemName);
+
+    const autocompleteList = document.querySelector("#autocomplete-list");
+
+    // Remove all child nodes from the autocompleteList
+    while (autocompleteList.firstChild) {
+        autocompleteList.removeChild(autocompleteList.firstChild);
+    }
+    if (!isPrivateItemValid) {
+        form.name.style.borderColor = "red";
+    } else {
+        form.name.style.borderColor = "";
+    }
+
+    if (inputItemName.length > 0) {
+        const inventoryItems = await fetchPrivateItems();
+        const privateItemMatch = inventoryItems.filter(item => 
+            item.name.toLowerCase().startsWith(inputItemName.toLowerCase())
+        );
+        privateItemMatch.forEach(item => {
             const itemDiv = document.createElement("div");
             itemDiv.textContent = item.name;
             itemDiv.addEventListener("click", () => {
@@ -111,6 +154,39 @@ form.addEventListener("submit", (e) => {
     addNewItem();
 })
 
+//For create item button
+//------------------------------------------------------------
+privateForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    let data = {
+        "name": document.querySelector('#name').value,
+        "freezeable": document.querySelector('#freezeOrNo').value,
+        "shelf_stable": document.querySelector('#shelf-stable').value,
+        "calories_per_unit": document.querySelector('#calories').value,
+        "calories_per_100gram": document.querySelector('#calories_per_100gram').value
+    };
+    fetch("/API/privateItemUsers", {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        mode: "cors", // no-cors, *cors, same-origin
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: "same-origin", // include, *same-origin, omit
+        headers: {
+            "Content-Type": "application/json",
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        redirect: "follow", // manual, *follow, error
+        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        body: JSON.stringify(data), // body data type must match "Content-Type" header
+    }).then(response => {
+        if (response.ok) {
+            console.log('OK!');
+        }
+    }).catch(error => {
+        console.log(error);
+    })
+    privateForm.reset();
+})
+//------------------------------------------------------------
 
 //FUNCTION DECLERATIONS:
 //FetchData function decleration
@@ -131,6 +207,21 @@ function fetchData() {
 //!!TO READ!!
 function fetchDataGlobalItems() {
     fetch("/API/getListGlobalItems")        //fetch() returns a promise, which resolves to a "response" object. The response it contains, is specified whiten /API/getList. In this case it's the items.json for the user currently logged in, which is stored in "response"
+        .then((response) => {               //The resolved promise, which is now stored in "response", is used as parameter for an anonymous function in the .then method
+            if (response.ok) {              //.ok method checks if the reponse is whiten [200:299] status-code range, if true execute body of if statement
+                return response.json();     //.json() method parses "response" object for json data, the parsed data is then considered a promise, thus we need a new .then method to handle it's resolvement
+            }
+            throw new Error("response was not in the 200 range ") //Throw statement signal an error has occured. It signals .catch method to overtake the code, once throw has run it's course. Constructor statement "new Error()" stores information about the error
+        })
+        .then((data) => createTable(data))                        //The "data" parameter stores the parsed JSON data from the resolved Promise (from response.json()). .then() executes the createTable() function with "data" as input
+        .catch((error) => {                                       //If any error occurs in the Promise chain, this .catch() block is executed
+            alert("An error occured");                            //Upon error, user is redirected to /login endpoint
+        });
+}
+
+//!!TO READ!!
+function fetchPrivateItems() {
+    fetch("/API/getPrivateItems")        //fetch() returns a promise, which resolves to a "response" object. The response it contains, is specified whiten /API/getList. In this case it's the items.json for the user currently logged in, which is stored in "response"
         .then((response) => {               //The resolved promise, which is now stored in "response", is used as parameter for an anonymous function in the .then method
             if (response.ok) {              //.ok method checks if the reponse is whiten [200:299] status-code range, if true execute body of if statement
                 return response.json();     //.json() method parses "response" object for json data, the parsed data is then considered a promise, thus we need a new .then method to handle it's resolvement
@@ -260,6 +351,25 @@ backdrop.addEventListener("click", (e) => {
     refIndex = undefined;
 })
 
+//------------------------------------------------------------
+function NewItem() {
+    privateForm.classList.toggle("visible");
+    if (newItemBackdrop.style.display === "block") {
+        newItemBackdrop.style.display = "none";
+    }
+    else {
+        newItemBackdrop.style.display = "block";
+    }
+}
+createNewItem.addEventListener("click", (e) => {
+    NewItem();
+})
+newItemBackdrop.addEventListener("click", (e) => {
+    NewItem();
+    refIndex = undefined;
+})
+//------------------------------------------------------------
+
 function createTable(data) {
     data.forEach((element, index) => {
         createItem(element, index)
@@ -291,4 +401,16 @@ async function fetchGlobalItems() {
 async function itemExists(itemName) {
     const globalItems = await fetchGlobalItems();
     return globalItems.some(item => item.name.toLowerCase() === itemName.toLowerCase());
+}
+
+//Do the same for private items
+async function fetchPrivateItems() {
+    const response = await fetch('/API/getPrivateItems');
+    const data = await response.json();
+    return data;
+}
+
+async function privateItemExists(privateItem) {
+    const privateItemsInventory = await fetchPrivateItems();
+    return privateItemsInventory.some(item => item.name.toLowerCase() === privateItem.toLowerCase());
 }

@@ -21,6 +21,32 @@
       <div id="h1Container">
         <h1>item tracking</h1>
         <button id="additem">add item</button>
+        <button id="privateItemAdd">Create New Item</button>
+      </div>
+      <div id="privateInput">
+        <div id="newItemBackdrop"></div>
+        <form id="privateForm">
+          <label for="name">Name:</label><br>
+          <input type="text" id="name" required><br>
+          <label for="freezeOrNo">freezeable:</label><br>
+          <select name="" id="freezeOrNo" required><br>
+            <option value="">Choose</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select><br>
+          <label for="shelf-stable">shelf-stable:</label><br>
+          <select name="" id="shelf-stable" required><br>
+            <option value="">Choose</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select><br>
+          <label for="calories_per_unit">Calories Per Unit:</label><br>
+          <input type="nubmer" id="calories"><br>
+          <label for="calories_per_100gram">Calories Per 100gram:</label><br>
+          <input type="number" id="calories_per_100gram"><br><br>
+
+          <button type="submit">Create New Item</button>
+        </form>
       </div>
       <div id="input">
         <div id="backdrop">

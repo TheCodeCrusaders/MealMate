@@ -164,6 +164,64 @@ router.get("/API/getListGlobalItems", async (req, res) => {
     });
 });
 
+router.get('/API/getPrivateItems', verifyToken, async (req, res) => {
+    //Only way it can read the file is this way. This     const filePath = path.resolve() + `/data/USERS/${req.user.username}/privateItems.json`; does not work
+    const filePath = `${path.resolve()}/data/USERS/${req.user.username}/privateItems.json`;
+    fs.readFile(filePath, (err, data) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send('Internal Server Error');
+        } else {
+            const jsonData = data.toString('utf8');
+            //response with JSON data
+            res.json(JSON.parse(jsonData));
+        }
+    })
+})
+
+router.post('/API/privateItemUsers', verifyToken, async (req, res) => {
+    const filePath = path.resolve() + `/data/USERS/${req.user.username}/privateItems.json`;
+    let itemExists = false;
+    try {
+        let privateItemsArray = [];
+        //Checks if the file exists
+        if (fs.existsSync(filePath)) {
+            //Takes all the privateItems
+            const fileRead = fs.readFileSync(filePath, { encoding: 'utf8' });
+            //Trims it completly before checking the file otherwise it might throw an error
+            if (fileRead.trim()) {
+                //Parses the fileRead so it can be read as objects
+                privateItemsArray = JSON.parse(fileRead);
+            }
+        }
+        privateItemsArray.forEach(element => {
+            if (element.name.toLowerCase() === req.body.name.toLowerCase()) {
+                itemExists = true;
+                return;
+            } 
+        });
+        //Works for some reason. If the item exists it will just skip the rest.
+        if (itemExists) {
+            return;
+        }
+        //Gets the item from the fetch function
+        const item = req.body;
+        //Pushes the item
+        privateItemsArray.push(item);
+        //Writes all the content back to the file again
+        fs.writeFile(filePath, JSON.stringify(privateItemsArray, null, 2), (err) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).send('Internal Server Error');
+            }
+            res.status(200).send('OK');
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+})
+
 router.get("/API/gettopexp", verifyToken, (req, res) => {
     const filePath = path.resolve() + `/data/USERS/${req.user.username}/items.json`;
 
@@ -174,7 +232,6 @@ router.get("/API/gettopexp", verifyToken, (req, res) => {
         } else {
             const jsonData = data.toString("utf8");
             helpers.findSmallest(jsonData, res);
-            // res.json(JSON.parse(jsonData));
         }
     });
 
@@ -370,6 +427,10 @@ router.post('/newuser', (req, res) => {
     });
 
     fs.writeFile(`data/USERS/${newUser.username}/wastedItems.json`, itemsStandard, (err) => {
+        if (err) throw err;
+    });
+
+    fs.writeFile(`data/USERS/${newUser.username}/privateItems.json`, itemsStandard, (err) => {
         if (err) throw err;
     });
 
