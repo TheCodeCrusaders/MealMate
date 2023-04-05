@@ -1,16 +1,36 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Camera and QR Code Scanner</title>
-    <script src="https://rawgit.com/sitepoint-editors/jsqrcode/master/src/qr_packed.js"></script>
-    <script src="html5-qrcode.min.js"></script>
-  </head>
-  <body>
-    <h1>Camera and QR Code Scanner</h1>
-    <p>Click the button below to turn on your camera:</p>
-    <button id="startButton">Start Camera</button>
-    <div id="reader"></div>
-    <script src="html5.js"></script>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  <title>HTML5QR Scanner</title>
+  <style>
+    #scanner {
+      width: 100%;
+      height: auto;
+    }
+
+    #buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    button {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+    }
+  </style>
+  <script src="path/to/html5-qrcode.min.js"></script>
+</head>
+<body>
+  <div id="scanner"></div>
+  <div id="buttons">
+    <button id="start-button">Start</button>
+    <button id="stop-button">Stop</button>
+  </div>
+  <script src="path/to/ean13.js"></script>
+</body>
 </html>
