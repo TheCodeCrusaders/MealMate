@@ -8,6 +8,7 @@ router.use(cookieParser());
 import crypto from 'crypto';
 import removeItem from "./functions/removeItem.js"
 
+const userDirectoryPath = "/data/USERS/";
 
 import { listRecipies, topRecipiesForUsers } from './functions/recipe.js'
 router.post('/API/search', verifyToken, (req, res) => {
@@ -100,8 +101,9 @@ router.post("/login", (req, res) => {  // post action declared, will wait for po
 
 
 router.get("/API/getUserName", verifyToken, (req, res) => {
-    res.json({ "username": req.user.username })
-
+    res.json({
+        "username": req.user.username,
+    })
 })
 
 
@@ -348,6 +350,10 @@ router.post('/newuser', (req, res) => {
         return res.status(400).json({ error: 'Username already exists' });
     }
 
+    if (fs.existsSync(`data/USERS/${newUser.username}/`)) {
+        return res.status(400).json({ error: 'Username already exists' });
+      }
+
     // Add the new data to the array
     data.users.push(newUser);
 
@@ -395,8 +401,6 @@ router.post('/newuser', (req, res) => {
     fs.writeFileSync(shoppingListFilePath, JSON.stringify(shoppingList));
   }
 
-
-  // Add a new item to the shopping list
   router.post("/api/shoppingList", verifyToken, (req, res) => {
     const filePath = path.resolve() + `/data/USERS/${req.user.username}/shoppinglist.json`;
     const shoppingList = getShoppingList(filePath);
@@ -404,7 +408,7 @@ router.post('/newuser', (req, res) => {
     const newItem = {
         id: uuidv4(),
         name: req.body.name,
-        quantity: req.body.quantity
+        price: req.body.price
       };
 
     shoppingList.push(newItem);
@@ -437,7 +441,7 @@ router.post('/newuser', (req, res) => {
   
     const response = await fetch(`https://api.sallinggroup.com/v1-beta/product-suggestions/relevant-products?query=${query}`, {
       headers: {
-        "Authorization": "Bearer ccf79589-89f0-4ff5-a034-2e7d93cdbbf0",
+        "Authorization": "Bearer 3dac909e-0081-464f-aeac-f9a2efe5cf1a",
         "Content-Type": "application/json",
         "Accept": "application/json"
       }
@@ -452,6 +456,42 @@ router.post('/newuser', (req, res) => {
   }
   
     res.json(data);
+  });
+
+  router.post("/API/changePassword", verifyToken, (req, res) => {
+
+    const userDetails = {
+        username: req.user.username,
+        oldPassword: crypto.createHash('sha256').update(req.body.oldPassword).digest('hex'),
+        newPassword1: crypto.createHash('sha256').update(req.body.newPassword1).digest('hex'),
+        newPassword2: crypto.createHash('sha256').update(req.body.newPassword2).digest('hex')
+    };
+
+    const filePath = path.join(path.resolve() + "/data/Passwords/users.json");
+
+    const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+
+    const user = data.users.find(user => user.username === userDetails.username);
+
+    // Check if the old password matches with the user's password
+    if (user.password !== userDetails.oldPassword) {
+        return res.status(400).json({ error: 'Old password is incorrect!' });
+    }
+
+    // Check if the new password and confirm password match
+    if (userDetails.newPassword1 !== userDetails.newPassword2) {
+        return res.status(400).json({ error: 'The new password doesnt match!' });
+    }
+
+      // Update the user's password
+      user.password = userDetails.newPassword1;
+
+      // Save the updated data to file
+      fs.writeFileSync(filePath, JSON.stringify(data));
+
+      res.json({ success: true });
+
+
   });
 
 
