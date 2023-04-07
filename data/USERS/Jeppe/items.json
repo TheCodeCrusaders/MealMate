@@ -49,5 +49,13 @@
     "shelf-stable": "Yes",
     "freezable": "Yes",
     "calories": "100"
+  },
+  {
+    "location": "fridge",
+    "name": "",
+    "expirationDate": "",
+    "shelf-stable": "Yes",
+    "freezable": "Yes",
+    "calories": ""
   }
 ]
