@@ -1,3 +1,62 @@
 [
-    
+  {
+    "location": "fridge",
+    "name": "peanut butter",
+    "expirationDate": "",
+    "shelf-stable": "Yes",
+    "freezable": "Yes",
+    "calories": "100",
+    "wastedDate": "2023-04-07"
+  },
+  {
+    "location": "fridge",
+    "name": "Gigalol",
+    "expirationDate": "",
+    "shelf-stable": "Yes",
+    "freezable": "Yes",
+    "calories": "",
+    "wastedDate": "2023-04-07"
+  },
+  {
+    "location": "fridge",
+    "name": "",
+    "expirationDate": "",
+    "wastedDate": "2023-04-07"
+  },
+  {
+    "location": "fridge",
+    "name": "",
+    "expirationDate": "",
+    "wastedDate": "2023-04-07"
+  },
+  {
+    "location": "fridge",
+    "name": "",
+    "expirationDate": "",
+    "wastedDate": "2023-04-07"
+  },
+  {
+    "location": "fridge",
+    "name": "",
+    "expirationDate": "",
+    "wastedDate": "2023-04-07"
+  },
+  {
+    "location": "fridge",
+    "name": "",
+    "expirationDate": "",
+    "wastedDate": "2023-04-07"
+  },
+  {
+    "location": "fridge",
+    "name": "LOl",
+    "expirationDate": "",
+    "wastedDate": "2023-04-07"
+  },
+  {
+    "location": "fridge",
+    "name": "Kek",
+    "expirationDate": "",
+    "wastedDate": "2023-04-07"
+  }
 ]

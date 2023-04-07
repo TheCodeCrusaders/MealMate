@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
 
 //EVENTLISTENERS - Page functionality starts here
 sort.addEventListener("change", (e) => {
-  sortSelected(e);
+  sortSelected(e.target.value); //Simply passing (e) as argument, passes "event" object, not the event's target value e.g "Recently added"
 });
 
 //!!TO READ!!
@@ -302,19 +302,37 @@ async function itemExists(itemName) {
 
 //Sort items function
 
-function sortSelected(selection) {
+function sortSelected(sortSelection) {
   const table = document.getElementById("container");
-  const rows = Array.from(table.rows).slice(1); //Any HTML table has a .rows property | .slice(1) removes the first element of the original array (table.rows)
+  const rows = Array.from(table.rows).slice(1);
+  //Any HTML table has a .rows property | .slice(1) removes the first element of the original array (table.rows)
 
-  if (selection === "Recently added") {
+  if (sortSelection === "Recently added") {
     rows.sort((a, b) => {
-      console.log(a);
       //.sort is JS native, takes func as input, defining the sorting logic, otherwise it goes by alphabetical string order
-      return new Date(b.getAttribute("data-added")); //"new" keyword = constructor function
+      const dateA = new Date(a.getAttribute("data-added"));
+      const dateB = new Date(b.getAttribute("data-added"));
+
+      return new Date(dateA - dateB);
 
       //return < 0 | a comes first
       //return = 0 | Nothing is changed
       //return > 0 | b comes first
     });
+  } else if (sortSelection === "Expiration date") {
+    rows.sort((a, b) => {
+      const dateA = new Date(a.getAttribute("Days left"));
+      const dateB = new Date(b.getAttribute("Days left"));
+      console.log("DateA:\n", dateA + "\n");
+      console.log("DateB:\n", dateB) + "\n";
+      return new Date();
+    });
+  }
+
+  for (let i = 0; i < rows.length; i++) {
+    table.removeChild(rows[i]);
+  }
+  for (let i = 0; i < rows.length; i++) {
+    table.appendChild(rows[i]);
   }
 }
