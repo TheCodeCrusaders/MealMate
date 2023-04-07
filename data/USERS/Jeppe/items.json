@@ -41,5 +41,13 @@
     "shelf-stable": "Yes",
     "freezable": "Yes",
     "calories": ""
+  },
+  {
+    "location": "fridge",
+    "name": "peanut butter",
+    "expirationDate": "",
+    "shelf-stable": "Yes",
+    "freezable": "Yes",
+    "calories": "100"
   }
 ]
