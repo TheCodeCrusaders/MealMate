@@ -6,7 +6,15 @@ import jwt from 'jsonwebtoken';
 import cookieParser from 'cookie-parser';
 router.use(cookieParser());
 import crypto from 'crypto';
+//import mysql from 'mysql';
 import removeItem from "./functions/removeItem.js"
+
+/*const mySQLConnection = mysql.createConnection({
+    host: 'localhost',
+    user: req.body.username,
+    password: req.body.password,
+
+})*/
 
 
 import { listRecipies, topRecipiesForUsers } from './functions/recipe.js'
