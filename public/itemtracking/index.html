@@ -7,20 +7,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <link rel="stylesheet" href="/itemtracking/style.css">
+  <link href="/../navbar.css" rel="stylesheet">
 </head>
 
 <body>
   <header>
     <a href="/dashboard"><img src="/IMG/logo.svg" alt="Mealmate" width="300" height="50"></a> <!-- Clickable logo -->
-    <nav class="nav-menu"> <!-- Navigation bar -->
-      <ul>
-        <li><a href="/dashboard">Home</a></li>
-        <li><a href="/itemtracking">Item Tracker</a></li>
-        <li><a href="/statistics">Statistics</a></li>
-        <li><a href="/contact">Contact</a></li>
-        <li><a href="/logout">Log out</a></li>
-      </ul>
-    </nav>
+    <div id="nav-placeholder">
+    </div>
+    <script src="/../navbar.js"></script>
   </header>
   <main>
     <section id="itemtracking">
@@ -41,7 +36,7 @@
           </select><br /><br />
 
           <label for="name">Name:</label>
-          <input type="text" id="name" name="name" placeholder="Item name" /><br /><br /> <!--placeholder added-->
+          <input type="text" id="name" name="name" autocomplete="off" placeholder="Item name" /><br /><br /> <!--placeholder added-->
           <div id="autocomplete-list"></div>                                              <!--div added-->
           <label for="expirationDate">Expiration Date:</label>
           <input type="date" id="expirationDate" name="expirationDate" /><br /><br />

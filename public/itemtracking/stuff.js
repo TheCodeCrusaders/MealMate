@@ -6,7 +6,7 @@ const form = document.querySelector("#itemForm");
 
 
 //VARIABLE DECLERATIONS
-let refIndex = NaN;
+let refIndex = undefined;
 
 
 //Upon page being loaded, fetches the currently logged in user's personal items list, by calling fetchData()
@@ -63,7 +63,7 @@ form.name.addEventListener("input", async (e) => {                          //An
 
 form.addEventListener("submit", (e) => {
     e.preventDefault();
-    if (refIndex == NaN) {
+    if (refIndex === undefined) {
 
 
         let data = {
@@ -242,7 +242,6 @@ function createItem(element, index) {
     buttonContainer.appendChild(consumedButton);
     tr.appendChild(buttonContainer);
     container.appendChild(tr);
-    refIndex = index;
 }
 
 
@@ -261,7 +260,7 @@ additem.addEventListener("click", (e) => {
 })
 backdrop.addEventListener("click", (e) => {
     addNewItem();
-    refIndex = NaN;
+    refIndex = undefined;
 })
 
 function createTable(data) {

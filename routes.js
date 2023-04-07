@@ -6,25 +6,30 @@ import jwt from 'jsonwebtoken';
 import cookieParser from 'cookie-parser';
 router.use(cookieParser());
 import crypto from 'crypto';
-import removeItem from "./removeItem.js"
+import removeItem from "./functions/removeItem.js"
 
+const userDirectoryPath = "/data/USERS/";
 
+import { listRecipies, topRecipiesForUsers } from './functions/recipe.js'
+router.post('/API/search', verifyToken, (req, res) => {
+    fs.promises.readFile(`${path.resolve()}/data/USERS/${req.user.username}/items.json`)
+        .then((result) => JSON.parse(result))
+        .then((data) => {
+            let response = listRecipies(data, req.body.itemsSaved);
+            res.json(response);
+        })
 
-import recipies from './recipe.js'
-router.post('/API/search', (req, res) => {
-    const name = req.body.navn;
-    res.json(recipies(name));
 })
 
 
-
-
-
-
-
-
-
-
+router.get('/API/userItem', verifyToken, (req, res) => {
+    fs.promises.readFile(`${path.resolve()}/data/USERS/${req.user.username}/items.json`)
+        .then((result) => JSON.parse(result))
+        .then((data) => {
+            let response = topRecipiesForUsers(data);
+            res.json(response);
+    })
+})
 
 //New Page for forgot password This is the Current tasting page For Tokens login System. Dont touch it is hurting nobody.
 router.get("/forgot", verifyToken, (req, res) => {
@@ -32,16 +37,15 @@ router.get("/forgot", verifyToken, (req, res) => {
     res.sendFile(path.resolve() + "/public/login/forgot.html");
 })
 router.post("/forgot", (req, res) => {
-    console.log(req);
     res.redirect("/");
 })
 
 
-import users from './loginfeature.js';// Here we import our read passord files.
+import users from './functions/loginfeature.js';// Here we import our read passord files.
 const users44 = users();
 
 
-console.log(users44) //console.logs to prove we are into the system, and shows off every username and password.
+// console.log(users44) //console.logs to prove we are into the system, and shows off every username and password.
 
 function verifyToken(req, res, next) {
     const token = req.cookies.token;// Here we request the cookie from the user
@@ -54,10 +58,10 @@ function verifyToken(req, res, next) {
         const decoded = jwt.verify(token, 'secret');// Here we decode our token
         //console.log(decoded)
         req.user = decoded;// here we acces the user
-        console.log(req.user)
-        console.log(token)
-        console.log(req.user.username);
-        console.log(decoded.exp)
+        // console.log(req.user)
+        // console.log(token)
+        // console.log(req.user.username);
+        // console.log(decoded.exp)
 
         if (decoded.exp * 1000 <= Date.now()) { // Check if the token has expired the  it must be multiplied by 1000, beacuse it has to be in secounds. because the start time is from 1970
             return res.redirect('/login');
@@ -74,17 +78,15 @@ router.post("/login", (req, res) => {  // post action declared, will wait for po
     let usernametest = req.body.username; //gets username from front end
     let passwordtest = crypto.createHash('sha256').update(req.body.password).digest('hex'); //gets password from front end
 
-    console.log(`${usernametest} tried to login`)// THis will log who tried to loged in or logged in
+    // console.log(`${usernametest} tried to login`)// THis will log who tried to loged in or logged in
 
     let user = users44.find(function (user) {    // here we test if the user exist in the system, and if the password is correct
         return user.username === usernametest && user.password === passwordtest;
     });
-    console.log(user)
     if (user) {// if the correct information is typed in the user will be given a token
 
         const token = jwt.sign({ username: user.username }, 'secret', { expiresIn: '1h' });// Generate an authentication token with experation day, 1 hour i milisecounds
 
-        console.log(user.username);
 
         res.cookie('token', token, { httpOnly: true });// Set the token as a cookie on the client's browser
         //the { httpOnly: true }  option means that the cookie can only be accessed via HTTP/S and not via JavaScript, which helps to prevent cross-site scripting (XSS) attacks.
@@ -99,8 +101,9 @@ router.post("/login", (req, res) => {  // post action declared, will wait for po
 
 
 router.get("/API/getUserName", verifyToken, (req, res) => {
-    res.json({ "username": req.user.username })
-
+    res.json({
+        "username": req.user.username,
+    })
 })
 
 
@@ -116,7 +119,7 @@ router.post("/API/waisteditem", verifyToken, (req, res) => {
     removeItem.waisteItem(req, res)
 })
 
-import helpers from "./helpers.js"
+import helpers from "./functions/helpers.js"
 
 // getting a list route (still neds to be modified for real login system)
 router.get("/API/getList", verifyToken, async (req, res) => {
@@ -133,9 +136,24 @@ router.get("/API/getList", verifyToken, async (req, res) => {
     });
 });
 
+// getting a list route (still neds to be modified for real login system)
+// router.get("/API/userItemsRecipies", verifyToken, async (req, res) => {
+//     const filePath = path.resolve() + `/data/USERS/${req.user.username}/items.json`;
+
+//     fs.readFile(filePath, (err, data) => {
+//         if (err) {
+//             console.error(err);
+//             res.status(500).send("Internal Server Error");
+//         } else {
+//             const jsonData = data.toString("utf8");
+//             const userItems = JSON.parse(jsonData);
+//         }
+//     });
+// });
+
 //!!TO READ!!
 router.get("/API/getListGlobalItems", async (req, res) => {
-    const filePath = path.resolve() + `/Global-Items/Global-Items.json`;
+    const filePath = path.resolve() + `/data/Global-Items/Global-Items.json`;
 
     fs.readFile(filePath, (err, data) => {
         if (err) {
@@ -278,7 +296,6 @@ router.get("/API/getmonthlyWaste", verifyToken, (req, res) => {
 
 // write list to file (still neds to be modified for real login system)
 router.post("/API/postlist", verifyToken, (req, res) => {
-    console.log(req.body);
 
     // Read the existing data from the JSON file
     const dataPath = path.join(path.resolve() + `/data/USERS/${req.user.username}/items.json`);
@@ -297,7 +314,6 @@ router.post("/API/postlist", verifyToken, (req, res) => {
 });
 
 router.post("/API/edititem", verifyToken, (req, res) => {
-    console.log(req.body);
 
     // Read the existing data from the JSON file
     const dataPath = path.join(path.resolve() + `/data/USERS/${req.user.username}/items.json`);
@@ -334,6 +350,10 @@ router.post('/newuser', (req, res) => {
         return res.status(400).json({ error: 'Username already exists' });
     }
 
+    if (fs.existsSync(`data/USERS/${newUser.username}/`)) {
+        return res.status(400).json({ error: 'Username already exists' });
+      }
+
     // Add the new data to the array
     data.users.push(newUser);
 
@@ -346,21 +366,17 @@ router.post('/newuser', (req, res) => {
 
     const itemsStandard = '[]';
 
-    console.log(`${newUser.username} directory created.`);
 
     fs.writeFile(`data/USERS/${newUser.username}/consumedItems.json`, itemsStandard, (err) => {
         if (err) throw err;
-        console.log(`consumedItems.json created in ${newUser.username}`);
     });
 
     fs.writeFile(`data/USERS/${newUser.username}/items.json`, itemsStandard, (err) => {
         if (err) throw err;
-        console.log(`items.json created in ${newUser.username}`);
     });
 
     fs.writeFile(`data/USERS/${newUser.username}/wastedItems.json`, itemsStandard, (err) => {
         if (err) throw err;
-        console.log(`wastedItems.json created in ${newUser.username}`);
     });
 
     // Return a response to the client
@@ -368,6 +384,115 @@ router.post('/newuser', (req, res) => {
     //res.redirect("/login");
 });
 
+  import { v4 as uuidv4 } from 'uuid';
+
+  function getShoppingList(path) {
+    const shoppingListFilePath = path;
+    if (!fs.existsSync(shoppingListFilePath)) {
+      fs.writeFileSync(shoppingListFilePath, '[]');
+    }
+    const shoppingListData = fs.readFileSync(shoppingListFilePath, 'utf8');
+    return JSON.parse(shoppingListData);
+  }
+  
+  // Write the shopping list to the JSON file
+  function saveShoppingList(path, shoppingList) {
+    const shoppingListFilePath = path;
+    fs.writeFileSync(shoppingListFilePath, JSON.stringify(shoppingList));
+  }
+
+  router.post("/api/shoppingList", verifyToken, (req, res) => {
+    const filePath = path.resolve() + `/data/USERS/${req.user.username}/shoppinglist.json`;
+    const shoppingList = getShoppingList(filePath);
+
+    const newItem = {
+        id: uuidv4(),
+        name: req.body.name,
+        price: req.body.price
+      };
+
+    shoppingList.push(newItem);
+    saveShoppingList(filePath, shoppingList);
+    res.send('Item added to shopping list: ' + JSON.stringify(newItem));
+  });
+  
+  // Get all items in the shopping list
+  router.get("/api/shoppingList", verifyToken, (req, res) =>
+ {
+    const filePath = path.resolve() + `/data/USERS/${req.user.username}/shoppinglist.json`;
+    const shoppingList = getShoppingList(filePath);
+    res.send(shoppingList);
+  });
+  
+  // Remove an item from the shopping list
+  router.delete("/api/shoppingList/:id", verifyToken, (req, res) => {
+    const filePath = path.resolve() + `/data/USERS/${req.user.username}/shoppinglist.json`;
+    const itemId = req.params.id;
+    const shoppingList = getShoppingList(filePath);
+    const updatedShoppingList = shoppingList.filter(function(item) {
+      return item.id !== itemId;
+    });
+    saveShoppingList(filePath, updatedShoppingList);
+    res.send('Item removed from shopping list: ' + itemId);
+  });
+
+  router.get("/api/productPrice", async (req, res) => {
+    const { query } = req.query;
+  
+    const response = await fetch(`https://api.sallinggroup.com/v1-beta/product-suggestions/relevant-products?query=${query}`, {
+      headers: {
+        "Authorization": "Bearer 3dac909e-0081-464f-aeac-f9a2efe5cf1a",
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      }
+    });
+  
+    const data = await response.json();
+  
+ // Check if the response is empty
+ if (!data || !data.suggestions || data.suggestions.length === 0) {
+    res.json({ suggestions: [{title: undefined, price: 0}] });
+    return;
+  }
+  
+    res.json(data);
+  });
+
+  router.post("/API/changePassword", verifyToken, (req, res) => {
+
+    const userDetails = {
+        username: req.user.username,
+        oldPassword: crypto.createHash('sha256').update(req.body.oldPassword).digest('hex'),
+        newPassword1: crypto.createHash('sha256').update(req.body.newPassword1).digest('hex'),
+        newPassword2: crypto.createHash('sha256').update(req.body.newPassword2).digest('hex')
+    };
+
+    const filePath = path.join(path.resolve() + "/data/Passwords/users.json");
+
+    const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+
+    const user = data.users.find(user => user.username === userDetails.username);
+
+    // Check if the old password matches with the user's password
+    if (user.password !== userDetails.oldPassword) {
+        return res.status(400).json({ error: 'Old password is incorrect!' });
+    }
+
+    // Check if the new password and confirm password match
+    if (userDetails.newPassword1 !== userDetails.newPassword2) {
+        return res.status(400).json({ error: 'The new password doesnt match!' });
+    }
+
+      // Update the user's password
+      user.password = userDetails.newPassword1;
+
+      // Save the updated data to file
+      fs.writeFileSync(filePath, JSON.stringify(data));
+
+      res.json({ success: true });
+
+
+  });
 
 
 export default router

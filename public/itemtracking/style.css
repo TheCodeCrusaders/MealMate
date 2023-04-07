@@ -89,38 +89,6 @@ footer {
     text-align: center;
 }
 
-
-
-nav {
-    background-color: #333;
-    color: #fff;
-    display: flex;
-    justify-content: space-between;
-    padding-bottom: 10px;
-    padding-top: 10px;
-    width: 100%;
-}
-
-ul {
-    display: flex;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-}
-
-li {
-    margin: 0 10px;
-    width: 100%;
-    text-align: center;
-}
-
-a {
-    color: #fff;
-    text-decoration: none;
-    align-content: center;
-}
-
 #myProgress {
     width: 100%;
     background-color: grey;
@@ -241,7 +209,6 @@ table td {
     background-color: grey;
     border: 1px solid #d4d4d4;
     cursor: pointer;
-    width: 100%;
     /* Add this to match the width of the input field */
 }
 
@@ -258,4 +225,16 @@ table td {
     color: #000 !important;
     /* Set the text color to black and add the !important declaration */
     background-color: #f6f6f6;
+}
+
+/*custom*/
+
+#itemForm #autocomplete-list{
+    left:10px;
+    padding-left: 5px;
+    width: 90%;
+}
+
+#expirationDate{
+    margin-top: 20px;
 }
