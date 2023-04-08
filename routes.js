@@ -47,6 +47,8 @@ const users44 = users();
 
 // console.log(users44) //console.logs to prove we are into the system, and shows off every username and password.
 
+// This Function Is the one witch confirms the users identety, and help us send the right data to the rigth user.
+
 function verifyToken(req, res, next) {
     const token = req.cookies.token;// Here we request the cookie from the user
     // console.log(token)
@@ -106,7 +108,35 @@ router.get("/API/getUserName", verifyToken, (req, res) => {
     })
 })
 
+router.post("/API/Private_properties", verifyToken, (req, res)=>{
+const userdatanewproperties =[]
 
+const ppropertydata = {
+    "name": req.body["name"],
+    "calories per 100gram": req.body["calories per 100gram"],
+    "co2 per 1kg": req.body["co2 per 1kg"],
+    "protein pr 100 gram": req.body["protein pr 100 gram"],
+    "carbohydrate pr 100 gram": req.body["carbohydrate pr 100 gram"],
+    "fat pr 100 gram": req.body["fat pr 100 gram"]
+  };
+  userdatanewproperties.push(ppropertydata);
+  console.log(userdatanewproperties);
+
+  const dataPath = path.join(path.resolve() + `/data/USERS/${req.user.username}/Private_item_property_list.json`);
+  let data = [];
+  try {
+      data = JSON.parse(fs.readFileSync(dataPath));
+  } catch (error) { }
+
+  // Add the new data to the array
+  data.push(req.body);
+
+  // Write the updated data back to the JSON file
+  fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
+
+
+res.json({ message: "Data received" });
+})
 
 
 
@@ -121,7 +151,10 @@ router.post("/API/waisteditem", verifyToken, (req, res) => {
 
 import helpers from "./functions/helpers.js"
 
-// getting a list route (still neds to be modified for real login system)
+// getting a list route (still neds to be modified for real login system) <------This Comment sucks Please Igonore it Carl
+
+
+//This is our API, that one can fecht from, It will return The items.json file from the given user that is trying to acces the data. <------ Carl Note
 router.get("/API/getList", verifyToken, async (req, res) => {
     const filePath = path.resolve() + `/data/USERS/${req.user.username}/items.json`;
 
@@ -152,6 +185,9 @@ router.get("/API/getList", verifyToken, async (req, res) => {
 // });
 
 //!!TO READ!!
+
+
+//This funtion is used as an api for the users to fethc the Global-Item.json file. <------ Carl Note
 router.get("/API/getListGlobalItems", async (req, res) => {
     const filePath = path.resolve() + `/data/Global-Items/Global-Items.json`;
 
@@ -165,6 +201,24 @@ router.get("/API/getListGlobalItems", async (req, res) => {
         }
     });
 });
+
+//Carls Thingy Start Here DOnt YOU DARE TOUCH IT, ITS MY NONO ZONE
+// Carls Api for fethcing private item  property list 
+router.get("/API/GetPrivateProtertyList", verifyToken, async (req, res) => {
+    const filePath = path.resolve() + `/data/USERS/${req.user.username}/Private_item_property_list.json`;
+
+    fs.readFile(filePath, (err, data) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send("Internal Server Error");
+        } else {
+            const jsonData = data.toString("utf8");
+            res.json(JSON.parse(jsonData));
+        }
+    });
+});
+
+
 
 router.get("/API/gettopexp", verifyToken, (req, res) => {
     const filePath = path.resolve() + `/data/USERS/${req.user.username}/items.json`;
@@ -331,6 +385,11 @@ router.post("/API/edititem", verifyToken, (req, res) => {
     res.redirect("/itemtracking");
 });
 
+
+
+
+
+//This is where The register Function start, This is the code that creates the users files. 
 router.post('/newuser', (req, res) => {
     // Extract the new user data from the request body
     const newUser = {
@@ -378,6 +437,11 @@ router.post('/newuser', (req, res) => {
     fs.writeFile(`data/USERS/${newUser.username}/wastedItems.json`, itemsStandard, (err) => {
         if (err) throw err;
     });
+
+    fs.writeFile(`data/USERS/${newUser.username}/Private_item_property_list.json`, itemsStandard, (err) => {
+        if (err) throw err;
+    });
+
 
     // Return a response to the client
     return res.status(200).json({ success: 'User created successfully' });

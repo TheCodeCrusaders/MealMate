@@ -3,7 +3,7 @@ const container = document.querySelector("#container");     //Select the first H
 const backdrop = document.querySelector("#backdrop");
 const additem = document.querySelector("#additem");
 const form = document.querySelector("#itemForm");
-
+const new_private_item = document.querySelector("#New_private_Item")
 
 //VARIABLE DECLERATIONS
 let refIndex = undefined;
@@ -11,12 +11,16 @@ let refIndex = undefined;
 
 //Upon page being loaded, fetches the currently logged in user's personal items list, by calling fetchData()
 document.addEventListener("DOMContentLoaded", (e) => {
-    fetchData();
-    fetchGlobalItems(); //!!TO READ!!
+    // Fetches the private Porterty item list.
+    //fetchData();
+    //fetchGlobalItems(); //!!TO READ!!
+    //fetchDataGlobalItems()
+    OnStartfetchDataOnce()
+
 })
 
 //EVENTLISTENERS - Page functionality starts here
-
+//This is where the autocomplete function starts <------ Carl Note
 //!!TO READ!!
 form.name.addEventListener("input", async (e) => {                          //Anon functin with parameter (e) is made asynchronisis to allow using "await"
     const inputItemName = e.target.value;                                   //Value entered into form.name is assigned inputItemName
@@ -28,28 +32,41 @@ form.name.addEventListener("input", async (e) => {                          //An
     while (autocompleteList.firstChild) {                                   //While autocompleteList has a child note === true
         autocompleteList.removeChild(autocompleteList.firstChild);          //While true, the .removeChild node removes the first child node in the autocompleteList
     }
-
+    new_private_item.classList.toggle("visible");
     if (isItemValid === false) {                                            //"await" in line 23 lets itemExists run in the background, effectively reaching the if statement, while the promised is being resolved                                
         form.name.style.borderColor = "red";
+        new_private_item.style.display = "block";
+        
     }
 
     else {
-        form.name.style.borderColor = "";
+        form.name.style.borderColor = "green";
+        new_private_item.style.display = "none";
     }
 
     if (inputItemName.length > 0) {
-        const globalItems = await fetchGlobalItems();
-        const matchingItems = globalItems.filter(item =>
-            item.name.toLowerCase().startsWith(inputItemName.toLowerCase())
-        );
+        const PProtertyis=private_user_Item_property_data;
+        const globalItems = global_item_data;
+
+       
+  const matching_PPropertyis = PProtertyis.filter(item =>
+    item.name.toLowerCase().startsWith(inputItemName.toLowerCase())
+  );
+
+  
+  const matching_globalItems = globalItems.filter(item =>
+    item.name.toLowerCase().startsWith(inputItemName.toLowerCase())
+  );
+
+        const matchingItems = matching_globalItems.concat(matching_PPropertyis);
 
         matchingItems.forEach(item => {
             const itemDiv = document.createElement("div");
             itemDiv.textContent = item.name;
             itemDiv.addEventListener("click", () => {
                 form.name.value = item.name;
-                form.name.style.borderColor = "";
-
+                form.name.style.borderColor = "green";
+                new_private_item.style.display = "none";
                 // Remove all child nodes from the autocompleteList after selecting an item
                 while (autocompleteList.firstChild) {
                     autocompleteList.removeChild(autocompleteList.firstChild);
@@ -115,6 +132,10 @@ form.addEventListener("submit", (e) => {
 })
 
 
+
+// Here 2 functions are declared, they are both API Fetches 
+
+//This function just get the users item list data. not importent  Called the wrong name, should be called [fetch_users_item_list]  <------ Carl Note
 //FUNCTION DECLERATIONS:
 //FetchData function decleration
 function fetchData() {
@@ -125,13 +146,17 @@ function fetchData() {
             }
             throw new Error("response was not in the 200 range ") //Throw statement signal an error has occured. It signals .catch method to overtake the code, once throw has run it's course. Constructor statement "new Error()" stores information about the error
         })
-        .then((data) => createTable(data))                        //The "data" parameter stores the parsed JSON data from the resolved Promise (from response.json()). .then() executes the createTable() function with "data" as input
+        .then((data) => {
+            createTable(data)
+        })                        //The "data" parameter stores the parsed JSON data from the resolved Promise (from response.json()). .then() executes the createTable() function with "data" as input
         .catch((error) => {                                       //If any error occurs in the Promise chain, this .catch() block is executed
             window.location.replace("/login");                    //Upon error, user is redirected to /login endpoint
         });
-}
 
+}
+//This function just get the global item list data. not importent  <------ Carl Note
 //!!TO READ!!
+
 function fetchDataGlobalItems() {
     fetch("/API/getListGlobalItems")        //fetch() returns a promise, which resolves to a "response" object. The response it contains, is specified whiten /API/getList. In this case it's the items.json for the user currently logged in, which is stored in "response"
         .then((response) => {               //The resolved promise, which is now stored in "response", is used as parameter for an anonymous function in the .then method
@@ -140,11 +165,15 @@ function fetchDataGlobalItems() {
             }
             throw new Error("response was not in the 200 range ") //Throw statement signal an error has occured. It signals .catch method to overtake the code, once throw has run it's course. Constructor statement "new Error()" stores information about the error
         })
-        .then((data) => createTable(data))                        //The "data" parameter stores the parsed JSON data from the resolved Promise (from response.json()). .then() executes the createTable() function with "data" as input
+        .then((data) => {
+           // createTable(data)   Fixet af Carl
+        })                        //The "data" parameter stores the parsed JSON data from the resolved Promise (from response.json()). .then() executes the createTable() function with "data" as input
         .catch((error) => {                                       //If any error occurs in the Promise chain, this .catch() block is executed
             alert("An error occured");                            //Upon error, user is redirected to /login endpoint
         });
 }
+
+
 
 
 //createItem() function decleration
@@ -244,10 +273,10 @@ function createItem(element, index) {
     container.appendChild(tr);
 }
 
-
+//This is where the add item function start, its activated when the button additem is pressed. All it does is desplaying the hidden input block.   <------ Carl Note
 //addNewItem() function decleration
 function addNewItem() {
-    form.classList.toggle("visible");
+    form.classList.toggle("visible");    // Makes the block visible
     if (backdrop.style.display === "block") {
         backdrop.style.display = "none";
     }
@@ -292,6 +321,135 @@ async function fetchGlobalItems() {
 //!!TO READ!!
 // Step 2: Create a function to check if the item exists in the file
 async function itemExists(itemName) {
-    const globalItems = await fetchGlobalItems();
-    return globalItems.some(item => item.name.toLowerCase() === itemName.toLowerCase());
+    const globalItems = global_item_data;
+    const privateUserItems = private_user_Item_property_data;
+  
+  // Check if the item exists in either of the JSON files
+  const itemExistsInGlobal = globalItems.some(item => item.name.toLowerCase() === itemName.toLowerCase());
+  const itemExistsInPrivateUser = privateUserItems.some(item => item.name.toLowerCase() === itemName.toLowerCase());
+  
+    return itemExistsInGlobal || itemExistsInPrivateUser;  // Returns true or false based on bolian logic. Remeber DTG
 }
+
+
+
+
+
+//Carls COOL API CALL
+let private_user_Item_property_data;
+let global_item_data;
+function OnStartfetchDataOnce() {
+    fetch("/API/getList")                   
+        .then((response) => {               
+            if (response.ok) {             
+                return response.json();   
+            }
+            throw new Error("response was not in the 200 range ") 
+        })
+        .then((data) => createTable(data))                       
+        .catch((error) => {                                      
+            window.location.replace("/login");                    
+        });
+
+
+    fetch("/API/GetPrivateProtertyList")        
+        .then((response) => {               
+            if (response.ok) {              
+                return response.json();    
+            }
+            throw new Error("response was not in the 200 range ") 
+        })
+        
+        .then((data) => {
+            private_user_Item_property_data=data
+            // Adds the private persons items to the 
+        })                        
+        .catch((error) => {                                       
+            alert("An error occured");                            
+        });
+
+        
+         
+    fetch("/API/getListGlobalItems")       
+                .then((response) => {               
+                    if (response.ok) {              
+                        return response.json();    
+                    }
+                    throw new Error("response was not in the 200 range ") 
+                })
+                .then((data) => {global_item_data=data;      })                       
+                .catch((error) => {                                       
+                    alert("An error occured");                          
+                });
+        
+
+
+        
+}
+
+
+function updatePrivatePlist(){
+    fetch("/API/GetPrivateProtertyList")        
+        .then((response) => {               
+            if (response.ok) {              
+                return response.json();    
+            }
+            throw new Error("response was not in the 200 range ") 
+        })
+        
+        .then((data) => {
+            private_user_Item_property_data=data
+            // Adds the private persons items to the 
+        })                        
+        .catch((error) => {                                       
+            alert("An error occured");                            
+        });
+
+}
+
+
+
+
+const Pprivate_button=document.getElementById("privateitem_submit")
+const  kaloriers=document.getElementById("Calories")
+const  Protein=document.getElementById("Protein")
+const  CO2=document.getElementById("CO2")
+const  Carbonhydrate=document.getElementById("Carbonhydrate")
+const  Fat=document.getElementById("Fat")
+
+Pprivate_button.addEventListener('click' ,()=>{
+    let ppropertydata = {
+        "name": form.name.value,
+        "location": form.location.value,
+        "calories per 100gram": kaloriers.value,
+        "co2 per 1kg": CO2.value,
+        "protein pr 100 gram": Protein.value,
+        "carbohydrate pr 100 gram": Carbonhydrate.value,
+        "fat pr 100 gram": Fat.value,
+      };
+
+fetch("/API/Private_properties", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(ppropertydata)
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log("Response from server:", data);
+    })
+    .catch(error => {
+      console.error("Error sending POST request:", error);
+    });
+
+    updatePrivatePlist()
+})
+
+
+

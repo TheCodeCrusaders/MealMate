@@ -162,8 +162,8 @@ table td {
     left: 0;
     right: 0;
     margin: auto;
-    width: 300px;
-    height: 200px;
+    width: 500px;
+    height: 400px;
     opacity: 0;
     visibility: hidden;
     transition: all 0.5s ease-out;
@@ -177,6 +177,12 @@ table td {
     top: 50%;
     opacity: 1;
     visibility: visible;
+}
+#New_private_Item{
+    display: none;
+    color:rgba(248, 248, 248, 0.8);
+    visibility: visible;
+    background: rgba(158, 8, 8, 0.8);
 }
 
 #backdrop {
