@@ -312,5 +312,106 @@
     {"inst": "Serve hot and enjoy!"}
     ]
     }
+     ,
+    {
+    "nameOfRecipe": "",
+    "ingredients": [
+    {"ingredient": "", "amount": ""},
+    {"ingredient": "", "amount": ""},
+    {"ingredient": "", "amount": ""},
+    {"ingredient": "", "amount": ""},
+    {"ingredient": "", "amount": ""},
+    {"ingredient": "", "amount": ""},
+    {"ingredient": "", "amount": ""},
+    {"ingredient": "", "amount": ""},
+    {"ingredient": "", "amount": ""}
+    ],
+    "instructions": [
+    {"inst": ""},
+    {"inst": ""},
+    {"inst": ""},
+    {"inst": ""},
+    {"inst": ""},
+    {"inst": ""},
+    {"inst": ""},
+    {"inst": ""},
+    {"inst": ""}
+    ]
+    }
+    ,
+    {
+        "nameOfRecipe": "Spaghetti and Meatballs",
+        "ingredients": [
+        {"ingredient": "extra virgin olive oil", "amount": "2 tablespoons"},
+        {"ingredient": "sweet yellow onion, chopped", "amount": "1/2"},
+        {"ingredient": "garlic, chopped", "amount": "3 cloves"},
+        {"ingredient": "very finely chopped carrots", "amount": "1 cup"},
+        {"ingredient": "chopped cremini brown mushrooms", "amount": "1 cup"},
+        {"ingredient": "tomato paste", "amount": "3 tablespoons"},
+        {"ingredient": "Italian plum tomatoes", "amount": "2 (28-ounce) cans"},
+        {"ingredient": "chopped fresh Italian parsley", "amount": "1/4 cup"},
+        {"ingredient": "chopped fresh basil", "amount": "1/4 cup"},
+        {"ingredient": "red wine", "amount": "1/4 cup"},
+        {"ingredient": "grated Parmesan-Romano cheese blend", "amount": "1/4 cup"},
+        {"ingredient": "Salt", "amount": "to taste (about 1 teaspoon)"},
+        {"ingredient": "ground beef (at least 16% fat)", "amount": "1 pound"},
+        {"ingredient": "fresh bulk Italian-style pork sausage", "amount": "1/2 pound"},
+        {"ingredient": "finely chopped basil", "amount": "2 tablespoons"},
+        {"ingredient": "finely chopped Italian parsley", "amount": "2 tablespoons"},
+        {"ingredient": "finely chopped cremini brown mushrooms", "amount": "1/2 cup"},
+        {"ingredient": "large eggs", "amount": "2"},
+        {"ingredient": "unseasoned breadcrumbs", "amount": "3/4 cup"},
+        {"ingredient": "grated Parmesan-Romano cheese blend", "amount": "1/4 cup"},
+        {"ingredient": "sea salt", "amount": "2 teaspoons"},
+        {"ingredient": "fresh ground black pepper", "amount": "2 teaspoons"},
+        {"ingredient": "spaghetti", "amount": "1 1/2 pounds dry 100% semolina spaghetti, thin spaghetti, or bucatini"},
+        {"ingredient": "Salt", "amount": "for the pasta water"},
+        {"ingredient": "red wine", "amount": "1 splash"}
+        ],
+        "instructions": [
+        {"inst": "Prepare the sauce:\nHeat the olive oil in a 4 to 5-quart pot on medium-high heat. Add the onions and cook for 2 minutes. Add the garlic and cook for 30 seconds longer or until fragrant."},
+        {"inst": "Add the carrots and mushrooms, and cook for 2 minutes. Add the tomato paste, stir to blend, and cook for a minute longer."},
+        {"inst": "Add the canned tomatoes, parsley, and basil. Mash and stir the tomatoes with a potato masher until the sauce starts to thicken, about 5 minutes over medium-high heat."},
+        {"inst": "Reduce the heat to low and simmer gently while preparing meatballs, stirring occasionally."},
+        {"inst": "Form the meatballs:\nIn a large bowl, use your hands to mix the beef, Italian sausage, basil, parsley, mushrooms, eggs, breadcrumbs, cheese, salt, and pepper. Do not over-mix or the meatballs will be tough."},
+        {"inst": "Use a small melon baller, cookie scoop, or heaping teaspoon to form 1-inch round meatballs. Roll and compress into tight balls, but don't overwork the mixture."},
+        {"inst": "In a separate wide, shallow pan, heat the olive oil on medium-high heat. Brown the meatballs on all sides, about 2 to 3 minutes."},
+        {"inst": "Depending on pan size you may need to brown 2 batches of the meatballs. Cook them in a single layer; do not crowd the pan by stacking them."},
+        {"inst":"Do not overcook the meatballs; they will continue to cook in the sauce. You just want to brown them on all sides. Towards the end of browning the meatballs, add a little bit of red wine to deglaze the pan."},
+        {"inst": "Finish and simmer the sauce: Add the red wine to the sauce and stir in the cheese. Add salt to taste. Add the browned meatballs and gently stir. Simmer the sauce and meatballs for 30 to 45 minutes, stirring occasionally."},
+        {"inst": "Red Wine and Parmesan Added to Pot of Sauce for Spaghetti and Meatballs Recipe"},
+        {"inst": "Meatballs Added to Pot of Sauce"},
+        {"inst": "Meatballs Stirred into Pot of Sauce With a Wooden Spoon"},
+        {"inst": "Cook the spaghetti: While the sauce is simmering, bring a large pot with 4 quarts of salted water to a boil (1 tablespoon of salt for every 2 quarts of water). When the water returns to a boil add the pasta to the pot."},
+        {"inst": "Leave the pot uncovered while you cook the pasta on high heat with a vigorous boil. Put a timer on for 8 to 10 minutes, or according to package directions for al dente pasta (cooked but still a little firm). Drain."},
+        {"inst": "Cooked Spaghetti in a Colander for Spaghetti and Meatballs"},
+        {"inst": "Serve: To serve, place a thin layer of sauce on each plate, add the pasta, add sauce and meatballs, and then sprinkle with grated Parmesan-Romano cheese."}
+        ]
+      },
+      
+      {
+        "nameOfRecipe": "Kai Jeow (Thai Omelet)",
+        "ingredients": [
+            {"ingredient": "Large eggs", "amount": "3"},
+            {"ingredient": "Fish sauce", "amount": "2 teaspoons"},
+            {"ingredient": "Brown sugar", "amount": "1/4 teaspoon"},
+            {"ingredient": "Scallion, minced", "amount": "1"},
+            {"ingredient": "Thai chili, minced", "amount": "1/2 (optional, can add more if desired)"},
+            {"ingredient": "Black pepper", "amount": "1/4 teaspoon"},
+            {"ingredient": "Vegetable oil", "amount": "2 to 3 tablespoons"},
+            {"ingredient": "Cooked jasmine rice", "amount": "1 cup"},
+            {"ingredient": "Cucumber, sliced", "amount": "4 slices"},
+            {"ingredient": "Romaine lettuce, sliced", "amount": "Slices"},
+            {"ingredient": "Sriracha", "amount": "(optional)"}
+        ],
+        "instructions": [
+            {"inst": "In a medium bowl, whisk together the eggs, fish sauce, brown sugar, scallion, Thai chili (if using) and black pepper until well combined and no egg whites are visible."},
+            {"inst": "Heat the vegetable oil in a small nonstick skillet over medium-high heat until the oil is hot and smoking lightly."},
+            {"inst": "Hold the bowl of egg mixture 12 inches above the skillet and pour it into the skillet. The egg will immediately start to fry and become puffy. Cook until lightly browned on the bottom."},
+            {"inst": "While you wait, use a small spatula or chopsticks to push the edges of the omelet inward and tilt the pan to encourage the raw eggs in the center to come in contact with the pan. Cook the first side for approximately 3 minutes."},
+            {"inst": "Once the omelet is firm, flip the omelet by either flicking your wrist to flip the omelet like a pancake or use a large spatula. Allow it to cook until the other side is browned, approximately 15 seconds."},
+            {"inst": "Serve immediately with cooked rice, cucumber slices, romaine lettuce, and sriracha (if using). You can create a lettuce wrap with the romaine lettuce if you’d like. In the wrap, you can add cucumber, omelet, and rice."}
+        ]
+    }
     
 ]
