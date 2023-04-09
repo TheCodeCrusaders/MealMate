@@ -213,7 +213,7 @@ table {
 
 /* Table headers */
 table th {
-  background-color: #4CAF50;
+  background-color: #af4c6a;
   color: white;
   font-weight: bold;
   padding: 10px;
@@ -366,9 +366,9 @@ input {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   display: block;
   font-size: 16px;
-  margin-bottom: 10px;
-  width: 90%;
+  width: 100%;
   padding: 10px;
+  box-sizing: border-box; /* Include padding in width calculation */
 }
 
 .cell3 {
@@ -382,7 +382,7 @@ input {
 
 #inputPreview {
   display: flex;
-  gap: 20px;
+  gap: 10px; /* Change from 20px to 10px */
   justify-content: center;
   align-items: center;
 }
@@ -406,7 +406,7 @@ input {
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
-  vertical-align: baseline;
+  vertical-align: sub;
   margin: 0;
   padding: calc(.875rem - 1px) calc(1.5rem - 1px);
 }
@@ -423,7 +423,7 @@ input {
 }
 
 .css-checkbox + label::before {
-  content: " ";
+  content: "";
   display: inline-block;
   vertical-align: middle;
   margin-right: 3px;
@@ -435,6 +435,7 @@ input {
   border-color: rgb(204, 204, 204);
   border-radius: 2px;
   box-shadow: none;
+  box-sizing: border-box; /* Include border and padding in width calculation */
 }
 
 .css-checkbox:checked + label::after {
