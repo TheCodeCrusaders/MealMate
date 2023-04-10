@@ -423,6 +423,30 @@ router.post('/newuser', (req, res) => {
     const shoppingList = getShoppingList(filePath);
     res.send(shoppingList);
   });
+
+  router.post("/api/shoppingListCheck/:id", verifyToken, (req, res) => {
+    const filePath = path.resolve() + `/data/USERS/${req.user.username}/shoppinglist.json`;
+    const itemId = req.params.id;
+    const shoppingList = getShoppingList(filePath);
+
+    // Get the item from the shoppingList array with the matching itemId
+    const itemToUpdate = shoppingList.find(item => item.id === itemId);
+
+    // Get the current value of the "bought" parameter of the item
+    let currentValue = itemToUpdate.bought;
+
+    // Update the value to the opposite of its current value
+    let updatedValue = !currentValue;
+
+    // Update the "bought" parameter of the item in the shoppingList array
+    itemToUpdate.bought = updatedValue;
+
+    // Save the updated shopping list JSON file
+    saveShoppingList(filePath, shoppingList);
+
+    // Send a response indicating that the item has been updated
+    res.send(`Item with id ${itemId} has been updated`);
+    })
   
   // Remove an item from the shopping list
   router.delete("/api/shoppingList/:id", verifyToken, (req, res) => {
