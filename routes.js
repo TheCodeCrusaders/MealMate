@@ -623,7 +623,41 @@ fs.readFile(filePath, (err, data) => {
   });
 
 
+  router.post('/API/ppsaveproperties', verifyToken, (req, res) => {
 
+    const filePath = path.resolve() + `/data/USERS/${req.user.username}/Private_item_property_list.json`;
+
+
+    let name_of_object =req.body.nameofitem;
+    let newpropname_of_item=req.body.property;
+    let newvalue=req.body.value
+    let formerprop=req.body.formerprop
+   
+
+
+    fs.readFile(filePath, (err, data) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send("Internal Server Error");
+        } else {
+            const jsonData = JSON.parse(data.toString("utf8"));
+            const itemIndex = jsonData.findIndex(item => item.name === name_of_object);
+           jsonData[itemIndex].
+            fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), err => {
+               
+                if (err) {
+                    console.error(err);
+                    res.status(500).send("Internal Server Error");
+                } else {
+                    
+                     res.json({ message: 'Item deleted successfully' });
+                }
+            });
+        }
+    });
+
+
+  });
 
 
 

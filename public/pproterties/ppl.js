@@ -86,10 +86,41 @@ function createItem(element, index) {
           });
 
     let hiddenRow = document.createElement("tr");
-let textbox1=document.createElement("tr")
+let textbox1=document.createElement("text")
 textbox1.style.fontSize="20px"
-textbox1.textContent="Property"
+textbox1.textContent="Properties"
 hiddenRow.appendChild(textbox1)
+
+let create_prop_button =document.createElement("button")
+create_prop_button.textContent="Add Properties";
+
+create_prop_button.addEventListener("click", ()=>{
+let newproperty=document.createElement("input")
+let newvalue=document.createElement("input")
+newproperty.placeholder="Propertie name";
+newvalue.placeholder="Value"
+let containerForNewItem=document.createElement("tr")
+containerForNewItem.appendChild(newproperty)
+containerForNewItem.appendChild(newvalue)
+let delete_prop=document.createElement("button")
+         delete_prop.textContent="Delete";
+         delete_prop.addEventListener("click", ()=>{
+
+            containerForNewItem.parentNode.removeChild(containerForNewItem);
+         });
+
+
+let savebutton=document.createElement("button")
+savebutton.textContent="Save Changes" /// <------------ ufærdig feutere med at gemme den nye item
+
+containerForNewItem.appendChild(savebutton)
+containerForNewItem.appendChild(delete_prop)
+hiddenRow.appendChild(containerForNewItem)
+
+})
+
+
+hiddenRow.appendChild(create_prop_button)
 function printPropertyNames(obj) {
     for (let propName in obj) {
       
@@ -104,7 +135,6 @@ function printPropertyNames(obj) {
          property_value.placeholder=obj[propName]
         prop_containtainer.appendChild(property_name)
         prop_containtainer.appendChild(property_value)
-
 
 
             delete_prop.addEventListener("click", ()=>{
@@ -137,35 +167,65 @@ function printPropertyNames(obj) {
                     .catch(error => {
                       console.error("Error sending POST request:", error);
                     });
-
                 prop_containtainer.parentNode.removeChild(prop_containtainer);
                 console.log("tried at least")
             })
 
+            let savebutton=document.createElement("button")
+            savebutton.textContent="Save Changes"
 
+            savebutton.addEventListener("click" ,()=>{
+
+               let closestr=savebutton.closest("tr");
+               let inputs=closestr.querySelectorAll("input")
+               
+             
+                console.log(inputs[0].value)
+                console.log(inputs[1].value)
+                console.log(inputs[0].placeholder)
+                let New_data_prop={
+                    nameofitem:element.name,
+                    formerprop:inputs[0].placeholder,
+                    property:inputs[0].value,
+                    value:inputs[1].value
+                }
+
+
+                fetch("/API/ppsaveproperties", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(New_data_prop)
+                  })
+                    .then(response => {
+                      if (!response.ok) {
+                        throw new Error("Network response was not ok");
+                      }
+                      return response.json();
+                    })
+                    .then(data => {
+                      console.log("Response from server:", data);
+                    })
+                    .catch(error => {
+                      console.error("Error sending POST request:", error);
+                    });
+
+            })
+
+
+
+            prop_containtainer.appendChild(savebutton)
         prop_containtainer.appendChild(delete_prop)
         hiddenRow.appendChild(prop_containtainer)
         }
-         
-      //console.log(propName)
-      //console.log(obj[propName])  
     }
   }
- 
 
-// function call that will start the hidden print of properties
   printPropertyNames(element);
 
-    //let hiddenCell = document.createElement("td");
-   // hiddenCell.colSpan = "2";
-   // hiddenCell.textContent = "WAOW IT WORKS NOW";
-    //hiddenRow.appendChild(hiddenCell);
+ 
     hiddenRow.style.display = "none";
-  
-  
-
-    
-
 
     tr.appendChild(name);
     tr.appendChild(buttonContainer);
