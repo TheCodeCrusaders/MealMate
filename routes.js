@@ -642,7 +642,8 @@ fs.readFile(filePath, (err, data) => {
         } else {
             const jsonData = JSON.parse(data.toString("utf8"));
             const itemIndex = jsonData.findIndex(item => item.name === name_of_object);
-           jsonData[itemIndex].
+            delete jsonData[itemIndex][formerprop];
+            jsonData[itemIndex][newpropname_of_item] = newvalue;
             fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), err => {
                
                 if (err) {
@@ -650,7 +651,7 @@ fs.readFile(filePath, (err, data) => {
                     res.status(500).send("Internal Server Error");
                 } else {
                     
-                     res.json({ message: 'Item deleted successfully' });
+                     res.json({ message: 'Item updated successfully' });
                 }
             });
         }
@@ -663,7 +664,35 @@ fs.readFile(filePath, (err, data) => {
 
 
 
+  router.post('/API/ppsavenewproperties', verifyToken, (req, res) => {
+    let name_of_object =req.body.nameofitem;
+    let newpropname_of_item=req.body.property;
+    let newvalue=req.body.value
+    
+    const filePath = path.resolve() + `/data/USERS/${req.user.username}/Private_item_property_list.json`;
+    fs.readFile(filePath, (err, data) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send("Internal Server Error");
+        } else {
+            const jsonData = JSON.parse(data.toString("utf8"));
+            const itemIndex = jsonData.findIndex(item => item.name === name_of_object);
+            
+            jsonData[itemIndex][newpropname_of_item] = newvalue;
+            fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), err => {
+               
+                if (err) {
+                    console.error(err);
+                    res.status(500).send("Internal Server Error");
+                } else {
+                    
+                     res.json({ message: 'Prop/value added successfully' });
+                }
+            });
+        }
+    });
 
+  });
 
 
 

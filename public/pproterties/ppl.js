@@ -22,6 +22,11 @@ function OnStartfetchDataOnce() {
     });
 }
 
+let create_new_item=document.createElement("button")
+create_new_item.textContent="New Item"
+
+container.appendChild(create_new_item)
+
 function createTable(data) {
     data.forEach((element, index) => {
         createItem(element, index)
@@ -112,6 +117,49 @@ let delete_prop=document.createElement("button")
 
 let savebutton=document.createElement("button")
 savebutton.textContent="Save Changes" /// <------------ ufærdig feutere med at gemme den nye item
+
+
+savebutton.addEventListener("click", ()=>{
+
+
+
+    let closestr=savebutton.closest("tr");
+    let inputs=closestr.querySelectorAll("input")
+    
+  
+     console.log(inputs[0].value)
+     console.log(inputs[1].value)
+     console.log(inputs[0].placeholder)
+     let New_data_prop={
+         nameofitem:element.name,
+         property:inputs[0].value,
+         value:inputs[1].value
+     }
+
+
+     fetch("/API/ppsavenewproperties", {
+         method: "POST",
+         headers: {
+           "Content-Type": "application/json"
+         },
+         body: JSON.stringify(New_data_prop)
+       })
+         .then(response => {
+           if (!response.ok) {
+             throw new Error("Network response was not ok");
+           }
+           return response.json();
+         })
+         .then(data => {
+           console.log("Response from server:", data);
+         })
+         .catch(error => {
+           console.error("Error sending POST request:", error);
+         });
+
+})
+
+
 
 containerForNewItem.appendChild(savebutton)
 containerForNewItem.appendChild(delete_prop)
