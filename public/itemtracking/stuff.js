@@ -184,15 +184,12 @@ function createItem(element, index) {
     let expirationDate = document.createElement("td");
     let daysLeft = document.createElement("td");
 
-
-    name.textContent = element.name;
-    location.textContent = element.location;
-    expirationDate.textContent = element.expirationDate;
-
-
     let currentDate = new Date();
     let timeLeft = new Date(Date.parse(element.expirationDate) - currentDate);
     daysLeft.textContent = `${Math.ceil(timeLeft / (1000 * 60 * 60 * 24))}`
+
+    let editButton = document.createElement("button");
+    editButton.textContent = "Edit";
 
     let buttonContainer = document.createElement("td");
     let waistedButton = document.createElement("button");
@@ -201,7 +198,10 @@ function createItem(element, index) {
     let consumedButton = document.createElement("button");
     consumedButton.textContent = "consumed";
 
-    tr.addEventListener("click", (e) => {
+    let propertiesButton = document.createElement("button");
+    propertiesButton.textContent = "Properties";
+
+    editButton.addEventListener("click", (e) => {
         refIndex = index;
         form.location.selected = element.location;
         form.name.value = element.name;
@@ -263,14 +263,41 @@ function createItem(element, index) {
 
     })
 
+
+    //code properties button here
+    let hiddenrow_container = document.createElement("tr");
+    let testbox=document.createElement("td");
+    hiddenrow_container.style.display= "none"
+    propertiesButton.addEventListener("click", () => {
+        console.log("The button do stuff")
+        if (hiddenrow_container.style.display === "none") {
+          hiddenrow_container.style.display = "table-row";
+        } else {
+          hiddenrow_container.style.display = "none";
+        }
+      });
+    
+    testbox.textContent="Test VIRKER";
+    hiddenrow_container.appendChild(testbox);
+
+    name.textContent = element.name;
+    location.textContent = element.location;
+    expirationDate.textContent = element.expirationDate;
+
+    name.append(editButton);
     tr.appendChild(name);
     tr.appendChild(location);
     tr.appendChild(expirationDate);
     tr.appendChild(daysLeft);
     buttonContainer.appendChild(waistedButton);
     buttonContainer.appendChild(consumedButton);
+    buttonContainer.appendChild(propertiesButton);
     tr.appendChild(buttonContainer);
     container.appendChild(tr);
+
+    //append hiddenrow here
+    container.appendChild(hiddenrow_container);
+    
 }
 
 //This is where the add item function start, its activated when the button additem is pressed. All it does is desplaying the hidden input block.   <------ Carl Note
