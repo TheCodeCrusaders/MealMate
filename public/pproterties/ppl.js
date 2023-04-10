@@ -47,7 +47,34 @@ function createItem(element, index) {
     buttonContainer.appendChild(expand);
     buttonContainer.appendChild(Delete_item);
     
-    
+    Delete_item.addEventListener("click", ()=> {
+
+        let data_To_server = {
+            name: element.name
+        }
+        fetch("/API/ppDeleteitem", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data_To_server)
+          })
+            .then(response => {
+              if (!response.ok) {
+                throw new Error("Network response was not ok");
+              }
+              return response.json();
+            })
+            .then(data => {
+              console.log("Response from server:", data);
+            })
+            .catch(error => {
+              console.error("Error sending POST request:", error);
+            });
+
+        tr.parentNode.removeChild(tr);
+    })
+
         expand.addEventListener("click", () => {
             if (hiddenRow.style.display === "none") {
               hiddenRow.style.display = "table-row";
@@ -81,7 +108,38 @@ function printPropertyNames(obj) {
 
 
             delete_prop.addEventListener("click", ()=>{
-                
+                const propName = property_name.placeholder;
+                const propValue = property_value.placeholder;
+
+                console.log(`Deleting ${propName} : ${propValue}`);
+                console.log(element)
+                let Deleted_data={
+                    name:element.name,
+                    properties:propName
+                }
+
+                fetch("/API/ppDeleteProperti", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(Deleted_data)
+                  })
+                    .then(response => {
+                      if (!response.ok) {
+                        throw new Error("Network response was not ok");
+                      }
+                      return response.json();
+                    })
+                    .then(data => {
+                      console.log("Response from server:", data);
+                    })
+                    .catch(error => {
+                      console.error("Error sending POST request:", error);
+                    });
+
+                prop_containtainer.parentNode.removeChild(prop_containtainer);
+                console.log("tried at least")
             })
 
 

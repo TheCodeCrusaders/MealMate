@@ -559,4 +559,87 @@ router.post('/newuser', (req, res) => {
   });
 
 
+
+// This adds the abilty to delete individual properties of objects
+  router.post('/API/ppDeleteProperti', verifyToken, (req, res) => {
+
+    let name_of_object =req.body.name
+    let name_of_properti=req.body.properties
+    const filePath = path.resolve() + `/data/USERS/${req.user.username}/Private_item_property_list.json`;
+
+    fs.readFile(filePath, (err, data) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send("Internal Server Error");
+        } else {
+            const jsonData = JSON.parse(data.toString("utf8"));
+            const itemIndex = jsonData.findIndex(item => item.name === name_of_object);
+            delete jsonData[itemIndex][name_of_properti];
+            fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), err => {
+                if (err) {
+                    console.error(err);
+                    res.status(500).send("Internal Server Error");
+                } else {
+                    res.json({ message: 'Property deleted successfully' });
+                }
+            });
+        }
+    });
+    res.json({ message: 'Property deleted successfully' });
+  })
+
+
+
+
+ router.post('/API/ppDeleteitem', verifyToken, (req, res) => {
+
+let name_of_object =req.body.name;
+
+const filePath = path.resolve() + `/data/USERS/${req.user.username}/Private_item_property_list.json`;
+
+
+fs.readFile(filePath, (err, data) => {
+    if (err) {
+        console.error(err);
+        res.status(500).send("Internal Server Error");
+    } else {
+        const jsonData = JSON.parse(data.toString("utf8"));
+        const itemIndex = jsonData.findIndex(item => item.name === name_of_object);
+        jsonData.splice(itemIndex, 1);
+        fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), err => {
+           
+            if (err) {
+                console.error(err);
+                res.status(500).send("Internal Server Error");
+            } else {
+                
+                 res.json({ message: 'Item deleted successfully' });
+            }
+        });
+    }
+});
+
+
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 export default router
