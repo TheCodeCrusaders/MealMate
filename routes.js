@@ -408,7 +408,8 @@ router.post('/newuser', (req, res) => {
     const newItem = {
         id: uuidv4(),
         name: req.body.name,
-        price: req.body.price
+        price: req.body.price,
+        bought: false
       };
 
     shoppingList.push(newItem);
