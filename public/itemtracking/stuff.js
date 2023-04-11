@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
     //fetchData();
     //fetchGlobalItems(); //!!TO READ!!
     //fetchDataGlobalItems()
+let gil;    
     OnStartfetchDataOnce()
 
 })
@@ -266,8 +267,9 @@ function createItem(element, index) {
 
     //code properties button here
     let hiddenrow_container = document.createElement("tr");
-    let testbox=document.createElement("td");
+    
     hiddenrow_container.style.display= "none"
+
     propertiesButton.addEventListener("click", () => {
         console.log("The button do stuff")
         if (hiddenrow_container.style.display === "none") {
@@ -276,9 +278,56 @@ function createItem(element, index) {
           hiddenrow_container.style.display = "none";
         }
       });
+
+      
+    let nameofitem=element.name;
+    let propname="name";
+ 
     
-    testbox.textContent="Test VIRKER";
-    hiddenrow_container.appendChild(testbox);
+    let item=global_item_data.find(obj => obj.name === nameofitem);
+    
+    if (item){console.log(item.name)
+    for(let props in item){
+        if(props==="name"){continue;}
+        else{
+                let prop_containtainer=document.createElement("tr")   
+                let property_name=document.createElement("td") 
+                let property_value=document.createElement("td")
+                property_name.textContent=props;
+                property_value.textContent=item[props]
+                prop_containtainer.appendChild(property_name)
+                prop_containtainer.appendChild(property_value)
+                hiddenrow_container.appendChild(prop_containtainer) 
+        }
+    }
+    }
+    //private_user_Item_property_data
+    console.log(private_user_Item_property_data)
+if(!item){
+    
+
+let item2=private_user_Item_property_data.find(obj =>obj.name===nameofitem)
+
+if(item2){
+    
+    for(let props in item2){
+        if(props==="name"){continue;}
+        else{
+                let prop_containtainer=document.createElement("tr")   
+                let property_name=document.createElement("td") 
+                let property_value=document.createElement("td")
+                property_name.textContent=props;
+                property_value.textContent=item2[props]
+                prop_containtainer.appendChild(property_name)
+                prop_containtainer.appendChild(property_value)
+                hiddenrow_container.appendChild(prop_containtainer) 
+        }
+    }
+}
+}
+    
+
+    
 
     name.textContent = element.name;
     location.textContent = element.location;
@@ -360,57 +409,47 @@ async function itemExists(itemName) {
 
 
 
-
+let global_item_data;
 
 //Carls COOL API CALL
 let private_user_Item_property_data;
-let global_item_data;
 function OnStartfetchDataOnce() {
-    fetch("/API/getList")                   
-        .then((response) => {               
-            if (response.ok) {             
-                return response.json();   
-            }
-            throw new Error("response was not in the 200 range ") 
-        })
-        .then((data) => createTable(data))                       
-        .catch((error) => {                                      
-            window.location.replace("/login");                    
-        });
+
+    fetch("/API/GetPrivateProtertyList")
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error("response was not in the 200 range ")
+    })
+    .then((data) => {
+      private_user_Item_property_data = data;
+      return fetch("/API/getListGlobalItems"); // Return the second fetch request
+    })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error("response was not in the 200 range ")
+    })
+    .then((data) => {
+      global_item_data = data;
+      return fetch("/API/getList"); // Return the third fetch request
+    })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error("response was not in the 200 range ")
+    })
+    .then((data) => createTable(data))
+    .catch((error) => {
+      alert("An error occured");
+    });
 
 
-    fetch("/API/GetPrivateProtertyList")        
-        .then((response) => {               
-            if (response.ok) {              
-                return response.json();    
-            }
-            throw new Error("response was not in the 200 range ") 
-        })
-        
-        .then((data) => {
-            private_user_Item_property_data=data
-            // Adds the private persons items to the 
-        })                        
-        .catch((error) => {                                       
-            alert("An error occured");                            
-        });
 
-        
-         
-    fetch("/API/getListGlobalItems")       
-                .then((response) => {               
-                    if (response.ok) {              
-                        return response.json();    
-                    }
-                    throw new Error("response was not in the 200 range ") 
-                })
-                .then((data) => {global_item_data=data;      })                       
-                .catch((error) => {                                       
-                    alert("An error occured");                          
-                });
-        
-
-
+    
         
 }
 
