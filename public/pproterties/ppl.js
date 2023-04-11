@@ -1,12 +1,12 @@
 const container = document.querySelector("#container");
-import { OnStartfetchDataOnce } from "pproterties/Functions/OnStartfetchDataOnce.js";
+//import { OnStartfetchDataOnce } from "/pproterties/Functions/OnStartfetchDataOnce.js";
 
 document.addEventListener("DOMContentLoaded", (e) => {
   OnStartfetchDataOnce()
 })
 
 //Fetches current user's private property list.
-/*let private_user_Item_property_data;
+let private_user_Item_property_data;
 function OnStartfetchDataOnce() {
   fetch("/API/GetPrivateProtertyList")
     .then((response) => {
@@ -23,7 +23,6 @@ function OnStartfetchDataOnce() {
       alert("An error occured");
     });
 }
-*/
 
 let create_new_item = document.createElement("button")
 create_new_item.textContent = "New Item"

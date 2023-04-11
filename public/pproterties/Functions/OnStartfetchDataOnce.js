@@ -1,5 +1,5 @@
 //Var.
-let private_user_Item_property_data;
+export let private_user_Item_property_data;
 
 //Func.
 export function OnStartfetchDataOnce() {
