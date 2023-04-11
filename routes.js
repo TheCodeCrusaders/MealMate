@@ -695,7 +695,30 @@ fs.readFile(filePath, (err, data) => {
   });
 
 
-
+  router.post("/API/pp_new_item", verifyToken, (req, res)=>{
+    const userdatanewproperties =[]
+    
+    const ppropertydata = {
+        "name": req.body["name"],
+      };
+      userdatanewproperties.push(ppropertydata);
+      console.log(userdatanewproperties);
+    
+      const dataPath = path.join(path.resolve() + `/data/USERS/${req.user.username}/Private_item_property_list.json`);
+      let data = [];
+      try {
+          data = JSON.parse(fs.readFileSync(dataPath));
+      } catch (error) { }
+    
+      // Add the new data to the array
+      data.push(req.body);
+    
+      // Write the updated data back to the JSON file
+      fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
+    
+    
+    res.json({ message: "Data received" });
+    })
 
 
 

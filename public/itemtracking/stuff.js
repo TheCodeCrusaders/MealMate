@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
     //fetchData();
     //fetchGlobalItems(); //!!TO READ!!
     //fetchDataGlobalItems()
-let gil;    
+  
     OnStartfetchDataOnce()
 
 })
