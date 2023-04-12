@@ -66,6 +66,7 @@ location.reload();
 
 container.appendChild(create_new_item)
 container.appendChild(name_of_new_item)
+
 function createTable(data) {
     data.forEach((element, index) => {
         createItem(element, index)
