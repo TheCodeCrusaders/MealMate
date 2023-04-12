@@ -9,6 +9,8 @@ import crypto from 'crypto';
 //import mysql from 'mysql';
 import removeItem from "./functions/removeItem.js"
 
+const userDirectoryPath = "/data/USERS/";
+
 import { listRecipies, topRecipiesForUsers } from './functions/recipe.js'
 router.post('/API/search', verifyToken, (req, res) => {
     fs.promises.readFile(`${path.resolve()}/data/USERS/${req.user.username}/items.json`)
@@ -45,6 +47,8 @@ const users44 = users();
 
 
 // console.log(users44) //console.logs to prove we are into the system, and shows off every username and password.
+
+// This Function Is the one witch confirms the users identety, and help us send the right data to the rigth user.
 
 function verifyToken(req, res, next) {
     const token = req.cookies.token;// Here we request the cookie from the user
@@ -100,11 +104,40 @@ router.post("/login", (req, res) => {  // post action declared, will wait for po
 
 
 router.get("/API/getUserName", verifyToken, (req, res) => {
-    res.json({ "username": req.user.username })
-
+    res.json({
+        "username": req.user.username,
+    })
 })
 
+router.post("/API/Private_properties", verifyToken, (req, res)=>{
+const userdatanewproperties =[]
 
+const ppropertydata = {
+    "name": req.body["name"],
+    "calories per 100gram": req.body["calories per 100gram"],
+    "co2 per 1kg": req.body["co2 per 1kg"],
+    "protein pr 100 gram": req.body["protein pr 100 gram"],
+    "carbohydrate pr 100 gram": req.body["carbohydrate pr 100 gram"],
+    "fat pr 100 gram": req.body["fat pr 100 gram"]
+  };
+  userdatanewproperties.push(ppropertydata);
+  console.log(userdatanewproperties);
+
+  const dataPath = path.join(path.resolve() + `/data/USERS/${req.user.username}/Private_item_property_list.json`);
+  let data = [];
+  try {
+      data = JSON.parse(fs.readFileSync(dataPath));
+  } catch (error) { }
+
+  // Add the new data to the array
+  data.push(req.body);
+
+  // Write the updated data back to the JSON file
+  fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
+
+
+res.json({ message: "Data received" });
+})
 
 
 
@@ -119,7 +152,10 @@ router.post("/API/waisteditem", verifyToken, (req, res) => {
 
 import helpers from "./functions/helpers.js"
 
-// getting a list route (still neds to be modified for real login system)
+// getting a list route (still neds to be modified for real login system) <------This Comment sucks Please Igonore it Carl
+
+
+//This is our API, that one can fecht from, It will return The items.json file from the given user that is trying to acces the data. <------ Carl Note
 router.get("/API/getList", verifyToken, async (req, res) => {
     const filePath = path.resolve() + `/data/USERS/${req.user.username}/items.json`;
 
@@ -150,6 +186,9 @@ router.get("/API/getList", verifyToken, async (req, res) => {
 // });
 
 //!!TO READ!!
+
+
+//This funtion is used as an api for the users to fethc the Global-Item.json file. <------ Carl Note
 router.get("/API/getListGlobalItems", async (req, res) => {
     const filePath = path.resolve() + `/data/Global-Items/Global-Items.json`;
 
@@ -221,6 +260,23 @@ router.post('/API/privateItemUsers', verifyToken, async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 })
+//Carls Thingy Start Here DOnt YOU DARE TOUCH IT, ITS MY NONO ZONE
+// Carls Api for fethcing private item  property list 
+router.get("/API/GetPrivateProtertyList", verifyToken, async (req, res) => {
+    const filePath = path.resolve() + `/data/USERS/${req.user.username}/Private_item_property_list.json`;
+
+    fs.readFile(filePath, (err, data) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send("Internal Server Error");
+        } else {
+            const jsonData = data.toString("utf8");
+            res.json(JSON.parse(jsonData));
+        }
+    });
+});
+
+
 
 router.get("/API/gettopexp", verifyToken, (req, res) => {
     const filePath = path.resolve() + `/data/USERS/${req.user.username}/items.json`;
@@ -386,6 +442,11 @@ router.post("/API/edititem", verifyToken, (req, res) => {
     res.redirect("/itemtracking");
 });
 
+
+
+
+
+//This is where The register Function start, This is the code that creates the users files. 
 router.post('/newuser', (req, res) => {
     // Extract the new user data from the request body
     const newUser = {
@@ -404,6 +465,10 @@ router.post('/newuser', (req, res) => {
     if (duplicate) {
         return res.status(400).json({ error: 'Username already exists' });
     }
+
+    if (fs.existsSync(`data/USERS/${newUser.username}/`)) {
+        return res.status(400).json({ error: 'Username already exists' });
+      }
 
     // Add the new data to the array
     data.users.push(newUser);
@@ -434,6 +499,11 @@ router.post('/newuser', (req, res) => {
         if (err) throw err;
     });
 
+    fs.writeFile(`data/USERS/${newUser.username}/Private_item_property_list.json`, itemsStandard, (err) => {
+        if (err) throw err;
+    });
+
+
     // Return a response to the client
     return res.status(200).json({ success: 'User created successfully' });
     //res.redirect("/login");
@@ -456,8 +526,6 @@ router.post('/newuser', (req, res) => {
     fs.writeFileSync(shoppingListFilePath, JSON.stringify(shoppingList));
   }
 
-
-  // Add a new item to the shopping list
   router.post("/api/shoppingList", verifyToken, (req, res) => {
     const filePath = path.resolve() + `/data/USERS/${req.user.username}/shoppinglist.json`;
     const shoppingList = getShoppingList(filePath);
@@ -465,7 +533,8 @@ router.post('/newuser', (req, res) => {
     const newItem = {
         id: uuidv4(),
         name: req.body.name,
-        quantity: req.body.quantity
+        price: req.body.price,
+        bought: false
       };
 
     shoppingList.push(newItem);
@@ -480,6 +549,30 @@ router.post('/newuser', (req, res) => {
     const shoppingList = getShoppingList(filePath);
     res.send(shoppingList);
   });
+
+  router.post("/api/shoppingListCheck/:id", verifyToken, (req, res) => {
+    const filePath = path.resolve() + `/data/USERS/${req.user.username}/shoppinglist.json`;
+    const itemId = req.params.id;
+    const shoppingList = getShoppingList(filePath);
+
+    // Get the item from the shoppingList array with the matching itemId
+    const itemToUpdate = shoppingList.find(item => item.id === itemId);
+
+    // Get the current value of the "bought" parameter of the item
+    let currentValue = itemToUpdate.bought;
+
+    // Update the value to the opposite of its current value
+    let updatedValue = !currentValue;
+
+    // Update the "bought" parameter of the item in the shoppingList array
+    itemToUpdate.bought = updatedValue;
+
+    // Save the updated shopping list JSON file
+    saveShoppingList(filePath, shoppingList);
+
+    // Send a response indicating that the item has been updated
+    res.send(`Item with id ${itemId} has been updated`);
+    })
   
   // Remove an item from the shopping list
   router.delete("/api/shoppingList/:id", verifyToken, (req, res) => {
@@ -498,7 +591,7 @@ router.post('/newuser', (req, res) => {
   
     const response = await fetch(`https://api.sallinggroup.com/v1-beta/product-suggestions/relevant-products?query=${query}`, {
       headers: {
-        "Authorization": "Bearer ccf79589-89f0-4ff5-a034-2e7d93cdbbf0",
+        "Authorization": "Bearer 3dac909e-0081-464f-aeac-f9a2efe5cf1a",
         "Content-Type": "application/json",
         "Accept": "application/json"
       }
@@ -514,6 +607,211 @@ router.post('/newuser', (req, res) => {
   
     res.json(data);
   });
+
+  router.post("/API/changePassword", verifyToken, (req, res) => {
+
+    const userDetails = {
+        username: req.user.username,
+        oldPassword: crypto.createHash('sha256').update(req.body.oldPassword).digest('hex'),
+        newPassword1: crypto.createHash('sha256').update(req.body.newPassword1).digest('hex'),
+        newPassword2: crypto.createHash('sha256').update(req.body.newPassword2).digest('hex')
+    };
+
+    const filePath = path.join(path.resolve() + "/data/Passwords/users.json");
+
+    const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+
+    const user = data.users.find(user => user.username === userDetails.username);
+
+    // Check if the old password matches with the user's password
+    if (user.password !== userDetails.oldPassword) {
+        return res.status(400).json({ error: 'Old password is incorrect!' });
+    }
+
+    // Check if the new password and confirm password match
+    if (userDetails.newPassword1 !== userDetails.newPassword2) {
+        return res.status(400).json({ error: 'The new password doesnt match!' });
+    }
+
+      // Update the user's password
+      user.password = userDetails.newPassword1;
+
+      // Save the updated data to file
+      fs.writeFileSync(filePath, JSON.stringify(data));
+
+      res.json({ success: true });
+
+
+  });
+
+
+
+// This adds the abilty to delete individual properties of objects
+  router.post('/API/ppDeleteProperti', verifyToken, (req, res) => {
+
+    let name_of_object =req.body.name
+    let name_of_properti=req.body.properties
+    const filePath = path.resolve() + `/data/USERS/${req.user.username}/Private_item_property_list.json`;
+
+    fs.readFile(filePath, (err, data) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send("Internal Server Error");
+        } else {
+            const jsonData = JSON.parse(data.toString("utf8"));
+            const itemIndex = jsonData.findIndex(item => item.name === name_of_object);
+            delete jsonData[itemIndex][name_of_properti];
+            fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), err => {
+                if (err) {
+                    console.error(err);
+                    res.status(500).send("Internal Server Error");
+                } else {
+                    res.json({ message: 'Property deleted successfully' });
+                }
+            });
+        }
+    });
+    res.json({ message: 'Property deleted successfully' });
+  })
+
+
+
+
+ router.post('/API/ppDeleteitem', verifyToken, (req, res) => {
+
+let name_of_object =req.body.name;
+
+const filePath = path.resolve() + `/data/USERS/${req.user.username}/Private_item_property_list.json`;
+
+
+fs.readFile(filePath, (err, data) => {
+    if (err) {
+        console.error(err);
+        res.status(500).send("Internal Server Error");
+    } else {
+        const jsonData = JSON.parse(data.toString("utf8"));
+        const itemIndex = jsonData.findIndex(item => item.name === name_of_object);
+        jsonData.splice(itemIndex, 1);
+        fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), err => {
+           
+            if (err) {
+                console.error(err);
+                res.status(500).send("Internal Server Error");
+            } else {
+                
+                 res.json({ message: 'Item deleted successfully' });
+            }
+        });
+    }
+});
+
+
+  });
+
+
+  router.post('/API/ppsaveproperties', verifyToken, (req, res) => {
+
+    const filePath = path.resolve() + `/data/USERS/${req.user.username}/Private_item_property_list.json`;
+
+
+    let name_of_object =req.body.nameofitem;
+    let newpropname_of_item=req.body.property;
+    let newvalue=req.body.value
+    let formerprop=req.body.formerprop
+   
+
+
+    fs.readFile(filePath, (err, data) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send("Internal Server Error");
+        } else {
+            const jsonData = JSON.parse(data.toString("utf8"));
+            const itemIndex = jsonData.findIndex(item => item.name === name_of_object);
+            delete jsonData[itemIndex][formerprop];
+            jsonData[itemIndex][newpropname_of_item] = newvalue;
+            fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), err => {
+               
+                if (err) {
+                    console.error(err);
+                    res.status(500).send("Internal Server Error");
+                } else {
+                    
+                     res.json({ message: 'Item updated successfully' });
+                }
+            });
+        }
+    });
+
+
+  });
+
+
+
+
+
+  router.post('/API/ppsavenewproperties', verifyToken, (req, res) => {
+    let name_of_object =req.body.nameofitem;
+    let newpropname_of_item=req.body.property;
+    let newvalue=req.body.value
+    
+    const filePath = path.resolve() + `/data/USERS/${req.user.username}/Private_item_property_list.json`;
+    fs.readFile(filePath, (err, data) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send("Internal Server Error");
+        } else {
+            const jsonData = JSON.parse(data.toString("utf8"));
+            const itemIndex = jsonData.findIndex(item => item.name === name_of_object);
+            
+            jsonData[itemIndex][newpropname_of_item] = newvalue;
+            fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), err => {
+               
+                if (err) {
+                    console.error(err);
+                    res.status(500).send("Internal Server Error");
+                } else {
+                    
+                     res.json({ message: 'Prop/value added successfully' });
+                }
+            });
+        }
+    });
+
+  });
+
+
+  router.post("/API/pp_new_item", verifyToken, (req, res)=>{
+    const userdatanewproperties =[]
+    
+    const ppropertydata = {
+        "name": req.body["name"],
+      };
+      userdatanewproperties.push(ppropertydata);
+      console.log(userdatanewproperties);
+    
+      const dataPath = path.join(path.resolve() + `/data/USERS/${req.user.username}/Private_item_property_list.json`);
+      let data = [];
+      try {
+          data = JSON.parse(fs.readFileSync(dataPath));
+      } catch (error) { }
+    
+      // Add the new data to the array
+      data.push(req.body);
+    
+      // Write the updated data back to the JSON file
+      fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
+    
+    
+    res.json({ message: "Data received" });
+    })
+
+
+
+
+
+
+
 
 
 export default router
