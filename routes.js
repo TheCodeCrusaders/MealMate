@@ -104,7 +104,23 @@ router.post("/login", (req, res) => {  // post action declared, will wait for po
 
 router.get("/API/getUserName", verifyToken, (req, res) => {
     res.json({
-        "username": req.user.username,
+        "username": req.user.username
+    })
+})
+
+
+//Use this API to get settings from the user: Username, email, and date of birth are available.
+router.get("/API/getSettings", verifyToken, (req, res) => {
+    const filePath = path.join(path.resolve() + "/data/Passwords/users.json");
+
+    const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+
+    const user = data.users.find(user => user.username === req.user.username);
+
+    res.json({
+        "username": user.username,
+        "email": user.email,
+        "birthday": user.birthday
     })
 })
 
@@ -394,7 +410,9 @@ router.post('/newuser', (req, res) => {
     // Extract the new user data from the request body
     const newUser = {
         username: req.body.username,
-        password: crypto.createHash('sha256').update(req.body.password).digest('hex')
+        email: req.body.email,
+        birthday: req.body.birthday,
+        password: crypto.createHash('sha256').update(req.body.password).digest('hex') //Requests the password from the frontend and encrypts it using the security standard AES256-bit encryption method.
     };
 
     const dataPath = path.join(path.resolve() + "/data/Passwords/users.json");
@@ -425,7 +443,7 @@ router.post('/newuser', (req, res) => {
 
     const itemsStandard = '[]';
 
-
+    //Creating the 3 standard data files for the user
     fs.writeFile(`data/USERS/${newUser.username}/consumedItems.json`, itemsStandard, (err) => {
         if (err) throw err;
     });
@@ -525,6 +543,7 @@ router.post('/newuser', (req, res) => {
     res.send('Item removed from shopping list: ' + itemId);
   });
 
+  // Get price of product using Sallinggroups API
   router.get("/api/productPrice", async (req, res) => {
     const { query } = req.query;
   
