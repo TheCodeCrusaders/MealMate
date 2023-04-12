@@ -202,8 +202,7 @@ router.get("/API/getListGlobalItems", async (req, res) => {
     });
 });
 
-//Carls Thingy Start Here DOnt YOU DARE TOUCH IT, ITS MY NONO ZONE
-// Carls Api for fethcing private item  property list 
+
 router.get("/API/GetPrivateProtertyList", verifyToken, async (req, res) => {
     const filePath = path.resolve() + `/data/USERS/${req.user.username}/Private_item_property_list.json`;
 
