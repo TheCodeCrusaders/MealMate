@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
 //Event 2). - Upon click of "New item"
 create_new_item.addEventListener("click", createNewItemLogic);
 
-
+//SHADI START HER
 container.appendChild(create_new_item)
 container.appendChild(name_of_new_item)
 function createTable(data) {
