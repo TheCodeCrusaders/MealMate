@@ -99,9 +99,10 @@ document.addEventListener("DOMContentLoaded", (e) => {
 //Event 2). - Upon click of "New item"
 create_new_item.addEventListener("click", createNewItemLogic);
 
-
+//Appends item name and the items propoties to the container
 container.appendChild(create_new_item)
 container.appendChild(name_of_new_item)
+//Creates the item with each of the proporties (or maybe just the item not sure yet)
 function createTable(data) {
   data.forEach((element, index) => {
     createItem(element, index)
@@ -125,15 +126,17 @@ function createItem(element, index) {
   Delete_item.textContent = "Delete Item"
 
 
-
+  //Appends expand (propoties) and delete item to the buttonContainer
   buttonContainer.appendChild(expand);
   buttonContainer.appendChild(Delete_item);
 
+  //Is used when an item is deleted
   Delete_item.addEventListener("click", () => {
-
+    //Gets the name of the item
     let data_To_server = {
       name: element.name
     }
+    //Sends the request to "/API/ppDeleteitem" and deletes the item that is clicked
     fetch("/API/ppDeleteitem", {
       method: "POST",
       headers: {
@@ -156,7 +159,15 @@ function createItem(element, index) {
 
     tr.parentNode.removeChild(tr);
   })
+  //Har rykket den over expand, skal måske tilbage under
+  //Creates the tables with the propoties text
+  let hiddenRow = document.createElement("tr");
+  let textbox1 = document.createElement("text")
+  textbox1.style.fontSize = "20px"
+  textbox1.textContent = "Properties"
+  hiddenRow.appendChild(textbox1)
 
+  //When "see more or edit" (expand) is clicked it will then show the propoties linked to that item (hiddenRow) and will hide it if clicked again
   expand.addEventListener("click", () => {
     if (hiddenRow.style.display === "none") {
       hiddenRow.style.display = "table-row";
@@ -167,46 +178,46 @@ function createItem(element, index) {
     }
   });
 
-  let hiddenRow = document.createElement("tr");
-  let textbox1 = document.createElement("text")
-  textbox1.style.fontSize = "20px"
-  textbox1.textContent = "Properties"
-  hiddenRow.appendChild(textbox1)
-
+  //Adds the functionallity to add propoties which allows to add personalized propoties
   let create_prop_button = document.createElement("button")
   create_prop_button.textContent = "Add Properties";
 
+  //When "Add Properties" is clicked the following function si exucted
   create_prop_button.addEventListener("click", () => {
+    //Creates two new inputs, one for name and one for value
     let newproperty = document.createElement("input")
     let newvalue = document.createElement("input")
     newproperty.placeholder = "Propertie name";
     newvalue.placeholder = "Value"
     let containerForNewItem = document.createElement("tr")
+    //Appends the newproperty and newvalue to the containerForNewItem (the list under hiddenRow)
     containerForNewItem.appendChild(newproperty)
     containerForNewItem.appendChild(newvalue)
+    //Creates a delete button
     let delete_prop = document.createElement("button")
     delete_prop.textContent = "Delete";
+    //Remove the table row element containing the input fields and the delete button
     delete_prop.addEventListener("click", () => {
-
       containerForNewItem.parentNode.removeChild(containerForNewItem);
     });
 
-
+    //Creates a save button when creating a new propoty
     let savebutton = document.createElement("button")
     savebutton.textContent = "Save Changes" /// <------------ ufærdig feutere med at gemme den nye item
 
-
+    //When savebutton is clicked
     savebutton.addEventListener("click", () => {
 
-
-
+      //Finds the ancestor 'tr' elements to the savebutton element and then find all input elements within that tr element
+      //Allows the user to save all the inputs that are connected to the 'tr'
       let closestr = savebutton.closest("tr");
       let inputs = closestr.querySelectorAll("input")
 
 
-      console.log(inputs[0].value)
-      console.log(inputs[1].value)
-      console.log(inputs[0].placeholder)
+      // console.log(inputs[0].value)
+      // console.log(inputs[1].value)
+      // console.log(inputs[0].placeholder)
+      //Creates a data collector for the item name, property and value and uses it in "/API/ppsavenewproperties"
       let New_data_prop = {
         nameofitem: element.name,
         property: inputs[0].value,
@@ -237,7 +248,7 @@ function createItem(element, index) {
     })
 
 
-
+    //Appends savebutton, delete_prop to containerForNewItem and then appends that container to hiddenRow
     containerForNewItem.appendChild(savebutton)
     containerForNewItem.appendChild(delete_prop)
     hiddenRow.appendChild(containerForNewItem)
@@ -246,25 +257,27 @@ function createItem(element, index) {
 
 
 
-
+  //Appends create_prop_button to hiddenRow
   hiddenRow.appendChild(create_prop_button)
   let standard = document.createElement("button")
   standard.textContent = "Add Standart Props";
 
 
 
-
+  //Creates a standarized property list
   standard.addEventListener("click", () => {
 
-    let closestr = standard.closest("tr");
+    //Never used
+    //let closestr = standard.closest("tr");
 
+    //Gives the property values to each row
     standarts("calories per 100 gram")
     standarts("co2 per 1kg")
     standarts("protein pr 100 gram")
     standarts("carbohydrate pr 100 gram")
     standarts("fat pr 100 gram")
 
-
+    //Sets up the table for the standarized property
     function standarts(property) {
 
       let newproperty = document.createElement("input")
@@ -297,16 +310,17 @@ function createItem(element, index) {
         let inputs = closestr.querySelectorAll("input")
 
 
-        console.log(inputs[0].value)
-        console.log(inputs[1].value)
-        console.log(inputs[0].placeholder)
+        // console.log(inputs[0].value)
+        // console.log(inputs[1].value)
+        // console.log(inputs[0].placeholder)
+        //Like before it gets the values from the input fields
         let New_data_prop = {
           nameofitem: element.name,
           property: inputs[0].value,
           value: inputs[1].value
         }
 
-
+        //Ands sends a request to "/API/ppsavenewproperties" in routes
         fetch("/API/ppsavenewproperties", {
           method: "POST",
           headers: {
@@ -345,11 +359,14 @@ function createItem(element, index) {
   })
 
   hiddenRow.appendChild(standard)
+  //Creates a function that is used to check wether an item name exist or not, so as to no create multiples of the same item in the JSON file (er det rigtigt?)
   function printPropertyNames(obj) {
+    //Loops through all the items
     for (let propName in obj) {
-
+      //If the propName exists it will just continue of out the if-statement
       if (propName === "name") { continue; }
       else {
+        //Otherwise it will create a table for the item to insert a set of properties
         let prop_containtainer = document.createElement("tr")
         let property_name = document.createElement("input")
         let property_value = document.createElement("input")
@@ -360,18 +377,18 @@ function createItem(element, index) {
         prop_containtainer.appendChild(property_name)
         prop_containtainer.appendChild(property_value)
 
-
+        //A delete for the properties of that item
         delete_prop.addEventListener("click", () => {
           const propName = property_name.placeholder;
           const propValue = property_value.placeholder;
 
           console.log(`Deleting ${propName} : ${propValue}`);
-          console.log(element)
+          // console.log(element)
           let Deleted_data = {
             name: element.name,
             properties: propName
           }
-
+          //Sends a request to delete the property
           fetch("/API/ppDeleteProperti", {
             method: "POST",
             headers: {
@@ -394,19 +411,21 @@ function createItem(element, index) {
           prop_containtainer.parentNode.removeChild(prop_containtainer);
           console.log("tried at least")
         })
-
+        //Creates a button for saving changes
         let savebutton = document.createElement("button")
         savebutton.textContent = "Save Changes"
-
+        //Whn the button is clicked
         savebutton.addEventListener("click", () => {
-
+          //All the closest ancestor 'tr' will be copied over to closestr
           let closestr = savebutton.closest("tr");
+          //It will then look for all the input fields
           let inputs = closestr.querySelectorAll("input")
 
 
-          console.log(inputs[0].value)
-          console.log(inputs[1].value)
-          console.log(inputs[0].placeholder)
+          // console.log(inputs[0].value)
+          // console.log(inputs[1].value)
+          // console.log(inputs[0].placeholder)
+          //Is used to save these input fields in New_data_prop 
           let New_data_prop = {
             nameofitem: element.name,
             formerprop: inputs[0].placeholder,
@@ -414,7 +433,7 @@ function createItem(element, index) {
             value: inputs[1].value
           }
 
-
+          //Sends a request to save the property with the New_data_prop
           fetch("/API/ppsaveproperties", {
             method: "POST",
             headers: {
@@ -438,7 +457,7 @@ function createItem(element, index) {
         })
 
 
-
+        //Appends the buttons to prop_containtainer adn then to hiddenRow
         prop_containtainer.appendChild(savebutton)
         prop_containtainer.appendChild(delete_prop)
 
@@ -447,6 +466,7 @@ function createItem(element, index) {
     }
   }
 
+  //Uses the printPropertyNames function on element (property)
   printPropertyNames(element);
 
 
