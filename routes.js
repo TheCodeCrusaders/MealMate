@@ -723,27 +723,43 @@ router.post('/API/ppsavenewproperties', verifyToken, (req, res) => {
 
 
 router.post("/API/pp_new_item", verifyToken, (req, res) => {
-    const userdatanewproperties = []
+    ////SEEMINGLY USELESS////
+    /*const userdatanewproperties = []*/
 
+    //req.body["name"] = req.body.name (access name property in post-request object) | req.body = "value of HTML input with text "name of new item"
     const ppropertydata = {
         "name": req.body["name"],
+        /* [From ppl.js]
+
+        let ppropertydata = {
+            "name": name
+        };
+        */
     };
+
+    ////SEEMINGLY USELESS////
+    /*
     userdatanewproperties.push(ppropertydata);
     console.log(userdatanewproperties);
+    */
 
+    //dataPath = Current dir/ + data/USERS(current user)/ + private_item_property_list.json
     const dataPath = path.join(path.resolve() + `/data/USERS/${req.user.username}/Private_item_property_list.json`);
     let data = [];
+
+    //try {} is used for error handling of synchronous functions - sequentially executing
     try {
         data = JSON.parse(fs.readFileSync(dataPath));
     } catch (error) { }
 
-    // Add the new data to the array
+    // Pushes the post-request to "data" array
     data.push(req.body);
 
-    // Write the updated data back to the JSON file
+    // Write the updated data back to the JSON file 
+    //stringify(data, |Optional modifcations|, |Space indentation between sub properties|)
     fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
 
-
+    //Sends a response message, letting devs, know code executed smoothly, not readable or relevent due to reload inside of Func 2).
     res.json({ message: "Data received" });
 })
 
