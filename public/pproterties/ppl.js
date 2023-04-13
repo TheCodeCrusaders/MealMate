@@ -7,12 +7,12 @@ const container = document.querySelector("#container");
 ////VAR. DECLERATIONS:////
 
 //- Belongs to | Func 1) | Func 2).
-let private_user_Item_property_data;     
+let private_user_Item_property_data;
 
 //- Belongs to | Func 2).
 
 //HTML - "New Item" - Button
-let create_new_item = document.createElement("button")  
+let create_new_item = document.createElement("button")
 create_new_item.textContent = "New Item"
 
 //HTML - "Name of item" - Input bar
@@ -42,39 +42,36 @@ function OnStartfetchDataOnce() {
     });
 }
 
-//Func 2).
+// Func 2).
 function createNewItemLogic() {
-  let name = name_of_new_item.value //HTML input for item name
-  let item = private_user_Item_property_data.find(obj => obj.name === name);  //.find goes through array "private_user_Item_property_data" and finds the first element with name property matching var name 
+  let name = name_of_new_item.value; // HTML input value for item name
+  let item = private_user_Item_property_data.find(obj => obj.name === name); // .find() goes through the array "private_user_Item_property_data" and finds the first element with a name property matching var name
 
-  if (item) { //If the item exists
-    name_of_new_item.value = "Alredy in the system!!"
-   }
-
-  else {
-    //Creates object "ppropertydata" with property "name" storing input for item name
+  if (item) { // If the item exists
+    name_of_new_item.value = "Already in the system!!";
+  } else {
+    // Creates an object "ppropertydata" with property "name" storing input value for item name
     let ppropertydata = {
       "name": name
     };
 
-    //POST request
+    // POST request
     fetch("/API/pp_new_item", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      //POST body is .json format of ppropertydata
+      // POST body is the JSON string format of ppropertydata
       body: JSON.stringify(ppropertydata)
     })
-      .then(response => { //response = fetched data from /API/pp/new_item
-        if (!response.ok) { //If response is not whiten 200 range
+      .then(response => { // response = fetched data from /API/pp_new_item
+        if (!response.ok) { // If response is not within the 200 range
           throw new Error("Network response was not ok");
-        }
 
-        else{
+        } else {
+          // response.json() converts the response body to a JavaScript object | "return" is needed to pass response.json() to the next ".then" block
           return response.json();
         }
-
       })
       .then(data => {
         console.log("Response from server:", data);
@@ -83,7 +80,7 @@ function createNewItemLogic() {
         console.error("Error sending POST request:", error);
       });
   }
-
+  // Reloads the page
   location.reload();
 }
 
@@ -107,7 +104,6 @@ function createTable(data) {
   data.forEach((element, index) => {
     createItem(element, index)
   });
-
 }
 
 function createItem(element, index) {
@@ -117,11 +113,12 @@ function createItem(element, index) {
   let tr = document.createElement("tr");
   let name = document.createElement("td");
   name.textContent = element.name;
+
   // ButtonContainer will be a container box where our function for the button will be stored
   let buttonContainer = document.createElement("td");
   let expand = document.createElement("button");
   expand.textContent = "Se more & edit"
-
+  
   let Delete_item = document.createElement("button");
   Delete_item.textContent = "Delete Item"
 
