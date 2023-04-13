@@ -67,6 +67,7 @@ function createNewItemLogic() {
       .then(response => { // response = fetched data from /API/pp_new_item
         if (!response.ok) { // If response is not within the 200 range
           throw new Error("Network response was not ok");
+
         } else {
           // response.json() converts the response body to a JavaScript object | "return" is needed to pass response.json() to the next ".then" block
           return response.json();
@@ -95,14 +96,15 @@ document.addEventListener("DOMContentLoaded", (e) => {
 //Event 2). - Upon click of "New item"
 create_new_item.addEventListener("click", createNewItemLogic);
 
+
 //SHADI START HER
 container.appendChild(create_new_item)
 container.appendChild(name_of_new_item)
+
 function createTable(data) {
   data.forEach((element, index) => {
     createItem(element, index)
   });
-
 }
 
 function createItem(element, index) {
@@ -112,15 +114,14 @@ function createItem(element, index) {
   let tr = document.createElement("tr");
   let name = document.createElement("td");
   name.textContent = element.name;
+
   // ButtonContainer will be a container box where our function for the button will be stored
   let buttonContainer = document.createElement("td");
   let expand = document.createElement("button");
   expand.textContent = "Se more & edit"
-
+  
   let Delete_item = document.createElement("button");
   Delete_item.textContent = "Delete Item"
-
-
 
   buttonContainer.appendChild(expand);
   buttonContainer.appendChild(Delete_item);
