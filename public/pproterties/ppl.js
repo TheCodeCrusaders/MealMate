@@ -122,6 +122,18 @@ function createItem(element, index) {
   let Delete_item = document.createElement("button");
   Delete_item.textContent = "Delete Item"
 
+  //Creates the tables with the propoties text
+  let hiddenRow = document.createElement("tr");
+  let textbox1 = document.createElement("text")
+
+  //Adds the functionallity to add propoties which allows to add personalized propoties
+  //For event listener
+  let create_prop_button = document.createElement("button")
+  create_prop_button.textContent = "Add Properties";
+
+  //For standard function
+  let standard = document.createElement("button")
+  standard.textContent = "Add Standart Props";
 
   //Appends expand (propoties) and delete item to the buttonContainer
   buttonContainer.appendChild(expand);
@@ -157,9 +169,6 @@ function createItem(element, index) {
     tr.parentNode.removeChild(tr);
   })
   //Har rykket den over expand, skal måske tilbage under
-  //Creates the tables with the propoties text
-  let hiddenRow = document.createElement("tr");
-  let textbox1 = document.createElement("text")
   textbox1.style.fontSize = "20px"
   textbox1.textContent = "Properties"
   hiddenRow.appendChild(textbox1)
@@ -174,10 +183,6 @@ function createItem(element, index) {
       expand.textContent = "Se more & edit";
     }
   });
-
-  //Adds the functionallity to add propoties which allows to add personalized propoties
-  let create_prop_button = document.createElement("button")
-  create_prop_button.textContent = "Add Properties";
 
   //When "Add Properties" is clicked the following function si exucted
   create_prop_button.addEventListener("click", () => {
@@ -256,10 +261,6 @@ function createItem(element, index) {
 
   //Appends create_prop_button to hiddenRow
   hiddenRow.appendChild(create_prop_button)
-  let standard = document.createElement("button")
-  standard.textContent = "Add Standart Props";
-
-
 
   //Creates a standarized property list
   standard.addEventListener("click", () => {
