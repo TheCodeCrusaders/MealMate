@@ -181,7 +181,7 @@ form.addEventListener("submit", (e) => {
 privateForm.addEventListener('submit', (e) => {
     e.preventDefault();
     let data = {
-        "name": document.querySelector('#name').value,
+        "name": document.querySelector('#names').value,
         "freezeable": document.querySelector('#freezeOrNo').value,
         "shelf_stable": document.querySelector('#shelf-stable').value,
         "calories_per_unit": document.querySelector('#calories').value,

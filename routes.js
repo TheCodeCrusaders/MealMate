@@ -471,7 +471,7 @@ router.post('/newuser', (req, res) => {
       }
 
     // Add the new data to the array
-    data.users.push(newUser);
+    users44.push(newUser);
 
     // Write the updated data back to the JSON file
     fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
