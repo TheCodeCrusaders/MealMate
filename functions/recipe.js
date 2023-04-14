@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 
-const recipies = JSON.parse(fs.readFileSync(path.resolve() + '/listofrecipes.json'));
+const recipies = JSON.parse(fs.readFileSync(path.resolve() + '/data/listofrecipes.json'));
 
 export function listRecipies(items, itemsWant) {
     try {
@@ -74,7 +74,6 @@ export function topRecipiesForUsers(userItems) {
             }
         }
         let sorted = recipiesSaved.sort((a, b) => (b.score / b.ingredients.length) - (a.score / a.ingredients.length));
-        console.log(recipiesSaved);
         return sorted;
     } catch (error) {
         console.log(error);
