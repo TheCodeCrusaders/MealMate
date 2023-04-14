@@ -24,6 +24,11 @@
     color: #fff;
     text-decoration: none;
     align-content: center;
+    
+  }
+
+ .nav-menu a:hover {
+    color: grey;
   }
   
   .hamburger {
