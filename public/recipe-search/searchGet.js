@@ -1,20 +1,16 @@
 let itemsSaved = [];
+
 const form = document.querySelector("#searchForm");
-document.addEventListener('DOMContentLoaded', () => {
-    fetchData();
+document.addEventListener("DOMContentLoaded", (e) => {
+    fetchNew();
+})
+form.addEventListener("submit", (e) => {
+    createButton();
+    e.preventDefault();
+    fetchNew();
 })
 
-form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    if (itemsSaved.includes(document.querySelector('#search').value)) {
-        document.querySelector('#search').value = '';
-        return;
-    }
-    createButton();
-    fetchData();
-    
-})
-function fetchData() {
+function fetchNew() {
     let data = {
         "itemsSaved": itemsSaved,
     };
@@ -58,7 +54,7 @@ function listCreation(recipies) {
 
 function createButton() {
     const itemName = document.createElement('span');
-    itemName.textContent = `${document.querySelector('#search').value}||`;
+    itemName.textContent = `[${document.querySelector('#search').value}]`;
     itemName.className = 'item-name';
     itemsSaved.push(document.querySelector('#search').value);
     form.appendChild(itemName);
@@ -68,7 +64,6 @@ function createButton() {
             itemsSaved.pop();
             form.lastChild.remove();
         }
-        fetchData();
     })
 }
 
