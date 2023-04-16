@@ -249,12 +249,12 @@ function createItem(element, index) {
   ////HTML - JSX////
 
   //Tr is our row where we will put things in
-  let tr = document.createElement("tr");
+  let tr = document.createElement("tr");  //Outer table
   let name = document.createElement("td");
   name.textContent = element.name;
 
 
-  //| Buttons column | ButtonContainer will be a container box where our function for the button will be stored
+  //| Buttons column | ButtonContainer will be a container box where our function for the button will be stored |
   let buttonContainer = document.createElement("td");
 
   let expand = document.createElement("button");
@@ -268,7 +268,7 @@ function createItem(element, index) {
   let hiddenRow = document.createElement("tr");
   let textbox1 = document.createElement("text")
 
-  
+
   //Adds the functionallity to add propoties which allows to add personalized propoties
   //For event listener
   let create_prop_button = document.createElement("button")
@@ -296,8 +296,7 @@ function createItem(element, index) {
   hiddenRow.appendChild(standard)
   //Creates a function that is used to check wether an item name exist or not, so as to no create multiples of the same item in the JSON file (er det rigtigt?)
 
-
-
+  
   //Uses the printPropertyNames function on element (property)
   printPropertyNames(element);
 
