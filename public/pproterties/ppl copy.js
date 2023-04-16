@@ -130,48 +130,38 @@ function createItem(element, index) {
   //SubFunc 1).
   function printPropertyNames(obj) {
     //Loops through all the items
-    //obj = element from func 4).
     for (let propName in obj) {   //propName is assigned the first property of parsed obj. For loop iterates through each property of parsed object
       if (propName === "name") { continue; }  //{cotinue} skips iteration if propName === "name" | "name" = property "name" for parsed object
       
       else {
-        //HTML - Table row for "See more & edit"
+
+        //Otherwise it will create a table for the item to insert a set of properties
         let prop_containtainer = document.createElement("tr")
         let property_value = document.createElement("input")
-        let property_name = document.createElement("input")
+        prop_containtainer.appendChild(property_value)
         
-        property_value.placeholder = obj[propName]  //Placeholder for numbers = value of property, gotten from current position in for loop
-        property_name.placeholder = propName; //Placeholder for strings = current property name in for loop
-
+        let property_name = document.createElement("input")
 
         //HTML - "Delete" - button [Property]
         let delete_prop = document.createElement("button")
         delete_prop.textContent = "Delete";
 
-
-        //HTML - "Save changes" button for saving changes
-        let savebutton = document.createElement("button")
-        savebutton.textContent = "Save Changes"
         
-
-        //HTML - APPENDS
-        prop_containtainer.appendChild(property_value)
+        property_name.placeholder = propName;
+        property_value.placeholder = obj[propName]
         prop_containtainer.appendChild(property_name)
 
-
-        //EVENTLISTENER - "Delete" button
+        //A delete for the properties of that item
         delete_prop.addEventListener("click", () => {
-          const propName = property_name.placeholder; //Assigns propName to placeholder value
-          const propValue = property_value.placeholder; //Assigns propValue to placeholder value
+          const propName = property_name.placeholder;
+          const propValue = property_value.placeholder;
 
-          // console.log(element)
           console.log(`Deleting ${propName} : ${propValue}`);
-
+          // console.log(element)
           let Deleted_data = {
-            name: element.name, //Arg from func 4). | name: = "item name"
-            properties: propName  //propName = property "name"
+            name: element.name,
+            properties: propName
           }
-
           //Sends a request to delete the property
           fetch("/API/ppDeleteProperti", {
             method: "POST",
@@ -192,21 +182,24 @@ function createItem(element, index) {
             .catch(error => {
               console.error("Error sending POST request:", error);
             });
-
-            //Deletes appended element
           prop_containtainer.parentNode.removeChild(prop_containtainer);
           console.log("tried at least")
         })
-        ////END OF EVENT LISTENER///////////////////////////////////////
-        
-
-        //EVENT LISTENER - "Save changes" button
+        //Creates a button for saving changes
+        let savebutton = document.createElement("button")
+        savebutton.textContent = "Save Changes"
+        //Whn the button is clicked
         savebutton.addEventListener("click", () => {
+          //All the closest ancestor 'tr' will be copied over to closestr
+          let closestr = savebutton.closest("tr");
+          //It will then look for all the input fields
+          let inputs = closestr.querySelectorAll("input")
 
-          let closestr = savebutton.closest("tr");  //All the closest ancestor 'tr' will be copied over to closestr
-          let inputs = closestr.querySelectorAll("input") //It will then look for all the input fields
 
-
+          // console.log(inputs[0].value)
+          // console.log(inputs[1].value)
+          // console.log(inputs[0].placeholder)
+          //Is used to save these input fields in New_data_prop 
           let New_data_prop = {
             nameofitem: element.name,
             formerprop: inputs[0].placeholder,
@@ -234,12 +227,14 @@ function createItem(element, index) {
             .catch(error => {
               console.error("Error sending POST request:", error);
             });
+
         })
 
 
-        //Appends the buttons to prop_containtainer ann then to hiddenRow - see HTML - JSX
+        //Appends the buttons to prop_containtainer adn then to hiddenRow
         prop_containtainer.appendChild(savebutton)
         prop_containtainer.appendChild(delete_prop)
+
         hiddenRow.appendChild(prop_containtainer)
       }
     }
@@ -249,17 +244,17 @@ function createItem(element, index) {
   ////HTML - JSX////
 
   //Tr is our row where we will put things in
-  let tr = document.createElement("tr");  //Outer table
+  let tr = document.createElement("tr");
   let name = document.createElement("td");
   name.textContent = element.name;
 
 
-  //| Buttons column | ButtonContainer will be a container box where our function for the button will be stored |
+  //| Buttons column | ButtonContainer will be a container box where our function for the button will be stored
   let buttonContainer = document.createElement("td");
 
   let expand = document.createElement("button");
   expand.textContent = "Se more & edit"
-  
+
   let Delete_item = document.createElement("button");
   Delete_item.textContent = "Delete Item"
 
@@ -267,7 +262,6 @@ function createItem(element, index) {
   //Creates the tables with the propoties text
   let hiddenRow = document.createElement("tr");
   let textbox1 = document.createElement("text")
-
 
   //Adds the functionallity to add propoties which allows to add personalized propoties
   //For event listener
@@ -296,7 +290,8 @@ function createItem(element, index) {
   hiddenRow.appendChild(standard)
   //Creates a function that is used to check wether an item name exist or not, so as to no create multiples of the same item in the JSON file (er det rigtigt?)
 
-  
+
+
   //Uses the printPropertyNames function on element (property)
   printPropertyNames(element);
 
