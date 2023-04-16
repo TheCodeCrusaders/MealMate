@@ -130,38 +130,48 @@ function createItem(element, index) {
   //SubFunc 1).
   function printPropertyNames(obj) {
     //Loops through all the items
+    //obj = element from func 4).
     for (let propName in obj) {   //propName is assigned the first property of parsed obj. For loop iterates through each property of parsed object
       if (propName === "name") { continue; }  //{cotinue} skips iteration if propName === "name" | "name" = property "name" for parsed object
       
       else {
-
-        //Otherwise it will create a table for the item to insert a set of properties
+        //HTML - Table row for "See more & edit"
         let prop_containtainer = document.createElement("tr")
         let property_value = document.createElement("input")
-        prop_containtainer.appendChild(property_value)
-        
         let property_name = document.createElement("input")
+        
+        property_value.placeholder = obj[propName]  //Placeholder for numbers = value of property, gotten from current position in for loop
+        property_name.placeholder = propName; //Placeholder for strings = current property name in for loop
+
 
         //HTML - "Delete" - button [Property]
         let delete_prop = document.createElement("button")
         delete_prop.textContent = "Delete";
 
+
+        //HTML - "Save changes" button for saving changes
+        let savebutton = document.createElement("button")
+        savebutton.textContent = "Save Changes"
         
-        property_name.placeholder = propName;
-        property_value.placeholder = obj[propName]
+
+        //HTML - APPENDS
+        prop_containtainer.appendChild(property_value)
         prop_containtainer.appendChild(property_name)
 
-        //A delete for the properties of that item
-        delete_prop.addEventListener("click", () => {
-          const propName = property_name.placeholder;
-          const propValue = property_value.placeholder;
 
-          console.log(`Deleting ${propName} : ${propValue}`);
+        //EVENTLISTENER - "Delete" button
+        delete_prop.addEventListener("click", () => {
+          const propName = property_name.placeholder; //Assigns propName to placeholder value
+          const propValue = property_value.placeholder; //Assigns propValue to placeholder value
+
           // console.log(element)
+          console.log(`Deleting ${propName} : ${propValue}`);
+
           let Deleted_data = {
-            name: element.name,
-            properties: propName
+            name: element.name, //Arg from func 4). | name: = "item name"
+            properties: propName  //propName = property "name"
           }
+
           //Sends a request to delete the property
           fetch("/API/ppDeleteProperti", {
             method: "POST",
@@ -182,24 +192,21 @@ function createItem(element, index) {
             .catch(error => {
               console.error("Error sending POST request:", error);
             });
+
+            //Deletes appended element
           prop_containtainer.parentNode.removeChild(prop_containtainer);
           console.log("tried at least")
         })
-        //Creates a button for saving changes
-        let savebutton = document.createElement("button")
-        savebutton.textContent = "Save Changes"
-        //Whn the button is clicked
+        ////END OF EVENT LISTENER///////////////////////////////////////
+        
+
+        //EVENT LISTENER - "Save changes" button
         savebutton.addEventListener("click", () => {
-          //All the closest ancestor 'tr' will be copied over to closestr
-          let closestr = savebutton.closest("tr");
-          //It will then look for all the input fields
-          let inputs = closestr.querySelectorAll("input")
+
+          let closestr = savebutton.closest("tr");  //All the closest ancestor 'tr' will be copied over to closestr
+          let inputs = closestr.querySelectorAll("input") //It will then look for all the input fields
 
 
-          // console.log(inputs[0].value)
-          // console.log(inputs[1].value)
-          // console.log(inputs[0].placeholder)
-          //Is used to save these input fields in New_data_prop 
           let New_data_prop = {
             nameofitem: element.name,
             formerprop: inputs[0].placeholder,
@@ -227,14 +234,12 @@ function createItem(element, index) {
             .catch(error => {
               console.error("Error sending POST request:", error);
             });
-
         })
 
 
-        //Appends the buttons to prop_containtainer adn then to hiddenRow
+        //Appends the buttons to prop_containtainer ann then to hiddenRow - see HTML - JSX
         prop_containtainer.appendChild(savebutton)
         prop_containtainer.appendChild(delete_prop)
-
         hiddenRow.appendChild(prop_containtainer)
       }
     }
@@ -254,7 +259,7 @@ function createItem(element, index) {
 
   let expand = document.createElement("button");
   expand.textContent = "Se more & edit"
-
+  
   let Delete_item = document.createElement("button");
   Delete_item.textContent = "Delete Item"
 
@@ -263,6 +268,7 @@ function createItem(element, index) {
   let hiddenRow = document.createElement("tr");
   let textbox1 = document.createElement("text")
 
+  
   //Adds the functionallity to add propoties which allows to add personalized propoties
   //For event listener
   let create_prop_button = document.createElement("button")
