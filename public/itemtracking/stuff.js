@@ -185,9 +185,20 @@ function createItem(element, index) {
     let expirationDate = document.createElement("td");
     let daysLeft = document.createElement("td");
 
+
+    name.textContent = element.name;
+    location.textContent = element.location;
+    expirationDate.textContent = element.expirationDate;
     let currentDate = new Date();
+    const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     let timeLeft = new Date(Date.parse(element.expirationDate) - currentDate);
-    daysLeft.textContent = `${Math.ceil(timeLeft / (1000 * 60 * 60 * 24))}`
+    let getdays = Math.ceil(timeLeft/(1000 * 60 * 60 * 24))
+    const dayOfWeek = weekdays[timeLeft.getDay()];
+    if (getdays < 7 && getdays >= 0) {
+        daysLeft.textContent = `${dayOfWeek} in ${getdays} days`
+    } else {
+        daysLeft.textContent = `${getdays}`
+    }
 
     let editButton = document.createElement("button");
     editButton.textContent = "Edit";
