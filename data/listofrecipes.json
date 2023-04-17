@@ -1,0 +1,315 @@
+[
+  {
+    "nameOfRecipe": "Chicken Alfredo Pasta",
+    "ingredients": [
+      {"ingredient": "chicken breast", "amount": "500g"},
+      {"ingredient": "fettuccine pasta", "amount": "400g"},
+      {"ingredient": "heavy cream", "amount": "1 cup"},
+      {"ingredient": "parmesan cheese", "amount": "1 cup"},
+      {"ingredient": "garlic", "amount": "3 cloves"},
+      {"ingredient": "butter", "amount": "3 tbsp"},
+      {"ingredient": "salt", "amount": "to taste"},
+      {"ingredient": "pepper", "amount": "to taste"}
+    ],
+    "instructions": [
+      {"inst": "Season chicken with salt and pepper."},
+      {"inst": "Cook pasta according to package instructions, then drain and set aside."},
+      {"inst": "In a large pan or skillet, melt butter over medium-high heat."},
+      {"inst": "Add minced garlic to the pan and sauté until fragrant, about 1 minute."},
+      {"inst": "Add the seasoned chicken to the pan and cook until browned on all sides, about 5-7 minutes."},
+      {"inst": "Reduce the heat to medium and pour in the heavy cream, stirring to combine with the chicken and garlic."},
+      {"inst": "Let the sauce simmer for 3-5 minutes, or until it begins to thicken slightly."},
+      {"inst": "Add grated parmesan cheese to the pan and stir until it is fully melted and incorporated into the sauce."},
+      {"inst": "Toss the cooked pasta with the sauce until it is evenly coated."},
+      {"inst": "Serve hot, garnished with chopped parsley or additional parmesan cheese if desired."}
+    ]
+  },
+  {
+    "nameOfRecipe": "Bolognese Sauce",
+    "ingredients": [
+      {"ingredient": "ground beef", "amount": "500g"},
+      {"ingredient": "tomatoes", "amount": "6"},
+      {"ingredient": "onion", "amount": "1"},
+      {"ingredient": "garlic", "amount": "4 cloves"},
+      {"ingredient": "red wine", "amount": "1 cup"},
+      {"ingredient": "olive oil", "amount": "3 tbsp"},
+      {"ingredient": "salt", "amount": "to taste"},
+      {"ingredient": "pepper", "amount": "to taste"}
+    ],
+    "instructions": [
+      {"inst":  "In a pan, heat olive oil and sauté onions and garlic."},
+      {"inst": "Add ground beef and cook until browned."},
+      {"inst": "Add tomatoes and red wine."},
+      {"inst": "Let it simmer for 30 minutes."},
+      {"inst": "Season with salt and pepper."},
+      {"inst": "Serve over pasta."}
+    ]
+  },
+  {
+    "nameOfRecipe": "Vegetable Stir Fry",
+    "ingredients": [
+      {"ingredient": "broccoli", "amount": "1 head"},
+      {"ingredient": "carrots", "amount": "3"},
+      {"ingredient": "bell pepper", "amount": "1"},
+      {"ingredient": "onion", "amount": "1"},
+      {"ingredient": "garlic", "amount": "3 cloves"},
+      {"ingredient": "soy sauce", "amount": "3 tbsp"},
+      {"ingredient": "cornstarch", "amount": "1 tbsp"},
+      {"ingredient": "water", "amount": "1/2 cup"}
+    ],
+    "instructions": [
+      {"inst": "Cut vegetables into bite-sized pieces."},
+      {"inst": "In a large pan or wok, heat oil over high heat."},
+      {"inst": "Add minced garlic and onions to the pan and stir fry until fragrant, about 1-2 minutes."},
+      {"inst": "Add the prepared vegetables to the pan and stir fry for 5-7 minutes, or until they are tender-crisp."},
+      {"inst": "In a small bowl, whisk together soy sauce, cornstarch, and water until smooth."},
+      {"inst": "Pour the sauce over the vegetables in the pan and mix well to coat."},
+      {"inst": "Let the vegetables simmer in the sauce for 2-3 minutes, or until the sauce thickens and the vegetables are fully coated."},
+      {"inst": "Serve hot over rice, garnished with sliced green onions or sesame seeds if desired."}
+      ]
+  },
+  {
+    "nameOfRecipe": "Garlic Shrimp Pasta",
+    "ingredients": [
+      {"ingredient": "shrimp", "amount": "500g"},
+      {"ingredient": "spaghetti pasta", "amount": "400g"},
+      {"ingredient": "butter", "amount": "3 tbsp"},
+      {"ingredient": "garlic", "amount": "3 cloves"},
+      {"ingredient": "lemon juice", "amount": "1/4 cup"},
+      {"ingredient": "olive oil", "amount": "3 tbsp"},
+      {"ingredient": "salt", "amount": "to taste"},
+      {"ingredient": "pepper", "amount": "to taste"}
+    ],
+    "instructions": [
+      {"inst": "Season shrimp with salt and pepper, set aside."},
+      {"inst": "Cook pasta according to package instructions, drain and set aside."},
+      {"inst": "In a large pan, heat butter and olive oil over medium-high heat."},
+      {"inst": "Add minced garlic to the pan and sauté until fragrant, about 1-2 minutes."},
+      {"inst": "Add the seasoned shrimp to the pan and cook until they turn pink, about 2-3 minutes per side."},
+      {"inst": "Pour in lemon juice and let it simmer for a minute or two to let the flavors meld."},
+      {"inst": "Add the cooked pasta to the pan with the shrimp and sauce."},
+      {"inst": "Toss the pasta until it is evenly coated with the sauce."},
+      {"inst": "Serve hot, garnished with chopped parsley if desired."}
+      ]
+  },
+  {
+    "nameOfRecipe": "Beef Stroganoff",
+    "ingredients": [
+      {"ingredient": "beef sirloin", "amount": "500g"},
+      {"ingredient": "onion", "amount": "1"},
+      {"ingredient": "mushrooms", "amount": "10"},
+      {"ingredient": "sour cream", "amount": "1 cup"},
+      {"ingredient": "beef broth", "amount": "1 cup"},
+      {"ingredient": "flour", "amount": "2 tbsp"},
+      {"ingredient": "butter", "amount": "3 tbsp"},
+      {"ingredient": "salt", "amount": "to taste"},
+      {"ingredient": "pepper", "amount": "to taste"}
+    ],
+    "instructions": [
+      {"inst": "Slice beef into thin strips and set aside."},
+      {"inst": "In a large pan, melt butter over medium-high heat and sauté onions until softened and lightly browned."},
+      {"inst": "Add the beef strips to the pan and cook until browned on all sides, stirring occasionally."},
+      {"inst": "Add sliced mushrooms to the pan and cook until they release their moisture and become tender."},
+      {"inst": "Sprinkle flour over the mixture and stir until the flour is fully absorbed."},
+      {"inst": "Slowly pour in beef broth while stirring constantly to avoid lumps."},
+      {"inst": "Bring the mixture to a simmer and let it cook for a few minutes, until the sauce thickens."},
+      {"inst": "Stir in sour cream until fully combined."},
+      {"inst": "Season the beef stroganoff with salt and pepper to taste."},
+      {"inst": "Serve hot over rice or noodles."}
+    ]
+  },
+  {
+    "nameOfRecipe": "Tomato Soup",
+    "ingredients": [
+      {"ingredient": "tomatoes", "amount": "8"},
+      {"ingredient": "onion", "amount": "1"},
+      {"ingredient": "garlic", "amount": "3 cloves"},
+      {"ingredient": "vegetable broth", "amount": "4 cups"},
+      {"ingredient": "heavy cream", "amount": "1 cup"},
+      {"ingredient": "butter", "amount": "3 tbsp"},
+      {"ingredient": "salt", "amount": "to taste"},
+      {"ingredient": "pepper", "amount": "to taste"}
+    ],
+    "instructions": [
+      {"inst": "In a pot, melt butter over medium heat and sauté onions and garlic until fragrant and softened."},
+      {"inst": "Add canned tomatoes and vegetable broth to the pot."},
+      {"inst": "Bring the mixture to a simmer and let it cook for 30 minutes."},
+      {"inst": "Using an immersion blender, blend the soup until it is smooth and creamy."},
+      {"inst": "Pour the blended soup back into the pot."},
+      {"inst": "Add heavy cream to the pot and stir until fully combined."},
+      {"inst": "Season the soup with salt and pepper to taste."},
+      {"inst": "Serve hot with croutons on top."}
+    ]
+  },
+  {
+    "nameOfRecipe": "Pesto Pasta",
+    "ingredients": [
+      {"ingredient": "spaghetti pasta", "amount": "400g"},
+      {"ingredient": "basil leaves", "amount": "2 cups"},
+      {"ingredient": "garlic", "amount": "3 cloves"},
+      {"ingredient": "parmesan cheese", "amount": "1/2 cup"},
+      {"ingredient": "pine nuts", "amount": "1/4 cup"},
+      {"ingredient": "olive oil", "amount": "1/2 cup"},
+      {"ingredient": "salt", "amount": "to taste"},
+      {"ingredient": "pepper", "amount": "to taste"}
+    ],
+    "instructions": [
+      {"inst": "Cook the pasta according to the package instructions until al dente."},
+      {"inst": "In a blender or food processor, combine fresh basil leaves, minced garlic, grated parmesan cheese, pine nuts, salt, and pepper."},
+      {"inst": "With the blender running, slowly pour in olive oil until the mixture is smooth and well combined."},
+      {"inst": "Toss the cooked pasta with the pesto sauce until fully coated."},
+      {"inst": "Serve hot with extra parmesan cheese on top."}
+      ]
+  },
+  {
+    "nameOfRecipe": "Mushroom Risotto",
+    "ingredients": [
+      {"ingredient": "arborio rice", "amount": "1 cup"},
+      {"ingredient": "mushrooms", "amount": "10"},
+      {"ingredient": "onion", "amount": "1"},
+      {"ingredient": "garlic", "amount": "3 cloves"},
+      {"ingredient": "white wine", "amount": "1/2 cup"},
+      {"ingredient": "chicken broth", "amount": "4 cups"},
+      {"ingredient": "butter", "amount": "3 tbsp"},
+      {"ingredient": "olive oil", "amount": "3 tbsp"},
+      {"ingredient": "parmesan cheese", "amount": "1/2 cup"},
+      {"ingredient": "salt", "amount": "to taste"},
+      {"ingredient": "pepper", "amount": "to taste"}
+    ],
+    "instructions": [
+      {"inst": "In a pot, heat olive oil over medium heat and sauté onions and garlic until fragrant and softened."},
+      {"inst": "Add sliced mushrooms and cook until tender and lightly browned."},
+      {"inst": "Stir in arborio rice and cook for 1-2 minutes, until the grains are coated with the oil."},
+      {"inst": "Pour in white wine and cook, stirring constantly, until the liquid has been absorbed."},
+      {"inst": "Gradually add chicken broth, one cup at a time, stirring occasionally and allowing each cup to be absorbed before adding the next."},
+      {"inst": "Continue cooking the risotto until the rice is tender and creamy, about 20-25 minutes in total."},
+      {"inst": "Stir in butter and grated parmesan cheese until fully melted and combined."},
+      {"inst": "Season with salt and pepper to taste."},
+      {"inst": "Serve hot."}
+      ]
+  },
+  {
+    "nameOfRecipe": "Beef and Broccoli Stir Fry",
+    "ingredients": [
+      {"ingredient": "beef sirloin", "amount": "500g"},
+      {"ingredient": "broccoli", "amount": "1 head"},
+      {"ingredient": "garlic", "amount": "3 cloves"},
+      {"ingredient": "soy sauce", "amount": "3 tbsp"},
+      {"ingredient": "cornstarch", "amount": "1 tbsp"},
+      {"ingredient": "water", "amount": "1/2 cup"},
+      {"ingredient": "olive oil", "amount": "3 tbsp"},
+      {"ingredient": "salt", "amount": "to taste"},
+      {"ingredient": "pepper", "amount": "to taste"}
+    ],
+    "instructions": [
+      {"inst": "Thinly slice the beef into strips."},
+      {"inst": "Cut the broccoli into small florets."},
+      {"inst": "In a small bowl, whisk together soy sauce, cornstarch, and water."},
+      {"inst": "Heat olive oil in a pan over medium heat, and add minced garlic. Cook until fragrant."},
+      {"inst": "Add the sliced beef to the pan and cook until browned."},
+      {"inst": "Add the broccoli florets to the pan and stir-fry for 3-5 minutes, until tender but still slightly crisp."},
+      {"inst": "Pour the sauce mixture over the beef and broccoli."},
+      {"inst": "Let the mixture simmer for 2-3 minutes, until the sauce thickens and coats the beef and broccoli."},
+      {"inst": "Season with salt and pepper to taste."},
+      {"inst": "Serve hot with rice."}
+      ]
+  },
+  {
+    "nameOfRecipe": "Creamy Tomato Basil Soup",
+    "ingredients": [
+    {"ingredient": "canned whole tomatoes", "amount": "28 oz"},
+    {"ingredient": "heavy cream", "amount": "1 cup"},
+    {"ingredient": "onion, chopped", "amount": "1"},
+    {"ingredient": "garlic cloves, minced", "amount": "3"},
+    {"ingredient": "butter", "amount": "2 tbsp"},
+    {"ingredient": "chicken or vegetable broth", "amount": "2 cups"},
+    {"ingredient": "fresh basil leaves, chopped", "amount": "1/4 cup"},
+    {"ingredient": "salt", "amount": "to taste"},
+    {"ingredient": "pepper", "amount": "to taste"}
+    ],
+    "instructions": [
+    {"inst": "Melt butter in a pot and sauté onions and garlic until tender."},
+    {"inst": "Add canned tomatoes and chicken broth."},
+    {"inst": "Bring to a simmer and cook for 20 minutes."},
+    {"inst": "Remove from heat and let cool for a few minutes."},
+    {"inst": "Using an immersion blender, blend the soup until smooth."},
+    {"inst": "Stir in heavy cream and basil."},
+    {"inst": "Season with salt and pepper to taste."},
+    {"inst": "Serve hot and enjoy!"}
+    ]
+  },
+  {
+    "nameOfRecipe": "Roasted Carrot and Beet Salad",
+    "ingredients": [
+    {"ingredient": "carrots, peeled and sliced", "amount": "4"},
+    {"ingredient": "beets, peeled and sliced", "amount": "2"},
+    {"ingredient": "baby arugula leaves", "amount": "4 cups"},
+    {"ingredient": "goat cheese, crumbled", "amount": "1/2 cup"},
+    {"ingredient": "walnuts, chopped", "amount": "1/4 cup"},
+    {"ingredient": "olive oil", "amount": "2 tbsp"},
+    {"ingredient": "honey", "amount": "1 tbsp"},
+    {"ingredient": "lemon juice", "amount": "2 tbsp"},
+    {"ingredient": "salt", "amount": "to taste"},
+    {"ingredient": "pepper", "amount": "to taste"}
+    ],
+    "instructions": [
+    {"inst": "Preheat oven to 375°F."},
+    {"inst": "Toss carrots and beets with olive oil, salt and pepper."},
+    {"inst": "Spread in a single layer on a baking sheet."},
+    {"inst": "Roast in the oven for 25-30 minutes, or until tender and lightly browned."},
+    {"inst": "In a small bowl, whisk together honey and lemon juice to make the dressing."},
+    {"inst": "Arrange arugula leaves on a serving plate."},
+    {"inst": "Top with roasted carrots and beets."},
+    {"inst": "Sprinkle goat cheese and walnuts on top."},
+    {"inst": "Drizzle with the honey and lemon dressing"}
+    ]
+  },
+  {
+    "nameOfRecipe": "Crispy Baked Chicken Tenders",
+    "ingredients": [
+    {"ingredient": "chicken breast tenderloins", "amount": "1 lb"},
+    {"ingredient": "panko breadcrumbs", "amount": "1 cup"},
+    {"ingredient": "parmesan cheese, grated", "amount": "1/4 cup"},
+    {"ingredient": "paprika", "amount": "1 tsp"},
+    {"ingredient": "garlic powder", "amount": "1 tsp"},
+    {"ingredient": "salt", "amount": "to taste"},
+    {"ingredient": "pepper", "amount": "to taste"},
+    {"ingredient": "egg", "amount": "1"},
+    {"ingredient": "olive oil", "amount": "2 tbsp"}
+    ],
+    "instructions": [
+    {"inst": "Preheat oven to 400°F."},
+    {"inst": "Mix panko breadcrumbs, parmesan cheese, paprika, garlic powder, salt, and pepper in a shallow dish."},
+    {"inst": "Beat the egg in a separate shallow dish."},
+    {"inst": "Dip chicken tenderloins in the egg, then coat in the breadcrumb mixture."},
+    {"inst": "Arrange on a baking sheet and drizzle with olive oil."},
+    {"inst": "Bake in the oven for 15-20 minutes, or until crispy and golden brown."},
+    {"inst": "Serve hot with your favorite dipping sauce and enjoy!"}
+    ]
+    },
+    {
+    "nameOfRecipe": "Stuffed Bell Peppers",
+    "ingredients": [
+    {"ingredient": "bell peppers, halved and seeded", "amount": "4"},
+    {"ingredient": "ground beef", "amount": "1 lb"},
+    {"ingredient": "cooked rice", "amount": "1 cup"},
+    {"ingredient": "onion, chopped", "amount": "1"},
+    {"ingredient": "garlic cloves, minced", "amount": "3"},
+    {"ingredient": "canned diced tomatoes", "amount": "14 oz"},
+    {"ingredient": "shredded cheddar cheese", "amount": "1 cup"},
+    {"ingredient": "salt", "amount": "to taste"},
+    {"ingredient": "pepper", "amount": "to taste"}
+    ],
+    "instructions": [
+    {"inst": "Preheat oven to 375°F."},
+    {"inst": "In a skillet, cook ground beef until browned."},
+    {"inst": "Add onion and garlic and sauté for 5 minutes."},
+    {"inst": "Stir in canned diced tomatoes and cooked rice."},
+    {"inst": "Season with salt and pepper to taste."},
+    {"inst": "Fill each halved bell pepper with the beef and rice mixture."},
+    {"inst": "Top with shredded cheddar cheese."},
+    {"inst": "Bake in the oven for 25-30 minutes, or until the peppers are tender and the cheese is melted and bubbly."},
+    {"inst": "Serve hot and enjoy!"}
+    ]
+    }
+]
