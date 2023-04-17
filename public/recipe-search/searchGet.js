@@ -1,16 +1,12 @@
 let itemsSaved = [];
 
 const form = document.querySelector("#searchForm");
-document.addEventListener("DOMContentLoaded", (e) => {
-    fetchNew();
-})
+window.addEventListener('load', function() {
+    document.querySelector('#searchButton').click();
+});
 form.addEventListener("submit", (e) => {
     createButton();
     e.preventDefault();
-    fetchNew();
-})
-
-function fetchNew() {
     let data = {
         "itemsSaved": itemsSaved,
     };
@@ -29,7 +25,7 @@ function fetchNew() {
     })
         .then(result => result.json())
         .then(jsonData => listCreation(jsonData))
-}
+})
 
 function listCreation(recipies) {
     form.reset();
@@ -37,7 +33,7 @@ function listCreation(recipies) {
     allList.textContent = '';
     recipies.forEach(ULelement => {
         recipieListOrder = document.createElement('ul');
-        recipieListOrder.textContent = `${ULelement.nameOfRecipe} ${ULelement.score} / ${ULelement.ingredients.length}`;
+        recipieListOrder.textContent = ULelement.nameOfRecipe;
         ULelement.ingredients.forEach(LIelement => {
             listIngredients = document.createElement('li');
             listIngredients.textContent = `${LIelement.ingredient} amount: ${LIelement.amount}`
@@ -54,7 +50,7 @@ function listCreation(recipies) {
 
 function createButton() {
     const itemName = document.createElement('span');
-    itemName.textContent = `[${document.querySelector('#search').value}]`;
+    itemName.textContent = `${document.querySelector('#search').value}||`;
     itemName.className = 'item-name';
     itemsSaved.push(document.querySelector('#search').value);
     form.appendChild(itemName);
