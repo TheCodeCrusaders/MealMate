@@ -30,33 +30,27 @@
 
         <form id="itemForm">
           <div>
-            <div class="title">
-              <h2>Adding a new item</h2>
-            </div>
-            <div>
-              <label for="location">Location:</label>
-              <select id="location" name="location">
-                <option value="fridge" selected>Fridge</option>
-                <option value="pantry">Pantry</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-      
-            <div>
-              <label for="weight">Weight in g</label><input id="weight" type="number" placeholder="Weight in g">
-            </div>
-            <div>
-              <label for="name">Name:</label>
-              <input type="text" id="name" name="name" autocomplete="off" placeholder="Item name" />
-            </div>
-            <div id="autocomplete-list"></div> <!--div added-->
-            <div>
-              <label for="expirationDate">Expiration Date:</label>
-              <input type="date" id="expirationDate" name="expirationDate" />
-            </div>
-
-            <button type="submit">Add Item</button>
+            <label for="location">Location:</label>
+            <select id="location" name="location">
+              <option value="fridge" selected>Fridge</option>
+              <option value="pantry">Pantry</option>
+              <option value="other">Other</option>
+            </select>
           </div>
+          <div>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" autocomplete="off" placeholder="Item name" />
+          </div>
+          <div>
+            <label for="weight">Weight in gm</label><input id="weight" type="number" placeholder="Weight in gm">
+          </div>
+          <div id="autocomplete-list"></div> <!--div added-->
+          <div>
+            <label for="expirationDate">Expiration Date:</label>
+            <input type="date" id="expirationDate" name="expirationDate" />
+          </div>
+
+          <button type="submit">Import to personal item list</button>
           <div id="New_private_Item">
             <div>
               <label>Hey That item dont exist yet, do you what to add properties to it?</label> <button type="button"
