@@ -89,7 +89,6 @@ router.post("/login", (req, res) => {  // post action declared, will wait for po
 
         const token = jwt.sign({ username: user.username }, 'secret', { expiresIn: '1h' });// Generate an authentication token with experation day, 1 hour i milisecounds
 
-
         res.cookie('token', token, { httpOnly: true });// Set the token as a cookie on the client's browser
         //the { httpOnly: true }  option means that the cookie can only be accessed via HTTP/S and not via JavaScript, which helps to prevent cross-site scripting (XSS) attacks.
 
@@ -436,7 +435,7 @@ router.post('/newuser', (req, res) => {
 
     // Add the new data to the array
     data.users.push(newUser);
-
+    users44.push(newUser);
     // Write the updated data back to the JSON file
     fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
 
