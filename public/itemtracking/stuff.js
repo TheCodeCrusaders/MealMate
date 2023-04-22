@@ -229,8 +229,13 @@ function createItem(element, index) {
     let removeButton = document.createElement("button");
     removeButton.textContent = "remove item";
     removeButton.addEventListener("click", (e) => {
-        removeItemForm.display = "block";
+        removeItemForm.style.display = "block";
     })
+
+
+
+
+
 
 
 
@@ -541,6 +546,9 @@ Pprivate_button.addEventListener('click', () => {
 
     updatePrivatePlist()
 })
+
+
+
 
 
 

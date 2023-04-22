@@ -1,9 +1,11 @@
 
 class waisted {
-    constructor(canvas, size = 100) {
+    constructor(canvas, ate, size = 100) {
         this.canvas = canvas;
+        this.ateButton = ate;
         this.canvas.width = size * 2.5;
         this.canvas.height = size * 2.5;
+        this.canvas.style.border = "1px solid green";
         this.ctx = this.canvas.getContext("2d");
         this.fill = 0;
         this.x = 0;
@@ -77,6 +79,9 @@ class waisted {
             this.fill = 0;
         }
     }
+    getAmout(){
+        return this.fill;
+    }
     addEvents() {
         this.canvas.addEventListener("mousemove", (e) => {
             this.x = e.clientX - this.canvas.offsetLeft;
@@ -84,12 +89,42 @@ class waisted {
         })
         this.interval = setInterval(() => {
             this.draw();
-        }, 100);
+        }, 30);
         this.canvas.addEventListener("click", (e) => {
-            if (this.fill > 0) {
-                alert(this.fill)
-            }
+            this.draw();
+
+            this.ateButton.textContent = `I ate ${this.fill * 25}%`;
+
+
         })
     }
 }
-let waist = new waisted(document.querySelector("#removeItem canvas"), 200);
+let waist = new waisted(document.querySelector("#removeItem canvas"), document.querySelector("#ate"), 200);
+
+document.querySelector("#ate").addEventListener('click', () => {
+    
+
+    let data = {
+        "index": index,
+        "eaten": (waist.getAmout() * 25)
+    };
+    fetch("/API/waisteditem", {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        mode: "cors", // no-cors, *cors, same-origin
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: "same-origin", // include, *same-origin, omit
+        headers: {
+            "Content-Type": "application/json",
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        redirect: "follow", // manual, *follow, error
+        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        body: JSON.stringify(data), // body data type must match "Content-Type" header
+    }).then(response => {
+        if (response.ok) {
+            removeItems();
+        }
+
+    })
+
+});
