@@ -24,8 +24,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
 //EVENTLISTENERS - Page functionality starts here
 //This is where the autocomplete function starts <------ Carl Note
 //!!TO READ!!
-form.name.addEventListener("input", async (e) => {
-    //Anon functin with parameter (e) is made asynchronisis to allow using "await"
+form.name.addEventListener("input", async (e) => {                          //Anon function with parameter (e) is made asynchronisis to allow using "await"
     const inputItemName = e.target.value;                                   //Value entered into form.name is assigned inputItemName
     const isItemValid = await itemExists(inputItemName);                    //"await" pauses execution until itemExists() Promise resolves, then the code continues without blocking other tasks.
 
@@ -44,17 +43,17 @@ form.name.addEventListener("input", async (e) => {
     }
 
     else {
-        form.name.style.borderColor = "green";
+        form.name.style.borderColor = "green";                              //keep private itemlist hidden
         new_private_item.style.display = "none";
         form.classList.remove("bigger");
     }
 
     if (inputItemName.length > 0) {
-        const PProtertyis = private_user_Item_property_data;
+        const PProperties = private_user_Item_property_data;
         const globalItems = global_item_data;
 
 
-        const matching_PPropertyis = PProtertyis.filter(item =>
+        const matching_PProperties = PProperties.filter(item =>
             item.name.toLowerCase().startsWith(inputItemName.toLowerCase())
         );
 
@@ -63,12 +62,12 @@ form.name.addEventListener("input", async (e) => {
             item.name.toLowerCase().startsWith(inputItemName.toLowerCase())
         );
 
-        const matchingItems = matching_globalItems.concat(matching_PPropertyis);
+        const matchingItems = matching_globalItems.concat(matching_PProperties);
 
-        matchingItems.forEach(item => {
+        matchingItems.forEach(item => {                             //shows all the items that match the search bar.
             const itemDiv = document.createElement("div");
             itemDiv.textContent = item.name;
-            itemDiv.addEventListener("click", () => {
+            itemDiv.addEventListener("click", () => { //remove the autocomplete list on click
                 form.classList.remove("bigger");
                 form.name.value = item.name;
                 form.name.style.borderColor = "green";
@@ -185,12 +184,15 @@ function fetchDataGlobalItems() {
 
 //createItem() function decleration
 function createItem(element, index) {
-    let tr = document.createElement("tr");
+    let tr = document.createElement("tr");                  //declare tablerow and add table data
     let name = document.createElement("td");
     let location = document.createElement("td");
     let expirationDate = document.createElement("td");
     let daysLeft = document.createElement("td");
 
+    // let currentDate = new Date();                       //date
+    // let timeLeft = new Date(Date.parse(element.expirationDate) - currentDate);
+    // daysLeft.textContent = `${Math.ceil(timeLeft / (1000 * 60 * 60 * 24))}`     //set textcontent to show the time left before the expirey date
 
     name.textContent = element.name;
     location.textContent = element.location;
@@ -219,7 +221,7 @@ function createItem(element, index) {
     let propertiesButton = document.createElement("button");
     propertiesButton.textContent = "Expand";
 
-    editButton.addEventListener("click", (e) => {
+    editButton.addEventListener("click", (e) => {       //shows the addItem menu with the current data. refIndex is used to indicate which tablerow we are currently working with.
         refIndex = index;
         form.location.selected = element.location;
         form.name.value = element.name;
@@ -233,7 +235,57 @@ function createItem(element, index) {
     })
 
 
+    waistedButton.addEventListener("click", (e) => {       //adds onclick properties to waisted button. following will occur when the button is pressed
+        e.preventDefault();         // prevents the default behavior of the button
+        e.stopPropagation();        //The stopPropagation() method of the Event interface prevents further propagation of the current event in the capturing and bubbling phases.
+        let data = {
+            "index": index
+        };
+        fetch("/API/waisteditem", {             // sends a POST request to the /API/waisteditem endpoint, which in result will add the posted item to the personal waistedItems.json
+            method: "POST", // *GET, POST, PUT, DELETE, etc.
+            mode: "cors", // no-cors, *cors, same-origin
+            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: "same-origin", // include, *same-origin, omit
+            headers: {
+                "Content-Type": "application/json",
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: "follow", // manual, *follow, error
+            referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify(data), // body data type must match "Content-Type" header
+        }).then(response => {
+            if (response.ok) {
+                removeItems();
+            }
 
+        })
+
+    })
+
+    consumedButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        let data = {
+            "index": index
+        };
+        fetch("/API/consumeditem", {                // sends a POST request to the /API/waisteditem endpoint, which in result will add the posted item to the personal consumedItems.json
+            method: "POST", // *GET, POST, PUT, DELETE, etc.
+            mode: "cors", // no-cors, *cors, same-origin
+            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: "same-origin", // include, *same-origin, omit
+            headers: {
+                "Content-Type": "application/json",
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: "follow", // manual, *follow, error
+            referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify(data), // body data type must match "Content-Type" header
+        }).then(response => {
+            if (response.ok) {
+                removeItems();
+            }
+        })
+    })
     // waistedButton.addEventListener("click", (e) => {
     //     e.preventDefault();
     //     e.stopPropagation();
@@ -290,12 +342,12 @@ function createItem(element, index) {
 
 
     //code properties button here
-    let hiddenrow_container = document.createElement("tr");
+    let hiddenrow_container = document.createElement("tr");         //declare the row_container to insert our properties
 
-    hiddenrow_container.style.display = "none"
+    hiddenrow_container.style.display = "none" //hide the container
 
-    propertiesButton.addEventListener("click", () => {
-        console.log("The button do stuff")
+    propertiesButton.addEventListener("click", () => {          //adds a onclick function to the propertiesbButton. Function will display or hide the properties of the item in the tablerow
+        //console.log("The button do stuff")
         if (hiddenrow_container.style.display === "none") {
             hiddenrow_container.style.display = "table-row";
         } else {
@@ -305,69 +357,58 @@ function createItem(element, index) {
 
 
     let nameofitem = element.name;
+    let propname = "name";
 
 
-    let item = global_item_data.find(obj => obj.name === nameofitem);
+    let item = global_item_data.find(obj => obj.name === nameofitem);   //get the item from the globalitemlist
 
-    if (item) {
-        console.log(item.name)
-        for (let props in item) {
+    if (item) {//console.log(item.name)                  //if statement is used if the item is in the globalItemList
+        for (let props in item) {                         //props is the index used to to run through each property of the item.
             if (props === "name") { continue; }
             else {
-                let prop_containtainer = document.createElement("tr")
+                let prop_containtainer = document.createElement("tr")     //declare the HTML elements to insert in to teh hiddenrow_container
                 let property_name = document.createElement("td")
                 let property_value = document.createElement("td")
-                property_name.textContent = props;
+                property_name.textContent = props;                        //give values and textcontent to the declared elements
                 property_value.textContent = item[props]
                 prop_containtainer.appendChild(property_name)
                 prop_containtainer.appendChild(property_value)
-                hiddenrow_container.appendChild(prop_containtainer)
+                hiddenrow_container.appendChild(prop_containtainer)     //append hiddenrowcontainer
             }
         }
     }
     //private_user_Item_property_data
-    console.log(private_user_Item_property_data)
-    if (!item) {
+    //console.log(private_user_Item_property_data)
 
-
-        let item2 = private_user_Item_property_data.find(obj => obj.name === nameofitem)
-
+    if (!item) {                  //if statement is used if the item is NOT in the globalItemList
+        let item2 = private_user_Item_property_data.find(obj => obj.name === nameofitem)         //get the new item properties from the private itemlist.
         if (item2) {
-
             for (let props in item2) {
                 if (props === "name") { continue; }
                 else {
-                    let prop_containtainer = document.createElement("tr")
+                    let prop_containtainer = document.createElement("tr")         //declare the HTML elements to insert in to teh hiddenrow_container
                     let property_name = document.createElement("td")
                     let property_value = document.createElement("td")
-                    property_name.textContent = props;
+                    property_name.textContent = props;                            //give values and textcontent to the declared elements
                     property_value.textContent = item2[props]
                     prop_containtainer.appendChild(property_name)
                     prop_containtainer.appendChild(property_value)
-                    hiddenrow_container.appendChild(prop_containtainer)
+                    hiddenrow_container.appendChild(prop_containtainer)         //append hiddenrowcontainer
                 }
             }
         }
     }
 
-
-
-
-    // name.textContent = element.name;
-    // location.textContent = element.location;
-    // expirationDate.textContent = element.expirationDate;
-
-    name.append(editButton);
-    tr.appendChild(name);
+    name.append(editButton);                                                //add editbutton next to the name.
+    tr.appendChild(name);                                                   //append all the tabledatas to the tablerow
     tr.appendChild(location);
     tr.appendChild(expirationDate);
     tr.appendChild(daysLeft);
-    buttonContainer.appendChild(removeButton);
-    // buttonContainer.appendChild(waistedButton);
+    // buttonContainer.appendChild(waistedButton);                             //add the buttons to the buttoncontainer tabledata
     // buttonContainer.appendChild(consumedButton);
     buttonContainer.appendChild(propertiesButton);
-    tr.appendChild(buttonContainer);
-    container.appendChild(tr);
+    tr.appendChild(buttonContainer);                                        //add the buttoncontainer to the tablerow
+    container.appendChild(tr);                                              //add tablerow with all information to container.
 
     //append hiddenrow here
     container.appendChild(hiddenrow_container);
@@ -393,20 +434,19 @@ backdrop.addEventListener("click", (e) => {
     refIndex = undefined;
 })
 
-function createTable(data) {
-    data.forEach((element, index) => {
-        createItem(element, index)
+function createTable(data) {            //create whole table function. 
+    data.forEach((element, index) => {  //foreach item in the list create an item
+        createItem(element, index)      //create a row for iteminformation
     });
 
 }
 
 //removeItems() function decleration
-function removeItems() {
+function removeItems() {            //removes the whole table
     document.querySelectorAll("#container>tr").forEach((element) => {
         container.removeChild(element);
-
     })
-    fetchData();
+    fetchData();        //adds back the list to the page after the item has been removed from getlist
 }
 
 //GPT TEST:
@@ -434,113 +474,105 @@ async function itemExists(itemName) {
 
 
 
-let global_item_data;
+// let global_item_data;
 
-//Carls COOL API CALL
-let private_user_Item_property_data;
-function OnStartfetchDataOnce() {
+// //Carls COOL API CALL
+// let private_user_Item_property_data;
+// function OnStartfetchDataOnce() {
 
-    fetch("/API/GetPrivateProtertyList")
-        .then((response) => {
-            if (response.ok) {
-                return response.json();
-            }
-            throw new Error("response was not in the 200 range ")
-        })
-        .then((data) => {
-            private_user_Item_property_data = data;
-            return fetch("/API/getListGlobalItems"); // Return the second fetch request
-        })
-        .then((response) => {
-            if (response.ok) {
-                return response.json();
-            }
-            throw new Error("response was not in the 200 range ")
-        })
-        .then((data) => {
-            global_item_data = data;
-            return fetch("/API/getList"); // Return the third fetch request
-        })
-        .then((response) => {
-            if (response.ok) {
-                return response.json();
-            }
-            throw new Error("response was not in the 200 range ")
-        })
-        .then((data) => createTable(data))
-        .catch((error) => {
-            alert("An error occured");
-        });
-
-
-
+//     fetch("/API/GetPrivateProtertyList")            //fetch private item list
+//     .then((response) => {
+//       if (response.ok) {
+//         return response.json();
+//       }
+//       throw new Error("response was not in the 200 range ")
+//     })
+//     .then((data) => {
+//       private_user_Item_property_data = data;
+//       return fetch("/API/getListGlobalItems"); // Return the second fetch request
+//     })
+//     .then((response) => {
+//       if (response.ok) {
+//         return response.json();
+//       }
+//       throw new Error("response was not in the 200 range ")
+//     })
+//     .then((data) => {
+//       global_item_data = data;
+//       return fetch("/API/getList"); // Return the third fetch request
+//     })
+//     .then((response) => {
+//       if (response.ok) {
+//         return response.json();
+//       }
+//       throw new Error("response was not in the 200 range ")
+//     })
+//     .then((data) => createTable(data))
+//     .catch((error) => {
+//       alert("An error occured");
+//     });
+// }
 
 
-}
+// function updatePrivatePlist(){              //function that gets the new private item property list. Function is called later
+//     fetch("/API/GetPrivateProtertyList")
+//         .then((response) => {
+//             if (response.ok) {
+//                 return response.json();
+//             }
+//             throw new Error("response was not in the 200 range ")
+//         })
+//         .then((data) => {
+//             private_user_Item_property_data = data
+//             // Adds the private persons items to the private_user_Item_property_data, which is used for later (erlier in code)
+//         })
+//         .catch((error) => {
+//             alert("An error occured");
+//         });
+
+// }
 
 
-function updatePrivatePlist() {
-    fetch("/API/GetPrivateProtertyList")
-        .then((response) => {
-            if (response.ok) {
-                return response.json();
-            }
-            throw new Error("response was not in the 200 range ")
-        })
+// const  Pprivate_button=document.getElementById("privateitem_submit")        //getElementId from HTML index
+// const  kaloriers=document.getElementById("Calories")
+// const  Protein=document.getElementById("Protein")
+// const  CO2=document.getElementById("CO2")
+// const  Carbonhydrate=document.getElementById("Carbonhydrate")
+// const  Fat=document.getElementById("Fat")
 
-        .then((data) => {
-            private_user_Item_property_data = data
-            // Adds the private persons items to the 
-        })
-        .catch((error) => {
-            alert("An error occured");
-        });
+// Pprivate_button.addEventListener('click' ,()=>{
+//     let ppropertydata = {                           //get the inputs from user to put into Private_properties
+//         "name": form.name.value,
+//         "location": form.location.value,
+//         "calories per 100gram": kaloriers.value,
+//         "co2 per 1kg": CO2.value,
+//         "protein pr 100 gram": Protein.value,
+//         "carbohydrate pr 100 gram": Carbonhydrate.value,
+//         "fat pr 100 gram": Fat.value,
+//       };
 
-}
+// fetch("/API/Private_properties", {      //post ppropertydata to the Private_properties list
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json"
+//     },
+//     body: JSON.stringify(ppropertydata)
+//   })
+//     .then(response => {
+//       if (!response.ok) {
+//         throw new Error("Network response was not ok");
+//       }
+//       return response.json();
+//     })
+//     .then(data => {
+//       console.log("Response from server:", data);
+//     })
+//     .catch(error => {
+//       console.error("Error sending POST request:", error);
+//     });
 
-
-
-
-const Pprivate_button = document.getElementById("privateitem_submit")
-const kaloriers = document.getElementById("Calories")
-const Protein = document.getElementById("Protein")
-const CO2 = document.getElementById("CO2")
-const Carbonhydrate = document.getElementById("Carbonhydrate")
-const Fat = document.getElementById("Fat")
-
-Pprivate_button.addEventListener('click', () => {
-    let ppropertydata = {
-        "name": form.name.value,
-        "location": form.location.value,
-        "calories per 100gram": kaloriers.value,
-        "co2 per 1kg": CO2.value,
-        "protein pr 100 gram": Protein.value,
-        "carbohydrate pr 100 gram": Carbonhydrate.value,
-        "fat pr 100 gram": Fat.value,
-    };
-
-    fetch("/API/Private_properties", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(ppropertydata)
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log("Response from server:", data);
-        })
-        .catch(error => {
-            console.error("Error sending POST request:", error);
-        });
-
-    updatePrivatePlist()
-})
+//     updatePrivatePlist()
+// })
 
 
 
