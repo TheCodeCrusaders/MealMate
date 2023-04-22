@@ -4,7 +4,7 @@ body {
 header {
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    background-color: black;
+    background-color: #333;
     color: white;
     padding: 20px;
     margin: 20px;
@@ -71,18 +71,18 @@ section {
 }
 
 #module1 {
-    background-color: lightgreen;
+    background-color: #f2f2f2;
 }
 #module2 {
-    background-color: lightgreen;
+    background-color: #e6e6ff;
 }
 #module3 {
-    background-color: lightgreen;
+    background-color: #ffffcc;
 }
 footer {
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    background-color: black;
+    background-color: #333;
     color: white;
     padding: 20px;
     margin: 20px;
@@ -214,8 +214,8 @@ table {
 
 /* Table headers */
 table th {
-  background-color: aquamarine;
-  color: black;
+  background-color: #4CAF50;
+  color: white;
   font-weight: bold;
   padding: 10px;
   text-align: left;
