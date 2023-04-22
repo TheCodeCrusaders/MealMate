@@ -10,6 +10,7 @@ class waisted {
         this.fill = 0;
         this.x = 0;
         this.y = 0;
+        this.eaten;
         this.size = size;
         this.addEvents()
     }
@@ -80,19 +81,19 @@ class waisted {
         }
     }
     getAmout(){
-        return this.fill;
+        return this.eaten;
     }
     addEvents() {
         this.canvas.addEventListener("mousemove", (e) => {
-            this.x = e.clientX - this.canvas.offsetLeft;
-            this.y = e.clientY - this.canvas.offsetTop;
+            this.x = e.clientX - this.canvas.offsetLeft + window.scrollX;
+            this.y = e.clientY - this.canvas.offsetTop + window.scrollY;
         })
         this.interval = setInterval(() => {
             this.draw();
         }, 30);
         this.canvas.addEventListener("click", (e) => {
             this.draw();
-
+            this.eaten = this.fill;
             this.ateButton.textContent = `I ate ${this.fill * 25}%`;
 
 
@@ -102,13 +103,13 @@ class waisted {
 let waist = new waisted(document.querySelector("#removeItem canvas"), document.querySelector("#ate"), 200);
 
 document.querySelector("#ate").addEventListener('click', () => {
-    
+    let eaten = (waist.getAmout() * 25);
 
     let data = {
-        "index": index,
-        "eaten": (waist.getAmout() * 25)
+        "index": refIndex,
+        "eaten": eaten
     };
-    fetch("/API/waisteditem", {
+    fetch("/API/wasteditem", {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
         mode: "cors", // no-cors, *cors, same-origin
         cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
@@ -122,9 +123,14 @@ document.querySelector("#ate").addEventListener('click', () => {
         body: JSON.stringify(data), // body data type must match "Content-Type" header
     }).then(response => {
         if (response.ok) {
-            removeItems();
+            window.location.reload();
         }
 
     })
 
 });
+
+document.querySelector("#clear").addEventListener('click', () => {
+    window.location.reload();
+
+})

@@ -43,16 +43,16 @@
             </div>
 
             <div>
-              <label for="weight">Weight in g</label><input id="weight" type="number" placeholder="Weight in g">
+              <label for="weight">Weight in g</label><input id="weight" type="number" placeholder="Weight in g" required>
             </div>
             <div>
               <label for="name">Name:</label>
-              <input type="text" id="name" name="name" autocomplete="off" placeholder="Item name" />
+              <input type="text" id="name" name="name" autocomplete="off" placeholder="Item name" required/>
             </div>
             <div id="autocomplete-list"></div> <!--div added-->
             <div>
               <label for="expirationDate">Expiration Date:</label>
-              <input type="date" id="expirationDate" name="expirationDate" />
+              <input type="date" id="expirationDate" name="expirationDate" required/>
             </div>
 
             <button type="submit">Add Item</button>
@@ -80,7 +80,7 @@
           <p>Ps. the rest will be considered waisted</p>
           <canvas></canvas>
           <div>
-          <button type="button">Cancel</button>
+          <button type="button" id="clear">Cancel</button>
           <button type="button" id="ate">I ate nothing</button>
         </div>
         </form>

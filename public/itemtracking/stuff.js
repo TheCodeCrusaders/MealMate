@@ -5,7 +5,6 @@ const additem = document.querySelector("#additem");
 const form = document.querySelector("#itemForm");
 const removeItemForm = document.querySelector("#removeItem");
 const new_private_item = document.querySelector("#New_private_Item")
-
 //VARIABLE DECLERATIONS
 let refIndex = undefined;
 
@@ -230,6 +229,7 @@ function createItem(element, index) {
     removeButton.textContent = "remove item";
     removeButton.addEventListener("click", (e) => {
         removeItemForm.style.display = "block";
+        refIndex = index;
     })
 
 
