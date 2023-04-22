@@ -3,6 +3,7 @@ const container = document.querySelector("#container");     //Select the first H
 const backdrop = document.querySelector("#backdrop");
 const additem = document.querySelector("#additem");
 const form = document.querySelector("#itemForm");
+const removeItemForm = document.querySelector("#removeItem");
 const new_private_item = document.querySelector("#New_private_Item")
 
 //VARIABLE DECLERATIONS
@@ -24,7 +25,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
 //This is where the autocomplete function starts <------ Carl Note
 //!!TO READ!!
 form.name.addEventListener("input", async (e) => {
-                          //Anon functin with parameter (e) is made asynchronisis to allow using "await"
+    //Anon functin with parameter (e) is made asynchronisis to allow using "await"
     const inputItemName = e.target.value;                                   //Value entered into form.name is assigned inputItemName
     const isItemValid = await itemExists(inputItemName);                    //"await" pauses execution until itemExists() Promise resolves, then the code continues without blocking other tasks.
 
@@ -92,7 +93,7 @@ form.addEventListener("submit", (e) => {
             "location": form.location.value,
             "name": form.name.value,
             "expirationDate": form.expirationDate.value,
-            "weight":form.weight.value
+            "weight": form.weight.value
         };
         fetch("/API/postlist", {
             method: "POST", // *GET, POST, PUT, DELETE, etc.
@@ -209,14 +210,14 @@ function createItem(element, index) {
     editButton.textContent = "Edit";
 
     let buttonContainer = document.createElement("td");
-    let waistedButton = document.createElement("button");
-    waistedButton.textContent = "waisted";
+    // let waistedButton = document.createElement("button");
+    // waistedButton.textContent = "waisted";
 
-    let consumedButton = document.createElement("button");
-    consumedButton.textContent = "consumed";
+    // let consumedButton = document.createElement("button");
+    // consumedButton.textContent = "consumed";
 
     let propertiesButton = document.createElement("button");
-    propertiesButton.textContent = "Properties";
+    propertiesButton.textContent = "Expand";
 
     editButton.addEventListener("click", (e) => {
         refIndex = index;
@@ -225,60 +226,67 @@ function createItem(element, index) {
         form.expirationDate.value = element.expirationDate;
         addNewItem();
     })
-
-    waistedButton.addEventListener("click", (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        let data = {
-            "index": index
-        };
-        fetch("/API/waisteditem", {
-            method: "POST", // *GET, POST, PUT, DELETE, etc.
-            mode: "cors", // no-cors, *cors, same-origin
-            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-            credentials: "same-origin", // include, *same-origin, omit
-            headers: {
-                "Content-Type": "application/json",
-                // 'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            redirect: "follow", // manual, *follow, error
-            referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-            body: JSON.stringify(data), // body data type must match "Content-Type" header
-        }).then(response => {
-            if (response.ok) {
-                removeItems();
-            }
-
-        })
-
+    let removeButton = document.createElement("button");
+    removeButton.textContent = "remove item";
+    removeButton.addEventListener("click", (e) => {
+        removeItemForm.display = "block";
     })
 
-    consumedButton.addEventListener("click", (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        let data = {
-            "index": index
-        };
-        fetch("/API/consumeditem", {
-            method: "POST", // *GET, POST, PUT, DELETE, etc.
-            mode: "cors", // no-cors, *cors, same-origin
-            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-            credentials: "same-origin", // include, *same-origin, omit
-            headers: {
-                "Content-Type": "application/json",
-                // 'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            redirect: "follow", // manual, *follow, error
-            referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-            body: JSON.stringify(data), // body data type must match "Content-Type" header
-        }).then(response => {
-            if (response.ok) {
-                removeItems();
-            }
 
-        })
 
-    })
+    // waistedButton.addEventListener("click", (e) => {
+    //     e.preventDefault();
+    //     e.stopPropagation();
+    //     let data = {
+    //         "index": index
+    //     };
+    //     fetch("/API/waisteditem", {
+    //         method: "POST", // *GET, POST, PUT, DELETE, etc.
+    //         mode: "cors", // no-cors, *cors, same-origin
+    //         cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+    //         credentials: "same-origin", // include, *same-origin, omit
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //             // 'Content-Type': 'application/x-www-form-urlencoded',
+    //         },
+    //         redirect: "follow", // manual, *follow, error
+    //         referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    //         body: JSON.stringify(data), // body data type must match "Content-Type" header
+    //     }).then(response => {
+    //         if (response.ok) {
+    //             removeItems();
+    //         }
+
+    //     })
+
+    // })
+
+    // consumedButton.addEventListener("click", (e) => {
+    //     e.preventDefault();
+    //     e.stopPropagation();
+    //     let data = {
+    //         "index": index
+    //     };
+    //     fetch("/API/consumeditem", {
+    //         method: "POST", // *GET, POST, PUT, DELETE, etc.
+    //         mode: "cors", // no-cors, *cors, same-origin
+    //         cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+    //         credentials: "same-origin", // include, *same-origin, omit
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //             // 'Content-Type': 'application/x-www-form-urlencoded',
+    //         },
+    //         redirect: "follow", // manual, *follow, error
+    //         referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    //         body: JSON.stringify(data), // body data type must match "Content-Type" header
+    //     }).then(response => {
+    //         if (response.ok) {
+    //             removeItems();
+    //         }
+
+    //     })
+
+    // })
 
 
     //code properties button here
@@ -297,7 +305,6 @@ function createItem(element, index) {
 
 
     let nameofitem = element.name;
-    let propname = "name";
 
 
     let item = global_item_data.find(obj => obj.name === nameofitem);
@@ -346,17 +353,18 @@ function createItem(element, index) {
 
 
 
-    name.textContent = element.name;
-    location.textContent = element.location;
-    expirationDate.textContent = element.expirationDate;
+    // name.textContent = element.name;
+    // location.textContent = element.location;
+    // expirationDate.textContent = element.expirationDate;
 
     name.append(editButton);
     tr.appendChild(name);
     tr.appendChild(location);
     tr.appendChild(expirationDate);
     tr.appendChild(daysLeft);
-    buttonContainer.appendChild(waistedButton);
-    buttonContainer.appendChild(consumedButton);
+    buttonContainer.appendChild(removeButton);
+    // buttonContainer.appendChild(waistedButton);
+    // buttonContainer.appendChild(consumedButton);
     buttonContainer.appendChild(propertiesButton);
     tr.appendChild(buttonContainer);
     container.appendChild(tr);

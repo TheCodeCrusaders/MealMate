@@ -263,7 +263,13 @@ tr.hiddenrow_container {
 
 }
 
-
+#removeItem{
+    display:none;
+    position: absolute;
+    margin: auto;
+    top: 50%;
+    
+}
 
 @media (max-width: 600px) {
     #container>div {
