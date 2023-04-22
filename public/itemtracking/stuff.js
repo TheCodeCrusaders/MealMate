@@ -185,10 +185,8 @@ function createItem(element, index) {
     let expirationDate = document.createElement("td");
     let daysLeft = document.createElement("td");
 
-    let currentDate = new Date();                       //date
-    let timeLeft = new Date(Date.parse(element.expirationDate) - currentDate);  
-    daysLeft.textContent = `${Math.ceil(timeLeft / (1000 * 60 * 60 * 24))}`     //set textcontent to show the time left before the expirey date
 
+    //daysLeft.textContent = `${Math.ceil(timeLeft / (1000 * 60 * 60 * 24))}`     //set textcontent to show the time left before the expirey date
     name.textContent = element.name;
     location.textContent = element.location;
     expirationDate.textContent = element.expirationDate;
