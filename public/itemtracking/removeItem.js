@@ -10,7 +10,7 @@ class waisted {
         this.fill = 0;
         this.x = 0;
         this.y = 0;
-        this.eaten;
+        this.eaten = 0;
         this.size = size;
         this.addEvents()
     }
