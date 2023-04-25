@@ -7,6 +7,7 @@ const removeItemForm = document.querySelector("#removeItem");
 const new_private_item = document.querySelector("#New_private_Item")
 //VARIABLE DECLERATIONS
 let refIndex = undefined;
+let removeIndex = undefined;
 
 
 //Upon page being loaded, fetches the currently logged in user's personal items list, by calling fetchData()
@@ -132,6 +133,7 @@ form.addEventListener("submit", (e) => {
     form.location.selected = "Fridge";
     form.name.value = "";
     form.expirationDate.value = "";
+    form.weight = "";
     removeItems();
 
     addNewItem();
@@ -223,13 +225,14 @@ function createItem(element, index) {
         form.location.selected = element.location;
         form.name.value = element.name;
         form.expirationDate.value = element.expirationDate;
+        form.weight.value = element.weight;
         addNewItem();
     })
     let removeButton = document.createElement("button");
     removeButton.textContent = "remove item";
     removeButton.addEventListener("click", (e) => {
         removeItemForm.style.display = "block";
-        refIndex = index;
+        removeIndex = index;
     })
 
 

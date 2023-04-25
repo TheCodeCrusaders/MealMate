@@ -106,7 +106,7 @@ document.querySelector("#ate").addEventListener('click', () => {
     let eaten = (waist.getAmout() * 25);
 
     let data = {
-        "index": refIndex,
+        "index": removeIndex,
         "eaten": eaten
     };
     fetch("/API/wasteditem", {
