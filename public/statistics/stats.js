@@ -52,6 +52,27 @@ function getstuff(api, id){
     })
   }
 
+  function getWasteRatio(api, id) {
+    let totalWaste = 0, totalEaten = 0;
+    fetch(api)
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error("response was not in the 200 range " + response.Error);
+    })
+    .then(data => {
+      data.forEach(item => {
+        totalWaste += (item.weight) - item.eaten;
+        totalEaten += (item.eaten);
+        console.log(totalEaten)
+        console.log(totalWaste)
+      })
+      let procent = ((totalWaste/totalEaten) * 100).toFixed(2);
+      const element = document.getElementById(id);
+      element.textContent = "Wasted: " + procent + "%";
+    })
+  }
 
 
   function getchartstuff(api, id) {
@@ -66,43 +87,60 @@ function getstuff(api, id){
         // Prepare the chart data
         const chartData = {
           labels: [],
-          datasets: [],
-        };
-  
-        // Loop through data and populate chartData
-        data.forEach(item => {
-          // Check if the item name is already in the datasets
-          let datasetIndex = chartData.datasets.findIndex(dataset => dataset.label === item.name);
-  
-          // If the item name is not in the datasets, create a new dataset for the item
-          if (datasetIndex === -1) {
-            datasetIndex = chartData.datasets.length;
-            chartData.datasets.push({
-              label: item.name,
+          datasets: [
+            {
+              label: 'Consumed',
               data: [],
               fill: false,
-              borderColor: `hsl(${Math.random() * 360}, 100%, 50%)`,
+              borderColor: 'green',
               tension: 0.1,
-            });
-          }
-  
+            },
+            {
+              label: 'Wasted',
+              data: [],
+              fill: false,
+              borderColor: `blue`,
+              tension: 0.1, 
+            }
+          ],
+        };
+
+        // Loop through data and populate chartData
+        data.forEach(item => {
           // Add the date to the labels if it's not already there
           if (!chartData.labels.includes(item.wastedDate)) {
             chartData.labels.push(item.wastedDate);
           }
-  
-          // Increment the data value for the item at the corresponding date index
+
+          const weightWasted = item.weight - item.eaten;
+
+          // Add the weight wasted to the data for the corresponding date index
           const dateIndex = chartData.labels.indexOf(item.wastedDate);
-          if (chartData.datasets[datasetIndex].data[dateIndex] === undefined) {
-            chartData.datasets[datasetIndex].data[dateIndex] = 1;
+          if (chartData.datasets[0].data[dateIndex] === undefined) {
+            if (dateIndex === 0) {
+              chartData.datasets[0].data[dateIndex] = weightWasted;
+            } else {
+              chartData.datasets[0].data[dateIndex] = chartData.datasets[0].data[dateIndex - 1] + weightWasted;
+            }
           } else {
-            chartData.datasets[datasetIndex].data[dateIndex]++;
+            chartData.datasets[0].data[dateIndex] += weightWasted;
+          }
+
+          // Add the weight eaten to the data for the corresponding date index
+          if (chartData.datasets[1].data[dateIndex] === undefined) {
+            if (dateIndex === 0) {
+              chartData.datasets[1].data[dateIndex] = item.eaten;
+            } else {
+              chartData.datasets[1].data[dateIndex] = chartData.datasets[1].data[dateIndex - 1] + item.eaten;
+            }
+          } else {
+            chartData.datasets[1].data[dateIndex] += item.eaten;
           }
         });
-  
+
         // Sort the labels (dates) in ascending order
         chartData.labels.sort();
-  
+
         // Create a chart
         const ctx = document.getElementById(id).getContext('2d');
         const chart = new Chart(ctx, {
@@ -110,8 +148,18 @@ function getstuff(api, id){
           data: chartData,
           options: {
             scales: {
+              x: {
+                title: {
+                  display: true,
+                  text: 'Date'
+                }
+              },
               y: {
                 beginAtZero: true,
+                title: {
+                  display: true,
+                  text: 'Weight (in grams)'
+                }
               },
             },
           },
@@ -133,7 +181,7 @@ function getstuff(api, id){
 
     getchartstuff("/API/getweeklyWaste", "compareNowChart");
     getchartstuff("/API/prevous7days", "compareBeforeChart");
-
+    getWasteRatio("/API/getweeklyWaste", "waste-ratio")
   })
 
   function openTab(evt, tabName) {
@@ -149,7 +197,7 @@ function getstuff(api, id){
     document.getElementById(tabName).style.display = "block";
     evt.currentTarget.className += " active";
   }
-
+  
   function openTab2(evt, tabName) {
     var i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabcontent2");
