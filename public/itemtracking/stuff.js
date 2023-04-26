@@ -244,55 +244,6 @@ function createItem(element, index) {
     })
 
 
-    waistedButton.addEventListener("click", (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        let data = {
-            "index": index
-        };
-        fetch("/API/waisteditem", {
-            method: "POST", // *GET, POST, PUT, DELETE, etc.
-            mode: "cors", // no-cors, *cors, same-origin
-            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-            credentials: "same-origin", // include, *same-origin, omit
-            headers: {
-                "Content-Type": "application/json",
-                // 'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            redirect: "follow", // manual, *follow, error
-            referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-            body: JSON.stringify(data), // body data type must match "Content-Type" header
-        }).then(response => {
-            if (response.ok) {
-                removeItems();
-            }
-
-
-
-
-
-    consumedButton.addEventListener("click", (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        let data = {
-            "index": index
-        };
-        fetch("/API/consumeditem", {
-            method: "POST", // *GET, POST, PUT, DELETE, etc.
-            mode: "cors", // no-cors, *cors, same-origin
-            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-            credentials: "same-origin", // include, *same-origin, omit
-            headers: {
-                "Content-Type": "application/json",
-                // 'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            redirect: "follow", // manual, *follow, error
-            referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-            body: JSON.stringify(data), // body data type must match "Content-Type" header
-        }).then(response => {
-            if (response.ok) {
-                removeItems();
-            }
 
 
 
@@ -393,7 +344,7 @@ function createItem(element, index) {
 
         }
     }
-    }
+
     //private_user_Item_property_data
     console.log(private_user_Item_property_data)
 
@@ -448,6 +399,7 @@ function createItem(element, index) {
     container.appendChild(hiddenrow_container);
 
 }
+
 
 //This is where the add item function start, its activated when the button additem is pressed. All it does is desplaying the hidden input block.   <------ Carl Note
 //addNewItem() function decleration

@@ -100,7 +100,7 @@ class waisted {
         })
     }
 }
-let waist = new waisted(document.querySelector("#removeItem canvas"), document.querySelector("#ate"), 200);
+let waist = new waisted(document.querySelector("#removeItem canvas"), document.querySelector("#ate"), 50);
 
 document.querySelector("#ate").addEventListener('click', () => {
     let eaten = (waist.getAmout() * 25);
