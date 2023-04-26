@@ -1,14 +1,20 @@
 {
   "users": [
     {
-      "username": "mathias",
-      "email": "mathiasml@hotmail.dk",
-      "birthday": "2001-09-01",
-      "password": "671ec2e08b1393475d553dd927a49b0c7053e3015c48ccb77fec48b1d9541be6"
+      "username": "mantas",
+      "email": "m@m",
+      "birthday": "1111-11-11",
+      "password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
     },
     {
-      "username": "user",
-      "email": "randomubefkjwbfkjbqgkjqbgkjwqbgkjb@gmail.com",
+      "username": "deekahy",
+      "email": "Nox3pogo@gmail.com",
+      "birthday": "2023-03-28",
+      "password": "4caea5f26224cb03695f1037847ad7dba5283539489fb3a8c8eac1666631d91e"
+    },
+    {
+      "username": "jjjjj",
+      "email": "jjjhjhh@jijii.dk",
       "birthday": "1111-11-11",
       "password": "96cae35ce8a9b0244178bf28e4966c2ce1b8385723a96a6b838858cdd6ca0a1e"
     }
