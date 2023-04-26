@@ -24,8 +24,10 @@ document.addEventListener("DOMContentLoaded", (e) => {
 //EVENTLISTENERS - Page functionality starts here
 //This is where the autocomplete function starts <------ Carl Note
 //!!TO READ!!
+
 form.name.addEventListener("input", async (e) => {
     //Anon functin with parameter (e) is made asynchronisis to allow using "await"
+
     const inputItemName = e.target.value;                                   //Value entered into form.name is assigned inputItemName
     const isItemValid = await itemExists(inputItemName);                    //"await" pauses execution until itemExists() Promise resolves, then the code continues without blocking other tasks.
 
@@ -38,8 +40,10 @@ form.name.addEventListener("input", async (e) => {
     new_private_item.classList.toggle("visible");
     if (isItemValid === false) {                                            //"await" in line 23 lets itemExists run in the background, effectively reaching the if statement, while the promised is being resolved                                
         form.name.style.borderColor = "red";
+
         new_private_item.style.display = "flex";
         form.classList.add("bigger");
+
 
     }
 
@@ -50,6 +54,7 @@ form.name.addEventListener("input", async (e) => {
     }
 
     if (inputItemName.length > 0) {
+
         const PProtertyis = private_user_Item_property_data;
         const globalItems = global_item_data;
 
@@ -63,13 +68,16 @@ form.name.addEventListener("input", async (e) => {
             item.name.toLowerCase().startsWith(inputItemName.toLowerCase())
         );
 
+
         const matchingItems = matching_globalItems.concat(matching_PPropertyis);
 
         matchingItems.forEach(item => {
             const itemDiv = document.createElement("div");
             itemDiv.textContent = item.name;
             itemDiv.addEventListener("click", () => {
+
                 form.classList.remove("bigger");
+
                 form.name.value = item.name;
                 form.name.style.borderColor = "green";
                 new_private_item.style.display = "none";
@@ -236,7 +244,55 @@ function createItem(element, index) {
     })
 
 
+    waistedButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        let data = {
+            "index": index
+        };
+        fetch("/API/waisteditem", {
+            method: "POST", // *GET, POST, PUT, DELETE, etc.
+            mode: "cors", // no-cors, *cors, same-origin
+            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: "same-origin", // include, *same-origin, omit
+            headers: {
+                "Content-Type": "application/json",
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: "follow", // manual, *follow, error
+            referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify(data), // body data type must match "Content-Type" header
+        }).then(response => {
+            if (response.ok) {
+                removeItems();
+            }
 
+
+
+
+
+    consumedButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        let data = {
+            "index": index
+        };
+        fetch("/API/consumeditem", {
+            method: "POST", // *GET, POST, PUT, DELETE, etc.
+            mode: "cors", // no-cors, *cors, same-origin
+            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: "same-origin", // include, *same-origin, omit
+            headers: {
+                "Content-Type": "application/json",
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: "follow", // manual, *follow, error
+            referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify(data), // body data type must match "Content-Type" header
+        }).then(response => {
+            if (response.ok) {
+                removeItems();
+            }
 
 
 
@@ -300,7 +356,9 @@ function createItem(element, index) {
     //code properties button here
     let hiddenrow_container = document.createElement("tr");
 
+
     hiddenrow_container.style.display = "none"
+
 
     propertiesButton.addEventListener("click", () => {
         console.log("The button do stuff")
@@ -309,6 +367,7 @@ function createItem(element, index) {
         } else {
             hiddenrow_container.style.display = "none";
         }
+
     });
 
 
@@ -331,10 +390,13 @@ function createItem(element, index) {
                 prop_containtainer.appendChild(property_value)
                 hiddenrow_container.appendChild(prop_containtainer)
             }
+
         }
+    }
     }
     //private_user_Item_property_data
     console.log(private_user_Item_property_data)
+
     if (!item) {
 
 
@@ -361,18 +423,23 @@ function createItem(element, index) {
 
 
 
+
+
     // name.textContent = element.name;
     // location.textContent = element.location;
     // expirationDate.textContent = element.expirationDate;
+
 
     name.append(editButton);
     tr.appendChild(name);
     tr.appendChild(location);
     tr.appendChild(expirationDate);
     tr.appendChild(daysLeft);
+
     buttonContainer.appendChild(removeButton);
     // buttonContainer.appendChild(waistedButton);
     // buttonContainer.appendChild(consumedButton);
+
     buttonContainer.appendChild(propertiesButton);
     tr.appendChild(buttonContainer);
     container.appendChild(tr);
@@ -449,6 +516,7 @@ let private_user_Item_property_data;
 function OnStartfetchDataOnce() {
 
     fetch("/API/GetPrivateProtertyList")
+
         .then((response) => {
             if (response.ok) {
                 return response.json();
@@ -502,9 +570,11 @@ function updatePrivatePlist() {
         })
         .catch((error) => {
             alert("An error occured");
+
         });
 
 }
+
 
 
 
@@ -525,6 +595,7 @@ Pprivate_button.addEventListener('click', () => {
         "protein pr 100 gram": Protein.value,
         "carbohydrate pr 100 gram": Carbonhydrate.value,
         "fat pr 100 gram": Fat.value,
+
     };
 
     fetch("/API/Private_properties", {
@@ -549,6 +620,7 @@ Pprivate_button.addEventListener('click', () => {
 
     updatePrivatePlist()
 })
+
 
 
 

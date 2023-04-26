@@ -1,5 +1,17 @@
 body {
-  font-family: Calibri,Candara,Segoe,Segoe UI,Optima,Arial,sans-serif;
+
+    font-family: Calibri,Candara,Segoe,Segoe UI,Optima,Arial,sans-serif;
+}
+header {
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    margin: 20px;
+    padding: 10px;
+    text-align: center;
+
 }
 
 h1 {
@@ -62,22 +74,24 @@ section {
 }
 
 #module1 {
-  background-color: #f2f2f2;
+
+    background-color: #f2f2f2;
 }
 #module2 {
-  background-color: #e6e6ff;
+    background-color: #e6e6ff;
 }
 #module3 {
-  background-color: #ffffcc;
+    background-color: #ffffcc;
 }
 footer {
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  background-color: #333;
-  color: white;
-  padding: 20px;
-  margin: 20px;
-  text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    margin: 20px;
+    text-align: center;
+
 }
 
 #myProgress {
@@ -205,11 +219,13 @@ border-radius: 10px; /* Add rounded edges to table */
 
 /* Table headers */
 table th {
-background-color: #4CAF50;
-color: white;
-font-weight: bold;
-padding: 10px;
-text-align: left;
+
+  background-color: #4CAF50;
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+  text-align: left;
+
 }
 
 /* Table rows */
