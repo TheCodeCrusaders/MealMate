@@ -272,7 +272,12 @@ table td {
     visibility: visible;
     background: rgba(158, 8, 8, 0.8);
 }
-
+#location_hidden{
+    display: none;
+}
+#if_barcode_no_item{
+visibility: hidden;    
+}
 
 tr.hiddenrow_container {
     max-height: 1000px;
