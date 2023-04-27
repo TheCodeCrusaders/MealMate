@@ -66,8 +66,23 @@ scan_button.addEventListener("click", (e) => {
 
 
 })
+
+
+function checkInputs() {
+  if (new_item_pp.value && expirationDate5.value &&  weight_of_new_item.value) {
+    confirm_button2.disabled = false;
+  } else {
+    confirm_button2.disabled = true;
+  }
+}
+
+new_item_pp.addEventListener("input", checkInputs)
+expirationDate5.addEventListener("input", checkInputs)
+weight_of_new_item.addEventListener("input", checkInputs)
+
 confirm_button2.addEventListener("click", (e) => {
   e.preventDefault();
+
   let search_item = new_item_pp.value
 
   resoult_of_scan = "" + resoult_of_scan;
@@ -116,16 +131,9 @@ async function executeFunctionsInOrder() {
   console.log("Created new item & linked barcode")
   window.location.reload();
 }
-
 executeFunctionsInOrder();
-
-
-    
-    
-  }
+      }
 })
-
-
 
  function postlist(itemname, experation, weight, location){
   let data_add_item = {
