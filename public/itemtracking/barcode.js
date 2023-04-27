@@ -14,8 +14,19 @@ expirationDate5 = document.getElementById("expirationDate5")
 if_barcode_no_item = document.getElementById("if_barcode_no_item")
 weight_of_new_item = document.getElementById("weight_of_new_item")
 
+
+function checkInputs2() {
+  if (expirationDate2) {
+    confirm_button.disabled = false;
+  } else {
+    confirm_button.disabled = true;
+  }
+}
+expirationDate2.addEventListener("input", checkInputs2)
+
 confirm_button.addEventListener("click", (e) => {
   e.preventDefault();
+
 
   postlist(name_of_item.textContent, expirationDate2.value, weight_of_item.textContent, location_hidden.textContent)
 window.location.reload();
