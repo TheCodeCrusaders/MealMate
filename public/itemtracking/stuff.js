@@ -346,7 +346,7 @@ function createItem(element, index) {
     }
 
     //private_user_Item_property_data
-    console.log(private_user_Item_property_data)
+    //console.log(private_user_Item_property_data)
 
     if (!item) {
 
