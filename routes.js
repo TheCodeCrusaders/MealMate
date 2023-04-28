@@ -87,7 +87,7 @@ router.post("/login", (req, res) => {  // post action declared, will wait for po
     });
     if (user) {// if the correct information is typed in the user will be given a token
 
-        const token = jwt.sign({ username: user.username }, 'secret', { expiresIn: '1h' });// Generate an authentication token with experation day, 1 hour i milisecounds
+        const token = jwt.sign({ username: user.username }, 'secret', { expiresIn: '24h' });// Generate an authentication token with experation day, 1 hour i milisecounds
 
         res.cookie('token', token, { httpOnly: true });// Set the token as a cookie on the client's browser
         //the { httpOnly: true }  option means that the cookie can only be accessed via HTTP/S and not via JavaScript, which helps to prevent cross-site scripting (XSS) attacks.

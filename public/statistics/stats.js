@@ -53,7 +53,7 @@ function getstuff(api, id){
   }
 
   function getWasteRatio(api, id) {
-    let totalWaste = 0, totalEaten = 0;
+    let totalWaste = 0, totalWeight = 0;
     fetch(api)
     .then(response => {
       if (response.ok) {
@@ -64,11 +64,9 @@ function getstuff(api, id){
     .then(data => {
       data.forEach(item => {
         totalWaste += (item.weight) - item.eaten;
-        totalEaten += (item.eaten);
-        console.log(totalEaten)
-        console.log(totalWaste)
+        totalWeight += item.weight;
       })
-      let procent = ((totalWaste/totalEaten) * 100).toFixed(2);
+      let procent = ((totalWaste/totalWeight) * 100).toFixed(2);
       const element = document.getElementById(id);
       element.textContent = "Wasted: " + procent + "%";
     })
@@ -105,38 +103,38 @@ function getstuff(api, id){
           ],
         };
 
-        // Loop through data and populate chartData
-        data.forEach(item => {
-          // Add the date to the labels if it's not already there
-          if (!chartData.labels.includes(item.wastedDate)) {
-            chartData.labels.push(item.wastedDate);
-          }
+// Loop through data and populate chartData
+data.forEach(item => {
+  // Add the date to the labels if it's not already there
+  if (!chartData.labels.includes(item.wastedDate)) {
+    chartData.labels.push(item.wastedDate);
+  }
 
-          const weightWasted = item.weight - item.eaten;
+  const weightWasted = item.weight - item.eaten;
 
-          // Add the weight wasted to the data for the corresponding date index
-          const dateIndex = chartData.labels.indexOf(item.wastedDate);
-          if (chartData.datasets[0].data[dateIndex] === undefined) {
-            if (dateIndex === 0) {
-              chartData.datasets[0].data[dateIndex] = weightWasted;
-            } else {
-              chartData.datasets[0].data[dateIndex] = chartData.datasets[0].data[dateIndex - 1] + weightWasted;
-            }
-          } else {
-            chartData.datasets[0].data[dateIndex] += weightWasted;
-          }
+  // Add the weight wasted to the data for the corresponding date index
+  const dateIndex = chartData.labels.indexOf(item.wastedDate);
+  if (chartData.datasets[1].data[dateIndex] === undefined) {
+    if (dateIndex === 0) {
+      chartData.datasets[1].data[dateIndex] = weightWasted;
+    } else {
+      chartData.datasets[1].data[dateIndex] = chartData.datasets[1].data[dateIndex - 1] + weightWasted;
+    }
+  } else {
+    chartData.datasets[1].data[dateIndex] += weightWasted;
+  }
 
-          // Add the weight eaten to the data for the corresponding date index
-          if (chartData.datasets[1].data[dateIndex] === undefined) {
-            if (dateIndex === 0) {
-              chartData.datasets[1].data[dateIndex] = item.eaten;
-            } else {
-              chartData.datasets[1].data[dateIndex] = chartData.datasets[1].data[dateIndex - 1] + item.eaten;
-            }
-          } else {
-            chartData.datasets[1].data[dateIndex] += item.eaten;
-          }
-        });
+  // Add the weight eaten to the data for the corresponding date index
+  if (chartData.datasets[0].data[dateIndex] === undefined) {
+    if (dateIndex === 0) {
+      chartData.datasets[0].data[dateIndex] = item.eaten;
+    } else {
+      chartData.datasets[0].data[dateIndex] = chartData.datasets[0].data[dateIndex - 1] + item.eaten;
+    }
+  } else {
+    chartData.datasets[0].data[dateIndex] += item.eaten;
+  }
+});
 
         // Sort the labels (dates) in ascending order
         chartData.labels.sort();
