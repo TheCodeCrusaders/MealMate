@@ -52,7 +52,7 @@ function getstuff(api, id){
     })
   }
 
-  function getWasteRatio(api, id) {
+  function getWasteRatio(api, id, type) {
     let totalWaste = 0, totalWeight = 0;
     fetch(api)
     .then(response => {
@@ -63,17 +63,17 @@ function getstuff(api, id){
     })
     .then(data => {
       data.forEach(item => {
-        totalWaste += (item.weight) - item.eaten;
-        totalWeight += item.weight;
+        totalWeight += Number(item.weight);
+        totalWaste += (item.weight - item.eaten);      
       })
       let procent = ((totalWaste/totalWeight) * 100).toFixed(2);
       const element = document.getElementById(id);
-      element.textContent = "Wasted: " + procent + "%";
+      element.textContent = "Wasted " + type + ": " + procent + "%";
     })
   }
 
 
-  function getchartstuff(api, id) {
+  function getchartstuff(api, id, title) {
     fetch(api)
       .then(response => {
         if (response.ok) {
@@ -160,6 +160,10 @@ data.forEach(item => {
                 }
               },
             },
+            title: {
+              display: true,
+              text: title
+          }
           },
         });
       });
@@ -177,9 +181,10 @@ data.forEach(item => {
 
     getstuff("/API/getmonthlyWaste", "Monthly-waste");
 
-    getchartstuff("/API/getweeklyWaste", "compareNowChart");
-    getchartstuff("/API/prevous7days", "compareBeforeChart");
-    getWasteRatio("/API/getweeklyWaste", "waste-ratio")
+    getchartstuff("/API/getweeklyWaste", "compareNowChart", "Last 7 days");
+    getchartstuff("/API/prevous7days", "compareBeforeChart", "Previous 7 days");
+    getWasteRatio("/API/getweeklyWaste", "waste-ratio", "last 7 days");
+    getWasteRatio("/API/prevous7days", "waste-ratio-2", "previous 7 days");
   })
 
   function openTab(evt, tabName) {
