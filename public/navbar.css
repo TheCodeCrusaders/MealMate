@@ -18,13 +18,10 @@
     margin: 0 10px;
     width: 100%;
     text-align: center;
-    opacity: 0.6;
-    border: 2px solid lightgreen;
-    border-radius: 6px;
   }
   
   .nav-menu a {
-    color: lightgreen;
+    color: #fff;
     text-decoration: none;
     align-content: center;
   }
@@ -61,9 +58,6 @@
   
   .hamburger span:last-child {
     margin-bottom: 0;
+
   }
 
-  .nav-menu li:hover {
-    opacity: 1;
-    transition: transform 0.5s ease-in-out-in;
-  }
