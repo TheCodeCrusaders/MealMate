@@ -52,6 +52,21 @@ function getstuff(api, id){
     })
   }
 
+  function getCO2(api, id) {
+    fetch(api)
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error("response was not in the 200 range " + response.Error);
+    })
+    .then(data => {
+
+      const element = document.getElementById(id);
+      element.textContent = "CO2 Wasted last 7 days: " + (data.co2).toFixed(2) + " kg";
+    })
+  }
+
   function getWasteRatio(api, id, type) {
     let totalWaste = 0, totalWeight = 0;
     fetch(api)
@@ -185,6 +200,7 @@ data.forEach(item => {
     getchartstuff("/API/prevous7days", "compareBeforeChart", "Previous 7 days");
     getWasteRatio("/API/getweeklyWaste", "waste-ratio", "last 7 days");
     getWasteRatio("/API/prevous7days", "waste-ratio-2", "previous 7 days");
+    getCO2("/API/getWeeklyCO2", "co2-wasted");
   })
 
   function openTab(evt, tabName) {
