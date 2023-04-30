@@ -239,9 +239,34 @@ document.getElementsByClassName("tablinks")[0].className += " active";
 document.getElementById("weekly").style.display = "block";
 document.getElementsByClassName("tablink2")[0].className += " active";
 
+  let compareBeforeChartCO2 = document.getElementById("compareBeforeChartCO2")
+  let compareNowChartCO2 = document.getElementById("compareNowChartCO2")
+  let ToggleButton = document.getElementById("RawData");
+  let bool=true
+  ToggleButton.addEventListener("click", () => {
+
+    if (bool) {
+      compareBeforeChartCO2.style.visibility = "visible";
+      compareNowChartCO2.style.visibility = "hidden";
+      compareNowChartCO2.style.display="none"
+      ToggleButton.textContent = 'Hide Raw Data';
+      compareBeforeChartCO2.style.display="block"
+      bool=false
+    } else {
+      compareBeforeChartCO2.style.visibility = "hidden"; 
+      compareNowChartCO2.style.visibility = "visible";
+      ToggleButton.textContent = 'View Raw Data';
+      compareBeforeChartCO2.style.display="none"
+      compareNowChartCO2.style.display="block"
+      bool=true
+    }
+
+  })
+
+
 //Forstå det her inden push
 async function getGraph(apiCurrent, apiPrevious) {
-  const ToggleButton = document.querySelector("#RawData");
+  
   // Fetch data for current week
   const current = await fetch(apiCurrent);
   const currentWeek = await current.json();
@@ -256,35 +281,35 @@ async function getGraph(apiCurrent, apiPrevious) {
   // Create a pie chart
   const pieGraph1 = document.querySelector("#compareNowChartCO2").getContext('2d');
   const pieGraph2 = document.querySelector("#compareBeforeChartCO2").getContext('2d');
-  new Chart(pieGraph1, {
-    type: 'pie',
-    data: {
-      labels: ['Current week', 'Previous week'],
-      datasets: [{
-        label: 'CO2 emissions in %',
-        data: [currentPercentage.toFixed(2), previousPercentage.toFixed(2)],
-        borderWidth: 1
-      }]
-    },
-    options: {
-      responsive: true
-    }
-  });
-
-  rawDataGraph = new Chart(pieGraph2, {
-    type: 'pie',
-    data: {
-      labels: ['Current week', 'Previous week'],
-      datasets: [{
-        label: 'CO2 emissions in %',
-        data: [currentWeek.co2.toFixed(2), previousWeek.co2.toFixed(2)],
-        borderWidth: 1
-      }]
-    },
-    options: {
-      responsive: true
-    }
-  });
+    new Chart(pieGraph1, {
+      type: 'pie',
+      data: {
+        labels: ['Current week', 'Previous week'],
+        datasets: [{
+          label: 'CO2 emissions in %',
+          data: [currentPercentage.toFixed(2), previousPercentage.toFixed(2)],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true
+      }
+    });
+    rawDataGraph = new Chart(pieGraph2, {
+      type: 'pie',
+      data: {
+        labels: ['Current week', 'Previous week'],
+        datasets: [{
+          label: 'CO2 emissions in %',
+          data: [currentWeek.co2.toFixed(2), previousWeek.co2.toFixed(2)],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true
+      }
+    }); 
+    compareBeforeChartCO2.style.visibility = "hidden";  compareBeforeChartCO2.style.display="none"
 }
 
 
