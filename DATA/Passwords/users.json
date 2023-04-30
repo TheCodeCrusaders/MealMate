@@ -5,6 +5,12 @@
       "email": "mathiasml@hotmail.dk",
       "birthday": "2001-01-09",
       "password": "31c16eb9b5e77fec291bea59891bfaca936c2601f278a3c22a090ff82fc6fe04"
+    },
+    {
+      "username": "user",
+      "email": "1@kenrgkn.rgrkn",
+      "birthday": "0011-11-11",
+      "password": "96cae35ce8a9b0244178bf28e4966c2ce1b8385723a96a6b838858cdd6ca0a1e"
     }
   ]
 }

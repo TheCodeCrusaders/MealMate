@@ -285,64 +285,74 @@ router.get("/API/getweeklyWaste", verifyToken, async (req, res) => {
     const data = await getWeeklyWaste(req, res);
     res.json(data);
 });
-
-
-router.get("/API/prevous7days", verifyToken, (req, res) => {
-    const filePath = path.resolve() + `/data/USERS/${req.user.username}/wastedItems.json`;
-
-    fs.readFile(filePath, (err, data) => {
-        if (err) {
-            console.error(err);
-            res.status(500).send("Internal Server Error");
-        } else {
-            const jsonData = JSON.parse(data.toString("utf8"));
-
-            // Get the date from 14 days ago
-            const twoWeeksAgo = new Date();
-            twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
-
-            // Get the date from 7 days ago
-            const oneWeekAgo = new Date();
-            oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-
-            // Filter the data based on the wastedDate attribute
-            const filteredData = jsonData.filter(item => {
-                const itemDate = new Date(item.wastedDate);
-                return itemDate >= twoWeeksAgo && itemDate < oneWeekAgo;
-            });
-
-            res.json(filteredData);
-        }
-    });
+router.get("/API/prevous7days", verifyToken, async (req, res) => {
+    const data = await prevous7days(req, res);
+    res.json(data);
+});
+router.get("/API/getmonthlyWaste", verifyToken, async (req, res) => {
+    const data = await getmonthlyWaste(req, res);
+    res.json(data);
 });
 
 
-
-router.get("/API/getmonthlyWaste", verifyToken, (req, res) => {
+async function prevous7days(req, res) {
     const filePath = path.resolve() + `/data/USERS/${req.user.username}/wastedItems.json`;
 
-    fs.readFile(filePath, (err, data) => {
-        if (err) {
-            console.error(err);
-            res.status(500).send("Internal Server Error");
-        } else {
-            const jsonData = JSON.parse(data.toString("utf8"));
-
-            // Get the date from one week ago
-            const oneWeekAgo = new Date();
-            oneWeekAgo.setDate(oneWeekAgo.getDate() - 30);
-
-            // Filter the data based on the wastedDate attribute
-            const filteredData = jsonData.filter(item => {
-                const itemDate = new Date(item.wastedDate);
-                return itemDate >= oneWeekAgo;
-            });
-
-            res.json(filteredData);
-        }
+    return new Promise((resolve, reject) => {
+        fs.readFile(filePath, (err, data) => {
+            if (err) {
+                console.error(err);
+                reject("Internal Server Error");
+            } else {
+                const jsonData = JSON.parse(data.toString("utf8"));
+    
+                // Get the date from 14 days ago
+                const twoWeeksAgo = new Date();
+                twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
+    
+                // Get the date from 7 days ago
+                const oneWeekAgo = new Date();
+                oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+    
+                // Filter the data based on the wastedDate attribute
+                const filteredData = jsonData.filter(item => {
+                    const itemDate = new Date(item.wastedDate);
+                    return itemDate >= twoWeeksAgo && itemDate < oneWeekAgo;
+                });
+    
+                resolve(filteredData);
+            }
+        });
     });
-});
+}
 
+
+async function getmonthlyWaste(req, res) {
+    const filePath = path.resolve() + `/data/USERS/${req.user.username}/wastedItems.json`;
+
+    return new Promise((resolve, reject) => {
+        fs.readFile(filePath, (err, data) => {
+            if (err) {
+                console.error(err);
+                reject("Internal Server Error");
+            } else {
+                const jsonData = JSON.parse(data.toString("utf8"));
+    
+                // Get the date from one week ago
+                const oneWeekAgo = new Date();
+                oneWeekAgo.setDate(oneWeekAgo.getDate() - 30);
+    
+                // Filter the data based on the wastedDate attribute
+                const filteredData = jsonData.filter(item => {
+                    const itemDate = new Date(item.wastedDate);
+                    return itemDate >= oneWeekAgo;
+                });
+    
+                resolve(filteredData);
+            }
+        });
+    });
+}
 async function getWeeklyWaste(req, res) {
     const filePath = path.resolve() + `/data/USERS/${req.user.username}/wastedItems.json`;
 
@@ -369,9 +379,54 @@ async function getWeeklyWaste(req, res) {
     });
 }
 
+// router.get("/API/getWeeklyForRoundCO2", verifyToken, async (req, res) => {
+//     const wasted = await getmonthlyWaste(req, res);
+//     const dataPath = path.join(path.resolve() + "/data/Global-Items/Global-Items.json");
+
+//     let data = {};
+//     try {
+//         data = JSON.parse(fs.readFileSync(dataPath));
+//     } catch (error) { }
+
+//     let co2 = 0;
+//     wasted.forEach(item => {
+//         const dataItem = data.find(itemData => itemData.name === item.name);
+//         if (dataItem) {
+//             const amountWasted = (item.weight - item.eaten) * (dataItem.co2_per_1kg / 1000);
+//             co2 += amountWasted;
+//         }
+//     });
+//     res.json(co2);
+// });
+
+
+
+
 
 router.get("/API/getWeeklyCO2", verifyToken, async (req, res) => {
     const wasted = await getWeeklyWaste(req, res);
+    const dataPath = path.join(path.resolve() + "/data/Global-Items/Global-Items.json");
+
+    let data = {};
+    try {
+        data = JSON.parse(fs.readFileSync(dataPath));
+    } catch (error) { }
+
+    let co2 = 0;
+    wasted.forEach(item => {
+        const dataItem = data.find(itemData => itemData.name === item.name);
+        if (dataItem) {
+            const amountWasted = (item.weight - item.eaten) * (dataItem.co2_per_1kg / 1000);
+            co2 += amountWasted;
+        }
+    });
+
+    res.json({ co2 });
+});
+
+
+router.get("/API/prevous7daysCO2", verifyToken, async (req, res) => {
+    const wasted = await prevous7days(req, res);
     const dataPath = path.join(path.resolve() + "/data/Global-Items/Global-Items.json");
 
     let data = {};
