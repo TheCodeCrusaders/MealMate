@@ -5,12 +5,6 @@
     <meta charset="UTF-8">
     <link href="style-dashboard.css" rel="stylesheet">
     <link href="/../navbar.css" rel="stylesheet">
-    <style>
-		body {
-			background-image: url("../IMG/Baggrund.jpg");
-			background-size: 3000px;
-		}
-	</style>
 </head>
 <body>
     <header>
@@ -21,11 +15,11 @@
     </header>
 <main>
     <section id="module1">
-        <h2><u>General Statistics</u></h2>
-        <p>Here You Can Find Some General Statistics About Our Users:</p>
-        <h4 id="waste-ratio"></h4>
-        <h4 id="waste-ratio-2"></h4>
-        <h4 id="co2-wasted"></h4>
+        <h2>General Statistics</h2>
+        <p>Here you can find some general statistics about our users:</p>
+        <h3 id="waste-ratio"></h3>
+        <h3 id="waste-ratio-2"></h3>
+        <h3 id="co2-wasted"></h3>
         <div class="tab">
             <button class="tablink2" onclick="openTab2(event, 'weekly')">Weekly waste</button>
             <button class="tablink2" onclick="openTab2(event, 'monthly')">Monthly waste</button>
@@ -54,7 +48,7 @@
 
     <section id="module3">
         <h3><u>Weekly Trends In CO2 Emissions</u></h3>
-        <p><b>Data In Procent (%)</b></p><button id="RawData" type="button">View Raw Data</button>
+        <p><b>Data In Procent (%)</b></p>
         <canvas id="compareNowChartCO2"></canvas>
         <canvas id="compareBeforeChartCO2"></canvas>
     </section>
