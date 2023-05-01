@@ -239,7 +239,7 @@ document.getElementsByClassName("tablinks")[0].className += " active";
 document.getElementById("weekly").style.display = "block";
 document.getElementsByClassName("tablink2")[0].className += " active";
 
-  let compareBeforeChartCO2 = document.getElementById("compareBeforeChartCO2")
+let compareBeforeChartCO2 = document.getElementById("compareBeforeChartCO2")
   let compareNowChartCO2 = document.getElementById("compareNowChartCO2")
   let ToggleButton = document.getElementById("RawData");
   let bool=true
@@ -300,7 +300,7 @@ async function getGraph(apiCurrent, apiPrevious) {
       data: {
         labels: ['Current week', 'Previous week'],
         datasets: [{
-          label: 'CO2 emissions in %',
+          label: 'CO2 emissions in kg',
           data: [currentWeek.co2.toFixed(2), previousWeek.co2.toFixed(2)],
           borderWidth: 1
         }]
