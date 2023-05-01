@@ -119,9 +119,38 @@ router.get("/API/getSettings", verifyToken, (req, res) => {
     res.json({
         "username": user.username,
         "email": user.email,
-        "birthday": user.birthday
+        "birthday": user.birthday,
+        "household": user.household
     })
 })
+
+router.post("/API/saveSettings", verifyToken, (req, res) => {
+    const filePath = path.join(path.resolve() + "/data/Passwords/users.json");
+
+    const userDetails = {
+        household: req.body.household
+    };
+
+    const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+
+    const user = data.users.find(user => user.username === req.user.username);
+
+    if (user) {
+        user.household = userDetails.household;
+
+        fs.writeFile(filePath, JSON.stringify(data), (err) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send("Error updating user's household value");
+            } else {
+                res.status(200).send("User's household value updated successfully");
+            }
+        });
+    } else {
+        res.status(404).send("User not found");
+    }
+})
+
 
 router.post("/API/Private_properties", verifyToken, (req, res)=>{
 const userdatanewproperties =[]
@@ -494,7 +523,8 @@ router.post('/newuser', (req, res) => {
         username: req.body.username,
         email: req.body.email,
         birthday: req.body.birthday,
-        password: crypto.createHash('sha256').update(req.body.password).digest('hex') //Requests the password from the frontend and encrypts it using the security standard AES256-bit encryption method.
+        password: crypto.createHash('sha256').update(req.body.password).digest('hex'), //Requests the password from the frontend and encrypts it using the security standard AES256-bit encryption method.
+        household: 1
     };
 
     const dataPath = path.join(path.resolve() + "/data/Passwords/users.json");

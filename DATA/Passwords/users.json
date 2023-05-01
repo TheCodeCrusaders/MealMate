@@ -1,10 +1,1 @@
-{
-  "users": [
-    {
-      "username": "user",
-      "email": "kegken@lkenglkwnr.rlgijreg",
-      "birthday": "0011-11-11",
-      "password": "96cae35ce8a9b0244178bf28e4966c2ce1b8385723a96a6b838858cdd6ca0a1e"
-    }
-  ]
-}
+{"users":[{"username":"user","email":"kegken@lkenglkwnr.rlgijreg","birthday":"0011-11-11","password":"96cae35ce8a9b0244178bf28e4966c2ce1b8385723a96a6b838858cdd6ca0a1e"},{"username":"nizd1","email":"math@laga.dk","birthday":"2001-09-08","password":"15a344d6b2ff82992e0d4036031726b662f96aa5d3f4638a68fffde5169deec1","household":"3"}]}
