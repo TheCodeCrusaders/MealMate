@@ -22,7 +22,8 @@
       <div id="h1Container">
         <h1>item tracking</h1>
         <h2><a href="/pproterties">Custom Properties</a></h2>
-        <button id="additem">add item</button>
+
+        <button id="additem">add item</button> <button id ="barcode">Scan barcode</button>
       </div>
       <div id="input">
         <div id="backdrop">
@@ -84,6 +85,45 @@
           <button type="button" id="ate">I ate nothing</button>
         </div>
         </form>
+
+        <form id =barcode_backdrop>
+
+          <button id="close_barcode">Close scanner</button> <br>
+          <div id ="found_barcode">
+          <label>Name of item: </label><label id ="name_of_item"> Placeholder</label> <label id="location_hidden">Unknown</label><br>
+          <label>Weight: </label><label id = "weight_of_item"> Placeholder</label> <br>
+          <label >Expiration Date:</label>
+          <input type="date" id="expirationDate2" name="expirationDate"/> <br>
+          <button id ="confirm_button" disabled>Confirm item</button> <br>
+         </div>
+          <div id ="if_barcode_no_item">
+            <label>This barcode has no item linked. Do you want to create or link item?</label> <br>
+            <label>Item:</label><input type="text" id="new_item_pp" name="name" autocomplete="off" placeholder="Item name" /> <label>Barcode:</label> <label id ="barcode_scanned_label">Unknown</label>
+            <div id="autocomplete-list"></div> 
+            <input type="date" id="expirationDate5" name="expirationDate" /> <br>
+            <label>If you know this is a new item, please also enter weight and chose location: </label> <input id="weight_of_new_item" type="number"> <br>
+            <label>Location:</label>
+              <select id="location2" name="location">
+                <option value="fridge" selected>Fridge</option>
+                <option value="pantry">Pantry</option>
+                <option value="other">Other</option>
+              </select>
+            <button id ="confirm_button2" disabled>Add item to private list</button>
+            
+          </div>
+          <br>
+           
+
+                                                       <!--div added-->
+          
+         
+          <div id ="New_private_Item">
+            
+          </div>
+
+        </form>
+
+
       </div>
 
       <table id="container">
@@ -103,6 +143,7 @@
     <a href="https://github.com/TheCodeCrusaders/MealMate">Open Source Project</a>
   </footer>
   <script src="/itemtracking/stuff.js"></script>
+  <script src="/itemtracking/barcode.js"></script>
   <script src="removeItem.js"></script>
 
 </body>

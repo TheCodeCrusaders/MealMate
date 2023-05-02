@@ -238,7 +238,46 @@ table td {
     opacity: 1;
     visibility: visible;
 }
+#barcode_backdrop {
+    position: absolute;
+    top: -100%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 500px;
+    height: 400px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.5s ease-out;
+    background-color: #333;
+    border-radius: 10px;
+    color: white;
+    padding: 10px;
+}
 
+#barcode_backdrop {
+    top: 50%;
+    opacity: 1;
+    visibility: hidden;
+}
+
+#found_barcode{
+ display: none;   
+}
+
+
+#New_private_Item{
+    display: none;
+    color:rgba(248, 248, 248, 0.8);
+    visibility: visible;
+    background: rgba(158, 8, 8, 0.8);
+}
+#location_hidden{
+    display: none;
+}
+#if_barcode_no_item{
+visibility: hidden;    
+}
 
 tr.hiddenrow_container {
     max-height: 1000px;
