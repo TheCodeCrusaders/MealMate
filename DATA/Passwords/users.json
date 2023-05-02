@@ -1,6 +1,7 @@
 {
   "users": [
     {
+<<<<<<< Updated upstream
       "username": "mantas",
       "email": "m@m",
       "birthday": "1111-11-11",
@@ -32,3 +33,26 @@
     }
   ]
 }
+=======
+      "username": "user",
+      "email": "kegken@lkenglkwnr.rlgijreg",
+      "birthday": "0011-11-11",
+      "password": "96cae35ce8a9b0244178bf28e4966c2ce1b8385723a96a6b838858cdd6ca0a1e"
+    },
+    {
+      "username": "nizd1",
+      "email": "math@laga.dk",
+      "birthday": "2001-09-08",
+      "password": "15a344d6b2ff82992e0d4036031726b662f96aa5d3f4638a68fffde5169deec1",
+      "household": "3"
+    },
+    {
+      "username": "matimasmtia",
+      "email": "maomtoas@live.dk",
+      "birthday": "2001-01-09",
+      "password": "cfbdd0c778aa11a0e97937890b131a0b31154b479c98b92a2dd164343a0d76c0",
+      "household": 1
+    }
+  ]
+}
+>>>>>>> Stashed changes
