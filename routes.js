@@ -444,7 +444,7 @@ router.get("/API/getWeeklyCO2", verifyToken, async (req, res) => {
     let co2 = 0;
     wasted.forEach(item => {
         const dataItem = data.find(itemData => itemData.name === item.name);
-        if (dataItem) {
+        if (dataItem && dataItem.co2_per_1kg !== undefined) {
             const amountWasted = (item.weight - item.eaten) * (dataItem.co2_per_1kg / 1000);
             co2 += amountWasted;
         }
@@ -466,7 +466,7 @@ router.get("/API/prevous7daysCO2", verifyToken, async (req, res) => {
     let co2 = 0;
     wasted.forEach(item => {
         const dataItem = data.find(itemData => itemData.name === item.name);
-        if (dataItem) {
+        if (dataItem && dataItem.co2_per_1kg !== undefined) {
             const amountWasted = (item.weight - item.eaten) * (dataItem.co2_per_1kg / 1000);
             co2 += amountWasted;
         }
@@ -517,7 +517,7 @@ router.post("/API/edititem", verifyToken, (req, res) => {
 
 
 //This is where The register Function start, This is the code that creates the users files. 
-router.post('/newuser', (req, res) => {
+router.post('/newuser', async (req, res) => {
     // Extract the new user data from the request body
     const newUser = {
         username: req.body.username,
@@ -549,26 +549,26 @@ router.post('/newuser', (req, res) => {
     // Write the updated data back to the JSON file
     fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
 
-    fs.mkdir(`data/USERS/${newUser.username}`, (err) => {
+    await fs.promises.mkdir(`data/USERS/${newUser.username}`, (err) => {
         if (err) throw err;
     });
 
     const itemsStandard = '[]';
 
     //Creating the 3 standard data files for the user
-    fs.writeFile(`data/USERS/${newUser.username}/consumedItems.json`, itemsStandard, (err) => {
+    await fs.promises.writeFile(`data/USERS/${newUser.username}/consumedItems.json`, itemsStandard, (err) => {
         if (err) throw err;
     });
 
-    fs.writeFile(`data/USERS/${newUser.username}/items.json`, itemsStandard, (err) => {
+    await fs.promises.writeFile(`data/USERS/${newUser.username}/items.json`, itemsStandard, (err) => {
         if (err) throw err;
     });
 
-    fs.writeFile(`data/USERS/${newUser.username}/wastedItems.json`, itemsStandard, (err) => {
+    await fs.promises.writeFile(`data/USERS/${newUser.username}/wastedItems.json`, itemsStandard, (err) => {
         if (err) throw err;
     });
 
-    fs.writeFile(`data/USERS/${newUser.username}/Private_item_property_list.json`, itemsStandard, (err) => {
+    await fs.promises.writeFile(`data/USERS/${newUser.username}/Private_item_property_list.json`, itemsStandard, (err) => {
         if (err) throw err;
     });
 
