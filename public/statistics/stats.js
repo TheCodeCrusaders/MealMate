@@ -249,13 +249,13 @@ let compareBeforeChartCO2 = document.getElementById("compareBeforeChartCO2")
       compareBeforeChartCO2.style.visibility = "visible";
       compareNowChartCO2.style.visibility = "hidden";
       compareNowChartCO2.style.display="none"
-      ToggleButton.textContent = 'Hide Raw Data';
+      ToggleButton.textContent = 'View Data in Procent';
       compareBeforeChartCO2.style.display="block"
       bool=false
     } else {
       compareBeforeChartCO2.style.visibility = "hidden"; 
       compareNowChartCO2.style.visibility = "visible";
-      ToggleButton.textContent = 'View Raw Data';
+      ToggleButton.textContent = 'View Data in kilogram';
       compareBeforeChartCO2.style.display="none"
       compareNowChartCO2.style.display="block"
       bool=true

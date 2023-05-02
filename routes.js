@@ -444,7 +444,7 @@ router.get("/API/getWeeklyCO2", verifyToken, async (req, res) => {
     let co2 = 0;
     wasted.forEach(item => {
         const dataItem = data.find(itemData => itemData.name === item.name);
-        if (dataItem) {
+        if (dataItem && dataItem.co2_per_1kg !== undefined) {
             const amountWasted = (item.weight - item.eaten) * (dataItem.co2_per_1kg / 1000);
             co2 += amountWasted;
         }
@@ -466,7 +466,7 @@ router.get("/API/prevous7daysCO2", verifyToken, async (req, res) => {
     let co2 = 0;
     wasted.forEach(item => {
         const dataItem = data.find(itemData => itemData.name === item.name);
-        if (dataItem) {
+        if (dataItem && dataItem.co2_per_1kg !== undefined) {
             const amountWasted = (item.weight - item.eaten) * (dataItem.co2_per_1kg / 1000);
             co2 += amountWasted;
         }
