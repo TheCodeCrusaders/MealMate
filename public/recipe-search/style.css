@@ -1,6 +1,6 @@
 body {
     font-family: Calibri,Candara,Segoe,Segoe UI,Optima,Arial,sans-serif;
-    background-image: url('../IMG/Baggrund.png');
+    background-image: url('../IMG/tegning.svg');
     background-size: cover;
 }
 header {
@@ -93,6 +93,6 @@ footer {
 }
 
 .searchPlaceHolder {
-    background-image: url('../IMG/Baggrund.png');
+    background-image: url('../IMG/tegning.svg');
     background-size: auto;
 }
