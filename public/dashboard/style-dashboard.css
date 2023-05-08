@@ -1,6 +1,8 @@
 body {
 
     font-family: Calibri,Candara,Segoe,Segoe UI,Optima,Arial,sans-serif;
+    background-image: url('../IMG/tegning.svg');
+    background-size: cover;
 }
 header {
     border-radius: 10px;
@@ -26,13 +28,13 @@ main {
   display: inline-block;
 }
 
-#p_green {
+.p_green {
   color: green;
   font-weight: bold;
   display: inline-block;
 }
 
-#p_red {
+.p_red {
   color: red;
   font-weight: bold;
   display: inline-block;
