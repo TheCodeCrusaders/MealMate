@@ -9,6 +9,7 @@ import crypto from 'crypto';
 import removeItem from "./functions/removeItem.js"
 import login_validation_function from './functions/loginpage/login_validation_function.cjs'; // Unitest test 
 import save_single_prop from './functions/pproperties/save_new_single_property.js'
+import save_single_prop_real from './functions/pproperties/save_existing_propperties.js';
 //import { pp_filepath } from './functions/pproperties/save_single_property.cjs';
 
 const userDirectoryPath = "/data/USERS/";
@@ -211,6 +212,7 @@ router.get("/API/getListGlobalItems", async (req, res) => {
 //Carls Thingy Start Here DOnt YOU DARE TOUCH IT, ITS MY NONO ZONE
 // Carls Api for fethcing private item  property list 
 router.get("/API/GetPrivateProtertyList", verifyToken, async (req, res) => {
+
     const filePath = path.resolve() + `/data/USERS/${req.user.username}/Private_item_property_list.json`;
 
     fs.readFile(filePath, (err, data) => {
@@ -720,37 +722,10 @@ fs.readFile(filePath, (err, data) => {
 
   router.post('/API/ppsaveproperties', verifyToken, (req, res) => {
 
-    const filePath = path.resolve() + `/data/USERS/${req.user.username}/Private_item_property_list.json`;
+    const filePath = path.join(path.resolve() + `/data/USERS/${req.user.username}/Private_item_property_list.json`);
 
-
-    let name_of_object =req.body.nameofitem;
-    let newpropname_of_item=req.body.property;
-    let newvalue=req.body.value
-    let formerprop=req.body.formerprop
-   
-
-
-    fs.readFile(filePath, (err, data) => {
-        if (err) {
-            console.error(err);
-            res.status(500).send("Internal Server Error");
-        } else {
-            const jsonData = JSON.parse(data.toString("utf8"));
-            const itemIndex = jsonData.findIndex(item => item.name === name_of_object);
-            delete jsonData[itemIndex][formerprop];
-            jsonData[itemIndex][newpropname_of_item] = newvalue;
-            fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), err => {
-               
-                if (err) {
-                    console.error(err);
-                    res.status(500).send("Internal Server Error");
-                } else {
-                    
-                     res.json({ message: 'Item updated successfully' });
-                }
-            });
-        }
-    });
+    save_single_prop_real(filePath)(req, res)
+    
   });
 
 
