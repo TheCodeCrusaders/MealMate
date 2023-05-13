@@ -8,7 +8,7 @@ router.use(cookieParser());
 import crypto from 'crypto';
 import removeItem from "./functions/removeItem.js"
 import login_validation_function from './functions/loginpage/login_validation_function.cjs'; // Unitest test 
-import save_single_prop from './functions/pproperties/save_single_property.js'
+import save_single_prop from './functions/pproperties/save_new_single_property.js'
 //import { pp_filepath } from './functions/pproperties/save_single_property.cjs';
 
 const userDirectoryPath = "/data/USERS/";
@@ -61,12 +61,9 @@ function verifyToken(req, res, next) {
 
     try {
         const decoded = jwt.verify(token, 'secret');// Here we decode our token
-        //console.log(decoded)
+       
         req.user = decoded;// here we acces the user
-        // console.log(req.user)
-        // console.log(token)
-        // console.log(req.user.username);
-        // console.log(decoded.exp)
+    
 
         if (decoded.exp * 1000 <= Date.now()) { // Check if the token has expired the  it must be multiplied by 1000, beacuse it has to be in secounds. because the start time is from 1970
             return res.redirect('/login');
@@ -194,22 +191,6 @@ router.get("/API/getList", verifyToken, async (req, res) => {
     });
 });
 
-// getting a list route (still neds to be modified for real login system)
-// router.get("/API/userItemsRecipies", verifyToken, async (req, res) => {
-//     const filePath = path.resolve() + `/data/USERS/${req.user.username}/items.json`;
-
-//     fs.readFile(filePath, (err, data) => {
-//         if (err) {
-//             console.error(err);
-//             res.status(500).send("Internal Server Error");
-//         } else {
-//             const jsonData = data.toString("utf8");
-//             const userItems = JSON.parse(jsonData);
-//         }
-//     });
-// });
-
-//!!TO READ!!
 
 
 //This funtion is used as an api for the users to fethc the Global-Item.json file. <------ Carl Note
@@ -388,26 +369,6 @@ async function getWeeklyWaste(req, res) {
         });
     });
 }
-
-// router.get("/API/getWeeklyForRoundCO2", verifyToken, async (req, res) => {
-//     const wasted = await getmonthlyWaste(req, res);
-//     const dataPath = path.join(path.resolve() + "/data/Global-Items/Global-Items.json");
-
-//     let data = {};
-//     try {
-//         data = JSON.parse(fs.readFileSync(dataPath));
-//     } catch (error) { }
-
-//     let co2 = 0;
-//     wasted.forEach(item => {
-//         const dataItem = data.find(itemData => itemData.name === item.name);
-//         if (dataItem) {
-//             const amountWasted = (item.weight - item.eaten) * (dataItem.co2_per_1kg / 1000);
-//             co2 += amountWasted;
-//         }
-//     });
-//     res.json(co2);
-// });
 
 
 
@@ -755,8 +716,6 @@ fs.readFile(filePath, (err, data) => {
         });
     }
 });
-
-
   });
 
 
@@ -793,12 +752,7 @@ fs.readFile(filePath, (err, data) => {
             });
         }
     });
-
-
   });
-
-
-
 
 
   router.post('/API/ppsavenewproperties', verifyToken, (req, res)=>{
@@ -827,17 +781,8 @@ fs.readFile(filePath, (err, data) => {
     
       // Write the updated data back to the JSON file
       fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
-    
-    
     res.json({ message: "Data received" });
     })
-
-
-
-
-
-
-
 
 
 export default router

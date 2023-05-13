@@ -7,7 +7,7 @@ function save_single_prop(filePath) {
             let name_of_object = req.body.nameofitem;
             let newpropname_of_item = req.body.property;
             let newvalue = req.body.value;
-
+console.log("this is run")
             const data = await fs.promises.readFile(filePath, 'utf8');
             const jsonData = JSON.parse(data);
             const itemIndex = jsonData.findIndex(item => item.name === name_of_object);
