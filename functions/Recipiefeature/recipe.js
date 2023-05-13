@@ -10,8 +10,8 @@ export function listRecipies(items, itemsWant) {
             recipe.score = 0;
             recipe.ingredients.forEach(element => {
                 items.forEach(item => {
-                    // const itemNameSplit = item.name.split(',')[0].trim();
-                    if (element.ingredient.toLowerCase().includes(item.name.toLowerCase())) {
+                    const itemNameSplit = item.name.split(',')[0].trim();
+                    if (element.ingredient.toLowerCase().includes(itemNameSplit.toLowerCase())) {
                         recipe.score++;
                     }
                 });

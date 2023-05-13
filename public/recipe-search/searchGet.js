@@ -109,8 +109,7 @@ function listCreation(recipes) {
 function createButton() {
     const itemName = document.createElement('span');
     let searchMethod = document.querySelector('#search').value;
-    console.log(searchMethod);
-    if (!itemsSaved.includes(searchMethod)) {
+    if (!itemsSaved.includes(searchMethod) && isNaN(Number(searchMethod))) {
         itemName.textContent = `[${searchMethod}]`;
         itemName.className = 'item-name';
         itemsSaved.push(document.querySelector('#search').value);
