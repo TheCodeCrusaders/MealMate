@@ -1,9 +1,9 @@
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
-
+    
 function login_validation_function(users44) {
     return function(req, res) { //console.log("hes")
-        let usernametest = req.body.username; //gets username from front end
+    let usernametest = req.body.username; //gets username from front end
     let passwordtest = crypto.createHash('sha256').update(req.body.password).digest('hex'); //gets password from front end
 
     // console.log(`${usernametest} tried to login`)// THis will log who tried to loged in or logged in
@@ -23,7 +23,7 @@ function login_validation_function(users44) {
     }
     else {
         return res.status(401).json({ error: 'Authentication failed wrong password' });
-    }7
+    }
     }
 }
 

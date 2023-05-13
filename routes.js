@@ -8,6 +8,8 @@ router.use(cookieParser());
 import crypto from 'crypto';
 import removeItem from "./functions/removeItem.js"
 import login_validation_function from './functions/loginpage/login_validation_function.cjs'; // Unitest test 
+import save_single_prop from './functions/pproperties/save_single_property.js'
+//import { pp_filepath } from './functions/pproperties/save_single_property.cjs';
 
 const userDirectoryPath = "/data/USERS/";
 
@@ -75,7 +77,7 @@ function verifyToken(req, res, next) {
         res.redirect('/login');
     }
 }
-9
+
 
 router.post("/login", login_validation_function(users44))  // post action declared, will wait for post from front end 
 
@@ -799,34 +801,9 @@ fs.readFile(filePath, (err, data) => {
 
 
 
-  router.post('/API/ppsavenewproperties', verifyToken, (req, res) => {
-    let name_of_object =req.body.nameofitem;
-    let newpropname_of_item=req.body.property;
-    let newvalue=req.body.value
-    
-    const filePath = path.resolve() + `/data/USERS/${req.user.username}/Private_item_property_list.json`;
-    fs.readFile(filePath, (err, data) => {
-        if (err) {
-            console.error(err);
-            res.status(500).send("Internal Server Error");
-        } else {
-            const jsonData = JSON.parse(data.toString("utf8"));
-            const itemIndex = jsonData.findIndex(item => item.name === name_of_object);
-            
-            jsonData[itemIndex][newpropname_of_item] = newvalue;
-            fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), err => {
-               
-                if (err) {
-                    console.error(err);
-                    res.status(500).send("Internal Server Error");
-                } else {
-                    
-                     res.json({ message: 'Prop/value added successfully' });
-                }
-            });
-        }
-    });
-
+  router.post('/API/ppsavenewproperties', verifyToken, (req, res)=>{
+    const filePath = path.join(path.resolve() + `/data/USERS/${req.user.username}/Private_item_property_list.json`);
+    save_single_prop(filePath)(req, res)
   });
 
 
