@@ -18,7 +18,7 @@ console.log("this is run")
             
             res.status(200).json({ message: 'Prop/value added successfully' });
         } catch (err) {
-            console.error(err);
+            console.error(err+"here it goes wrong");
             res.status(500).send("Internal Server Error");
         }
     }

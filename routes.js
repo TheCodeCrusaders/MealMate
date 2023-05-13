@@ -683,7 +683,6 @@ router.post('/newuser', async (req, res) => {
             });
         }
     });
-    res.json({ message: 'Property deleted successfully' });
   })
 
 
