@@ -1,11 +1,10 @@
 import { listRecipies } from './recipe.js';
-// const httpMocks = require('node-mocks-http');
 
 describe('Test recipie function', () => {
     test('It should return an array of recipies if the ingredients are found', () => {
 
-        const items = [{name: 'beef'}]; 
-        const itemsWant = []; 
+        const items = [{name: 'beef'}, {name: 'mushroom'}, {name: 'salad'}]; 
+        const itemsWant = ['tomato']; 
 
 
         const returnRecipies = listRecipies(items, itemsWant);
