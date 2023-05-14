@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser';
 router.use(cookieParser());
 import crypto from 'crypto';
 import removeItem from "./functions/removeItem.js"
+import postlist from './functions/Itemtracking-postlist/postlist.js';
 
 const userDirectoryPath = "/data/USERS/";
 
@@ -480,18 +481,9 @@ router.post("/API/postlist", verifyToken, (req, res) => {
 
     // Read the existing data from the JSON file
     const dataPath = path.join(path.resolve() + `/data/USERS/${req.user.username}/items.json`);
-    let data = [];
-    try {
-        data = JSON.parse(fs.readFileSync(dataPath));
-    } catch (error) { }
+    
+    postlist(dataPath)(req, res);
 
-    // Add the new data to the array
-    data.push(req.body);
-
-    // Write the updated data back to the JSON file
-    fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
-
-    res.redirect("/itemtracking");
 });
 
 router.post("/API/edititem", verifyToken, (req, res) => {
