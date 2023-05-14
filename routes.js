@@ -279,7 +279,7 @@ router.get("/API/getweeklyWaste", verifyToken, async (req, res) => {
     const filePath = path.resolve() + `/data/USERS/${req.user.username}/wastedItems.json`;
 
     getWeeklyWaste(filePath)(req, res);
-    res.json(data);
+    //res.json(data);
 });
 router.get("/API/prevous7days", verifyToken, async (req, res) => {
     const data = await prevous7days(req, res);

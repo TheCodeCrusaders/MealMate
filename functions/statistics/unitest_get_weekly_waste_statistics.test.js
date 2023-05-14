@@ -1,5 +1,4 @@
-import getweeklyWaste from './get_weekly_waste_statistics.js'
-
+import getWeeklyWaste from './get_weekly_waste_statistics.js'
 import httpMocks from 'node-mocks-http';
 import fs from "fs"
 import mockFs from 'mock-fs';
@@ -17,19 +16,27 @@ describe("Test getweeklyWaste function", () => {
               },
               {
                 "location": "fridge",
-                "name": "Sausage, salami",
+                "name": "Chicken, breast, boiled, sliced",
                 "expirationDate": "2023-04-27",
                 "weight": "350",
                 "wastedDate": "2023-05-11",
-                "eaten": 0
+                "eaten": 125
               },
               {
                 "location": "fridge",
-                "name": "Sausage, salami",
+                "name": "Chicken, sausage",
+                "expirationDate": "2023-04-27",
+                "weight": "350",
+                "wastedDate": "2023-05-02",
+                "eaten": 200
+              },
+              {
+                "location": "fridge",
+                "name": "Tomato, dried",
                 "expirationDate": "2023-04-27",
                 "weight": "350",
                 "wastedDate": "2023-05-12",
-                "eaten": 0
+                "eaten": 300
               },
               {
                 "location": "fridge",
@@ -37,10 +44,10 @@ describe("Test getweeklyWaste function", () => {
                 "expirationDate": "2023-04-27",
                 "weight": "350",
                 "wastedDate": "2023-05-05",
-                "eaten": 0
+                "eaten": 200
               }
         ];
-     
+
         mockFs({
             "./username/wastedItems.json": JSON.stringify(fakedata)
         });
@@ -54,21 +61,43 @@ afterEach(() => {
 test("It should get wasted items from the last 7 days", async () => {
     const filePath = "./username/wastedItems.json";
 
-    const req = httpMocks.createRequest({
-        method: "GET",
-        url: "/API/getweeklyWaste",
-        body: { nameofitem: "thispartwetest", property: "properti", value: "right"}
-    });
+    const req = httpMocks.createRequest();
+
 
     const res = httpMocks.createResponse();
 
-    const middleware = getweeklyWaste(filePath);
+    const middleware = getWeeklyWaste(filePath);
     await middleware(req, res);
 
     expect(res.statusCode).toBe(200);
+ 
+    const updatedData = JSON.parse(res._getData());
 
-    const updatedData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-
-    expect(updatedData[5].properti).toBe("right");
+    expect(updatedData).toEqual([
+      {
+        "location": "fridge",
+        "name": "Pepper, hot chili, raw",
+        "expirationDate": "2023-04-27",
+        "weight": "1000",
+        "wastedDate": "2023-05-13",
+        "eaten": 750
+      },
+      {
+        "location": "fridge",
+        "name": "Chicken, breast, boiled, sliced",
+        "expirationDate": "2023-04-27",
+        "weight": "350",
+        "wastedDate": "2023-05-11",
+        "eaten": 125
+      },
+      {
+        "location": "fridge",
+        "name": "Tomato, dried",
+        "expirationDate": "2023-04-27",
+        "weight": "350",
+        "wastedDate": "2023-05-12",
+        "eaten": 300
+      }
+  ]);
 });
 });

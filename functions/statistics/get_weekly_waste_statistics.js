@@ -7,6 +7,8 @@ function getWeeklyWaste(filePath) {
                 if (err) {
                     console.error(err);
                     reject("Internal Server Error");
+
+                    res.status(500).send("Internal Server Error");
                 } else {
                     const jsonData = JSON.parse(data.toString("utf8"));
     
@@ -19,7 +21,12 @@ function getWeeklyWaste(filePath) {
                         const itemDate = new Date(item.wastedDate);
                         return itemDate >= oneWeekAgo;
                     });
+
+                    res.status(200).json(filteredData); 
+                    //console.log(filteredData)
                     resolve(filteredData);
+
+                    
                 }
             });
         });
