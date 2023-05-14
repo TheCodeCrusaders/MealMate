@@ -724,10 +724,12 @@ fs.readFile(filePath, (err, data) => {
 
     const filePath = path.join(path.resolve() + `/data/USERS/${req.user.username}/Private_item_property_list.json`);
 
-    save_single_prop_real(filePath)(req, res)
-    
-  });
+    save_single_prop_real(filePath)(req, res) // Det her er gjordt sådan, fordi vi ønsker at filepath først skal løsses også bagefter skal function rigtigt kører
+    // Det vil sige at vis man kikker inde i functionen,  så vil filepath være ydreloop og først blive løst også derefter vil den indre del kører
 
+// man kan godt gøre det uden, men så er koden teknisk set ikke længere nær så mudulær.  Det er godt at lærer om middlewarre
+  });
+7
 
   router.post('/API/ppsavenewproperties', verifyToken, (req, res)=>{
     const filePath = path.join(path.resolve() + `/data/USERS/${req.user.username}/Private_item_property_list.json`);

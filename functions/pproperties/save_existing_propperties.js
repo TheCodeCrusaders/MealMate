@@ -20,8 +20,7 @@ function save_single_prop_real(filePath) {
 
                 res.status(200).json({ message: 'Prop/value added successfully' });
             } else {
-                // handle the case where the item was not found in the array
-                // for example, you could send a 404 error:
+               
                 res.status(404).send("Item not found");
             }
         } catch (err) {

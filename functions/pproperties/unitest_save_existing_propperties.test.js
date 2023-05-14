@@ -53,7 +53,7 @@ describe("Test save_single_prop function", () => {
             url: '/API/ppsaveproperties',
             body: { nameofitem: "thispartwetest", value: "2", formerprop:"properti", property: "betterpropname" }
         });
-
+9
         const res = httpMocks.createResponse();
 
         const middleware = save_single_prop_real(filePath);// here we the filepath,  the function will then find the file in the fake file system, and run that
@@ -63,7 +63,7 @@ describe("Test save_single_prop function", () => {
 
 
         const updatedData = JSON.parse(fs.readFileSync(filePath, 'utf8')); // this reads in the fake file system
-        console.log(updatedData)
+    //    console.log(updatedData)
         expect(updatedData[5].betterpropname).toBe("2");// Here we check if the updated date is correct
     });
 });
