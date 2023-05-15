@@ -1,8 +1,8 @@
-const login_validation_function = require('./login_validation_function.cjs');
-const httpMocks = require('node-mocks-http');
-const crypto = require('crypto');
+import login_validation_function from './login_validation_function.cjs';
+import  httpMocks from 'node-mocks-http';
+import  crypto from 'crypto';
 
-// Mock users data
+
 
 
 const passwords= [
@@ -75,9 +75,7 @@ describe("Test authenticate function", () => {
         }
         if (res.statusCode !== 200) {
             expect(res.statusCode).toBe(401);
-        }
-        
-       
+        }   
       });
     });
   });
