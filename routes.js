@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken';
 import cookieParser from 'cookie-parser';
 router.use(cookieParser());
 import crypto from 'crypto';
-import removeItem from "./functions/removeItem.js"
+import removeItem from "./functions/removeItem/removeItem.js"
 import login_validation_function from './functions/loginpage/login_validation_function.cjs'; // Unitest test 
 
 const userDirectoryPath = "/data/USERS/";
@@ -169,7 +169,9 @@ router.post("/API/consumeditem", verifyToken, (req, res) => {
 
 
 router.post("/API/wasteditem", verifyToken, (req, res) => {
-    removeItem.wasteItem(req, res)
+    const filePathitems = path.resolve() + `/data/USERS/${req.user.username}/items.json`;
+    const filePathConsumed = path.resolve() + `/data/USERS/${req.user.username}/wasteditems.json`;
+    removeItem.wasteItem(req, res, filePathitems, filePathConsumed);
 })
 
 import helpers from "./functions/helpers.js"

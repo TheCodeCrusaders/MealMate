@@ -23,7 +23,7 @@ function login_validation_function(users44) {
     }
     else {
         return res.status(401).json({ error: 'Authentication failed wrong password' });
-    }7
+    }
     }
 }
 
