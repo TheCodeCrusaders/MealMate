@@ -10,6 +10,7 @@ import removeItem from "./functions/removeItem/removeItem.js"
 import login_validation_function from './functions/loginpage/login_validation_function.cjs'; // Unitest test 
 import save_single_prop from './functions/pproperties/save_new_single_property.js'
 import save_single_prop_real from './functions/pproperties/save_existing_propperties.js';
+import getWeeklyWaste from './functions/statistics/get_weekly_waste_statistics.js';
 //import { pp_filepath } from './functions/pproperties/save_single_property.cjs';
 
 const userDirectoryPath = "/data/USERS/";
@@ -277,8 +278,10 @@ router.get("/API/getWastedItems", verifyToken, (req, res) => {
 });
 
 router.get("/API/getweeklyWaste", verifyToken, async (req, res) => {
-    const data = await getWeeklyWaste(req, res);
-    res.json(data);
+    const filePath = path.resolve() + `/data/USERS/${req.user.username}/wastedItems.json`;
+
+    getWeeklyWaste(filePath)(req, res);
+    //res.json(data);
 });
 router.get("/API/prevous7days", verifyToken, async (req, res) => {
     const data = await prevous7days(req, res);
@@ -348,6 +351,7 @@ async function getmonthlyWaste(req, res) {
         });
     });
 }
+/*
 async function getWeeklyWaste(req, res) {
     const filePath = path.resolve() + `/data/USERS/${req.user.username}/wastedItems.json`;
 
@@ -373,7 +377,7 @@ async function getWeeklyWaste(req, res) {
         });
     });
 }
-
+*/
 
 
 
