@@ -32,10 +32,10 @@ test('it should post the item', async () => {
   const req = httpMocks.createRequest( {
     method: 'POST',
     url: '/API/postlist',
-    body: { "location": "location5",
-            "name": "name2",
-            "expirationDate": "expdate2",
-            "weight": "weight2"}
+    body: { "location": "!@#$%^&*()",
+            "name": "世界",
+            "expirationDate": "æøå",
+            "weight": ""}
   });
 
   const res = httpMocks.createResponse();
@@ -68,8 +68,14 @@ test('it should post the item', async () => {
 
   const updatedData = JSON.parse(fs.readFileSync(filePath)); // this reads in the fake file system
     console.log(updatedData)
-  expect(updatedData[1].location).toBe("location5");// Here we check if the updated date is correct
-
-
+  
+    expect(updatedData[1].location).toBe("!@#$%^&*()");// Here we check if the updated date is correct
+  
+    expect(updatedData[1].name).toBe("世界");
+    
+    expect(updatedData[1].expirationDate).toBe("æøå");
+    
+    expect(updatedData[1].weight).toBe("");
+  
   });
 });
