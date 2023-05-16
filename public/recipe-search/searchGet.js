@@ -37,19 +37,9 @@ function listCreation(recipes) {
     form.reset();
     const allList = document.getElementById('resultList');
     allList.textContent = '';
-    // const favoriteButton = document.createElement('button');
-    // favoriteButton.textContent = `Favorite`;
-    // favoriteButton.classList.add('favorite');
-    // const favoriteButtonDeleter = document.createElement('button');
-    // favoriteButtonDeleter.textContent = `x`;
-    // favoriteButtonDeleter.classList.add('deleter');
     recipes.forEach(ULelement => {
       const recipieListOrder = document.createElement('ul');
       recipieListOrder.textContent = `${ULelement.nameOfRecipe} ${ULelement.score} / ${ULelement.ingredients.length}`;
-    //   const clonefavoriteButton = favoriteButton.cloneNode(true);
-    //   const clonefavoriteButtonDeleter = favoriteButtonDeleter.cloneNode(true);
-    //   recipieListOrder.appendChild(clonefavoriteButton);
-    //   recipieListOrder.appendChild(clonefavoriteButtonDeleter)
       ULelement.ingredients.forEach(LIelement => {
         const listIngredients = document.createElement('li');
         listIngredients.textContent = `${LIelement.ingredient} amount: ${LIelement.amount}`
@@ -60,47 +50,6 @@ function listCreation(recipes) {
         listInstructions.textContent = instelement.inst;
         recipieListOrder.appendChild(listInstructions)
       });
-    //   clonefavoriteButton.addEventListener('click', () => { 
-    //     clonefavoriteButton.textContent = 'Favorited'
-    //     let data = {
-    //         "itemsSaved": document.querySelector('#favorite'),
-    //     };
-    //     fetch("/API/favoriteButton", {
-    //         method: "POST", // *GET, POST, PUT, DELETE, etc.
-    //         mode: "cors", // no-cors, *cors, same-origin
-    //         cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-    //         credentials: "same-origin", // include, *same-origin, omit
-    //         headers: {
-    //             "Content-Type": "application/json",
-    //             // 'Content-Type': 'application/x-www-form-urlencoded',
-    //         },
-    //         redirect: "follow", // manual, *follow, error
-    //         referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-    //         body: JSON.stringify(data), // body data type must match "Content-Type" header
-    //     })
-    //     .then(result => result.json())
-    //     .catch(error => console.log(error))
-    //   });
-    //   clonefavoriteButtonDeleter.addEventListener('click', () => { 
-    //     let data = {
-    //         "itemsSaved": document.querySelector('#deleter'),
-    //     };
-    //     fetch("/API/favoriteButtonDeleter", {
-    //         method: "POST", // *GET, POST, PUT, DELETE, etc.
-    //         mode: "cors", // no-cors, *cors, same-origin
-    //         cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-    //         credentials: "same-origin", // include, *same-origin, omit
-    //         headers: {
-    //             "Content-Type": "application/json",
-    //             // 'Content-Type': 'application/x-www-form-urlencoded',
-    //         },
-    //         redirect: "follow", // manual, *follow, error
-    //         referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-    //         body: JSON.stringify(data), // body data type must match "Content-Type" header
-    //     })
-    //     .then(result => result.json())
-    //     .catch(error => console.log(error))
-    //   });
       allList.appendChild(recipieListOrder);
     });
 }
