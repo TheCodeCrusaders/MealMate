@@ -2,15 +2,15 @@ let itemsSaved = [];
 
 const form = document.querySelector("#searchForm");
 document.addEventListener("DOMContentLoaded", (e) => {
-    fetchNew();
+    fetchForItemsSaved();
 })
 form.addEventListener("submit", (e) => {
     createButton();
     e.preventDefault();
-    fetchNew();
+    fetchForItemsSaved();
 })
 
-function fetchNew() {
+function fetchForItemsSaved() {
     let data = {
         "itemsSaved": itemsSaved,
     };
@@ -33,32 +33,32 @@ function fetchNew() {
         .catch(error => console.log(error))
 }
 
-function listCreation(recipies) {
+function listCreation(recipes) {
     form.reset();
     const allList = document.getElementById('resultList');
     allList.textContent = '';
-    recipies.forEach(ULelement => {
-        recipieListOrder = document.createElement('ul');
-        recipieListOrder.textContent = `${ULelement.nameOfRecipe} ${ULelement.score} / ${ULelement.ingredients.length}`;
-        ULelement.ingredients.forEach(LIelement => {
-            listIngredients = document.createElement('li');
-            listIngredients.textContent = `${LIelement.ingredient} amount: ${LIelement.amount}`
-            recipieListOrder.appendChild(listIngredients);
-        });
-        ULelement.instructions.forEach(instelement => {
-            listInstructions = document.createElement('li');
-            listInstructions.textContent = instelement.inst;
-            recipieListOrder.appendChild(listInstructions)
-        });
-        allList.appendChild(recipieListOrder);
+    recipes.forEach(ULelement => {
+      const recipieListOrder = document.createElement('ul');
+      recipieListOrder.textContent = `${ULelement.nameOfRecipe} ${ULelement.score} / ${ULelement.ingredients.length}`;
+      ULelement.ingredients.forEach(LIelement => {
+        const listIngredients = document.createElement('li');
+        listIngredients.textContent = `${LIelement.ingredient} amount: ${LIelement.amount}`
+        recipieListOrder.appendChild(listIngredients);
+      });
+      ULelement.instructions.forEach(instelement => {
+        const listInstructions = document.createElement('li');
+        listInstructions.textContent = instelement.inst;
+        recipieListOrder.appendChild(listInstructions)
+      });
+      allList.appendChild(recipieListOrder);
     });
 }
+  
 
 function createButton() {
     const itemName = document.createElement('span');
     let searchMethod = document.querySelector('#search').value;
-    console.log(searchMethod);
-    if (!itemsSaved.includes(searchMethod)) {
+    if (!itemsSaved.includes(searchMethod) && isNaN(Number(searchMethod))) {
         itemName.textContent = `[${searchMethod}]`;
         itemName.className = 'item-name';
         itemsSaved.push(document.querySelector('#search').value);
@@ -95,3 +95,4 @@ listItems.addEventListener('click', (e) => {
         }
     }
 })
+
