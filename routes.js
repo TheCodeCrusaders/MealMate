@@ -170,9 +170,14 @@ router.post("/API/consumeditem", verifyToken, (req, res) => {
 
 
 router.post("/API/wasteditem", verifyToken, (req, res) => {
-    const filePathitems = path.resolve() + `/data/USERS/${req.user.username}/items.json`;
-    const filePathConsumed = path.resolve() + `/data/USERS/${req.user.username}/wasteditems.json`;
-    removeItem.wasteItem(req, res, filePathitems, filePathConsumed);
+    try{
+        const filePathitems = path.resolve() + `/data/USERS/${req.user.username}/items.json`;
+        const filePathConsumed = path.resolve() + `/data/USERS/${req.user.username}/wasteditems.json`;
+        removeItem.wasteItem(req, res, filePathitems, filePathConsumed);
+    }
+    catch(err){
+        console.log(err)
+    }
 })
 
 import helpers from "./functions/helpers.js"
