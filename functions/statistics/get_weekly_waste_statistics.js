@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-function getWeeklyWaste(filePath) {
+function getWeeklyWaste(filePath, date) {
     return async function (req, res) {
         return new Promise((resolve, reject) => {
             fs.readFile(filePath, (err, data) => {
@@ -14,7 +14,9 @@ function getWeeklyWaste(filePath) {
     
                     // Get the date from one week ago
                     const oneWeekAgo = new Date();
-                    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+                    oneWeekAgo.setFullYear(date.year); // Set the year
+                    oneWeekAgo.setMonth(date.month); // Set the month (0-11, where 0 is January)
+                    oneWeekAgo.setDate(date.day - 7); // Setting the date and subtracting 7 days to get the last 7 days. The date is being set to a fixed value to make sure the data is still valid if testing of the same data is wanted to be done in the future.
     
                     // Filter the data based on the wastedDate attribute
                     const filteredData = jsonData.filter(item => {
