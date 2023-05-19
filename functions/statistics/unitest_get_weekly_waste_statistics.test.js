@@ -61,12 +61,18 @@ afterEach(() => {
 test("It should get wasted items from the last 7 days", async () => {
     const filePath = "./username/wastedItems.json";
 
+    const date = {
+      year: 2023,
+      month: 4, // 0-11
+      day: 17
+  };
+
     const req = httpMocks.createRequest();
 
 
     const res = httpMocks.createResponse();
 
-    const middleware = getWeeklyWaste(filePath);
+    const middleware = getWeeklyWaste(filePath, date);
     await middleware(req, res);
 
     expect(res.statusCode).toBe(200);
