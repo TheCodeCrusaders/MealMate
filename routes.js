@@ -6,6 +6,8 @@ import jwt from 'jsonwebtoken';
 import cookieParser from 'cookie-parser';
 router.use(cookieParser());
 import crypto from 'crypto';
+
+import postlist from './functions/Itemtracking-postlist/postlist.js';
 import removeItem from "./functions/removeItem/removeItem.js"
 import login_validation_function from './functions/loginpage/login_validation_function.cjs'; // Unitest test 
 import save_single_prop from './functions/pproperties/save_new_single_property.js'
@@ -170,9 +172,14 @@ router.post("/API/consumeditem", verifyToken, (req, res) => {
 
 
 router.post("/API/wasteditem", verifyToken, (req, res) => {
-    const filePathitems = path.resolve() + `/data/USERS/${req.user.username}/items.json`;
-    const filePathConsumed = path.resolve() + `/data/USERS/${req.user.username}/wasteditems.json`;
-    removeItem.wasteItem(req, res, filePathitems, filePathConsumed);
+    try{
+        const filePathitems = path.resolve() + `/data/USERS/${req.user.username}/items.json`;
+        const filePathConsumed = path.resolve() + `/data/USERS/${req.user.username}/wasteditems.json`;
+        removeItem.wasteItem(req, res, filePathitems, filePathConsumed);
+    }
+    catch(err){
+        console.log(err)
+    }
 })
 
 import helpers from "./functions/helpers.js"
@@ -430,18 +437,9 @@ router.post("/API/postlist", verifyToken, (req, res) => {
 
     // Read the existing data from the JSON file
     const dataPath = path.join(path.resolve() + `/data/USERS/${req.user.username}/items.json`);
-    let data = [];
-    try {
-        data = JSON.parse(fs.readFileSync(dataPath));
-    } catch (error) { }
+    
+    postlist(dataPath)(req, res);
 
-    // Add the new data to the array
-    data.push(req.body);
-
-    // Write the updated data back to the JSON file
-    fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
-
-    res.redirect("/itemtracking");
 });
 
 router.post("/API/edititem", verifyToken, (req, res) => {
